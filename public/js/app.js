@@ -1946,8 +1946,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'forget',
   data: function data() {
@@ -2014,8 +2012,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'login',
   data: function data() {
@@ -2034,8 +2030,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
 //
 //
 //
@@ -37675,47 +37669,45 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-xl-10 col-lg-12 col-md-9" }, [
-        _c("div", { staticClass: "card shadow-sm my-5" }, [
-          _c("div", { staticClass: "card-body p-0" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-lg-12" }, [
-                _c("div", { staticClass: "login-form" }, [
-                  _vm._m(0),
-                  _vm._v(" "),
-                  _vm._m(1),
-                  _vm._v(" "),
-                  _c("hr"),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "text-center" },
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          staticClass: "font-weight-bold small",
-                          attrs: { to: "/" }
-                        },
-                        [_vm._v("Login")]
-                      ),
-                      _vm._v(" | \n                  "),
-                      _c(
-                        "router-link",
-                        {
-                          staticClass: "font-weight-bold small",
-                          attrs: { to: "register" }
-                        },
-                        [_vm._v("Create an Account!")]
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "text-center" })
-                ])
+  return _c("div", { staticClass: "row justify-content-center" }, [
+    _c("div", { staticClass: "col-xl-10 col-lg-12 col-md-9" }, [
+      _c("div", { staticClass: "card shadow-sm my-5" }, [
+        _c("div", { staticClass: "card-body p-0" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-lg-12" }, [
+              _c("div", { staticClass: "login-form" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _vm._m(1),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "text-center" },
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "font-weight-bold small",
+                        attrs: { to: "/" }
+                      },
+                      [_vm._v("Login")]
+                    ),
+                    _vm._v(" | \n                "),
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "font-weight-bold small",
+                        attrs: { to: "register" }
+                      },
+                      [_vm._v("Create an Account!")]
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-center" })
               ])
             ])
           ])
@@ -37786,47 +37778,45 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-xl-10 col-lg-12 col-md-9" }, [
-        _c("div", { staticClass: "card shadow-sm my-5" }, [
-          _c("div", { staticClass: "card-body p-0" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-lg-12" }, [
-                _c("div", { staticClass: "login-form" }, [
-                  _vm._m(0),
-                  _vm._v(" "),
-                  _vm._m(1),
-                  _vm._v(" "),
-                  _c("hr"),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "text-center" },
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          staticClass: "font-weight-bold small",
-                          attrs: { to: "register" }
-                        },
-                        [_vm._v("Create an Account!")]
-                      ),
-                      _vm._v(" | \n\t\t\t\t\t\t\t\t\t"),
-                      _c(
-                        "router-link",
-                        {
-                          staticClass: "font-weight-bold small",
-                          attrs: { to: "forget" }
-                        },
-                        [_vm._v("Forget Password")]
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "text-center" })
-                ])
+  return _c("div", { staticClass: "row justify-content-center" }, [
+    _c("div", { staticClass: "col-xl-10 col-lg-12 col-md-9" }, [
+      _c("div", { staticClass: "card shadow-sm my-5" }, [
+        _c("div", { staticClass: "card-body p-0" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-lg-12" }, [
+              _c("div", { staticClass: "login-form" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _vm._m(1),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "text-center" },
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "font-weight-bold small",
+                        attrs: { to: "register" }
+                      },
+                      [_vm._v("Create an Account!")]
+                    ),
+                    _vm._v(" | \n\t\t\t\t\t\t\t\t"),
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "font-weight-bold small",
+                        attrs: { to: "forget" }
+                      },
+                      [_vm._v("Forget Password")]
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-center" })
               ])
             ])
           ])
@@ -37891,7 +37881,7 @@ var staticRenderFns = [
                 staticClass: "custom-control-label",
                 attrs: { for: "customCheck" }
               },
-              [_vm._v("Remember\n\t\t\t\t\t\t\t\t\t\t\tMe")]
+              [_vm._v("Remember\n\t\t\t\t\t\t\t\t\t\tMe")]
             )
           ]
         )
@@ -37931,47 +37921,45 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-xl-10 col-lg-12 col-md-9" }, [
-        _c("div", { staticClass: "card shadow-sm my-5" }, [
-          _c("div", { staticClass: "card-body p-0" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-lg-12" }, [
-                _c("div", { staticClass: "login-form" }, [
-                  _vm._m(0),
-                  _vm._v(" "),
-                  _vm._m(1),
-                  _vm._v(" "),
-                  _c("hr"),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "text-center" },
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          staticClass: "font-weight-bold small",
-                          attrs: { to: "/" }
-                        },
-                        [_vm._v("Already have an account?")]
-                      ),
-                      _vm._v(" | \n\t\t\t\t\t\t\t\t\t"),
-                      _c(
-                        "router-link",
-                        {
-                          staticClass: "font-weight-bold small",
-                          attrs: { to: "forget" }
-                        },
-                        [_vm._v("Forget Password")]
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "text-center" })
-                ])
+  return _c("div", { staticClass: "row justify-content-center" }, [
+    _c("div", { staticClass: "col-xl-10 col-lg-12 col-md-9" }, [
+      _c("div", { staticClass: "card shadow-sm my-5" }, [
+        _c("div", { staticClass: "card-body p-0" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-lg-12" }, [
+              _c("div", { staticClass: "login-form" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _vm._m(1),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "text-center" },
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "font-weight-bold small",
+                        attrs: { to: "/" }
+                      },
+                      [_vm._v("Already have an account?")]
+                    ),
+                    _vm._v(" | \n\t\t\t\t\t\t\t\t"),
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "font-weight-bold small",
+                        attrs: { to: "forget" }
+                      },
+                      [_vm._v("Forget Password")]
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-center" })
               ])
             ])
           ])
