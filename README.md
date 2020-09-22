@@ -7,7 +7,8 @@ An Inventory and Sales Management System using __Laravel 7 (PHP Framework)__, __
 
 ## Packages Used
 
-- 
+- Vue Router
+- Raung Admin Template
 
 ## Installation Instruction
 
