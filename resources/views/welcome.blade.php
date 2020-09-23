@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link href="{{ asset('backend/img/logo/logo.png') }}" rel="icon">
-  <title>RuangAdmin - Dashboard</title>
+  <title>Inventory Management System</title>
 
 
   <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css">
