@@ -5,6 +5,9 @@ window._ = require('lodash');
  * for JavaScript based Bootstrap features such as modals and tabs. This
  * code may be modified to fit the specific needs of your application.
  */
+ 
+ // Noty for notification
+window.Noty = require('noty');
 
 try {
     window.Popper = require('popper.js').default;
