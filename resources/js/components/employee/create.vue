@@ -5,12 +5,12 @@
 				<div class="card-body p-0">
 					<div class="row">
 						<div class="col-lg-12">
-							<router-link to="" class="btn btn-primary float-right" style="margin-top: 6px;margin-right: 6px;">All Employee</router-link>
+							<router-link to="/employee" class="btn btn-primary float-right" style="margin-top: 6px;margin-right: 6px;">All Employee</router-link>
 							<div class="login-form">
 								<div class="text-center">
 									<h1 class="h4 text-gray-900 mb-4">Add Employee</h1>
 								</div>
-								<form @submit.prevent='register'>
+								<form @submit.prevent='storeEmployee'>
 									<div class="form-group">
 										<div class="form-row">
 											<div class="col-md-6">
@@ -54,13 +54,13 @@
 												<small class="text-danger" v-if="errors.joining_date">{{ errors.joining_date[0] }}</small>
 
 												<div class="custom-file" style="margin-top: 16px;">
-													<input type="file" class="custom-file-input" id="customFile">
+													<input type="file" class="custom-file-input" id="customFile" @change="onFileSelected">
 													<small class="text-danger" v-if="errors.name">{{ errors.photo[0] }}</small>
 													<label class="custom-file-label" for="customFile">Choose file</label>
 												</div>
 											</div>
 											<div class="col-md-6">
-												<img src="form.photo" style="height: 50px; width: 50px;">
+												<img :src="form.photo" style="width: 146px">
 											</div>
 										</div>
 									</div>
@@ -104,6 +104,24 @@ export default {
 			errors: {}
 		}
 	},
+	methods:{
+		onFileSelected(event){
+			let file = event.target.files[0];
+			if (file.size > 1048576) {
+				Notification.image_validation();
+			} else {
+				let reader = new FileReader;
+				reader.onload = event => {
+					this.form.photo = event.target.result
+					console.log(event.target.result);
+				};
+				reader.readAsDataURL(file)
+			}
+		},
+		storeEmployee(){
+
+		}
+	}
 }
 </script>
 
