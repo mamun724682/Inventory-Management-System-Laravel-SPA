@@ -7,6 +7,7 @@
 					<div class="card">
 						<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 							<h2 class="m-0 font-weight-bold text-primary">Employee List</h2>
+							<input type="text" placeholder="Search By Phone" v-model="searchTerm" class="form-control" style="width: 300px;margin-right: -900px;">
 							<router-link to="/store-employee" class="btn btn-primary float-right" style="margin-top: 6px;margin-right: 6px;">Add Employee</router-link>
 						</div>
 						<div class="table-responsive">
@@ -22,7 +23,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr v-for="employee in employees" :key="employee.id">
+									<tr v-for="employee in filtersearch" :key="employee.id">
 										<td>{{ employee.name }}</td>
 										<td><img :src="employee.photo" id="img_size"></td>
 										<td>{{ employee.phone }}</td>
@@ -55,7 +56,15 @@ export default {
 
 	data () {
 		return {
-			employees: []
+			employees: [],
+			searchTerm:""
+		}
+	},
+	computed: {
+		filtersearch(){
+			return this.employees.filter(employee => {
+				return employee.phone.match(this.searchTerm)
+			})
 		}
 	},
 	methods: {
