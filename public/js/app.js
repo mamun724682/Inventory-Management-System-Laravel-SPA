@@ -2281,7 +2281,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     if (!User.loggedIn()) {
@@ -2324,7 +2323,19 @@ __webpack_require__.r(__webpack_exports__);
         reader.readAsDataURL(file);
       }
     },
-    storeEmployee: function storeEmployee() {}
+    storeEmployee: function storeEmployee() {
+      var _this2 = this;
+
+      axios.post('/api/employee', this.form).then(function () {
+        _this2.$router.push({
+          name: 'employee'
+        });
+
+        Notification.success();
+      })["catch"](function (error) {
+        return _this2.errors = error.response.data.errors;
+      });
+    }
   }
 });
 
@@ -45420,7 +45431,7 @@ var render = function() {
                               attrs: {
                                 type: "text",
                                 id: "exampleInputFirstName",
-                                placeholder: "Enter Full Name"
+                                placeholder: "Enter Your Full Name"
                               },
                               domProps: { value: _vm.form.name },
                               on: {
@@ -45439,7 +45450,7 @@ var render = function() {
                             _vm._v(" "),
                             _vm.errors.name
                               ? _c("small", { staticClass: "text-danger" }, [
-                                  _vm._v(_vm._s(_vm.errors.name[0]))
+                                  _vm._v(" " + _vm._s(_vm.errors.name[0]) + " ")
                                 ])
                               : _vm._e()
                           ]),
@@ -45536,7 +45547,7 @@ var render = function() {
                               ],
                               staticClass: "form-control",
                               attrs: {
-                                type: "text",
+                                type: "number",
                                 id: "exampleInputSalary",
                                 placeholder: "Enter Salary"
                               },
@@ -45616,7 +45627,7 @@ var render = function() {
                               ],
                               staticClass: "form-control",
                               attrs: {
-                                type: "text",
+                                type: "number",
                                 id: "exampleInputNid",
                                 placeholder: "Enter NID"
                               },
@@ -45691,14 +45702,6 @@ var render = function() {
                                   attrs: { type: "file", id: "customFile" },
                                   on: { change: _vm.onFileSelected }
                                 }),
-                                _vm._v(" "),
-                                _vm.errors.name
-                                  ? _c(
-                                      "small",
-                                      { staticClass: "text-danger" },
-                                      [_vm._v(_vm._s(_vm.errors.photo[0]))]
-                                    )
-                                  : _vm._e(),
                                 _vm._v(" "),
                                 _c(
                                   "label",

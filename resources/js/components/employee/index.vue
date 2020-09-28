@@ -45,7 +45,7 @@ export default {
 			},
 			errors: {}
 		}
-	},
+	}
 }
 </script>
 

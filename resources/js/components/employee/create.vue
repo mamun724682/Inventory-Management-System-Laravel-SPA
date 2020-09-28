@@ -14,8 +14,8 @@
 									<div class="form-group">
 										<div class="form-row">
 											<div class="col-md-6">
-												<input type="text" class="form-control" id="exampleInputFirstName" placeholder="Enter Full Name" v-model='form.name'>
-												<small class="text-danger" v-if="errors.name">{{ errors.name[0] }}</small>
+												<input type="text" class="form-control" id="exampleInputFirstName" placeholder="Enter Your Full Name" v-model="form.name">
+												<small class="text-danger" v-if="errors.name"> {{ errors.name[0] }} </small>
 											</div>
 											<div class="col-md-6">
 												<input type="email" class="form-control" id="exampleInputEmail" placeholder="Enter Email" v-model='form.email'>
@@ -30,7 +30,7 @@
 												<small class="text-danger" v-if="errors.phone">{{ errors.phone[0] }}</small>
 											</div>
 											<div class="col-md-6">
-												<input type="text" class="form-control" id="exampleInputSalary" placeholder="Enter Salary" v-model='form.salary'>
+												<input type="number" class="form-control" id="exampleInputSalary" placeholder="Enter Salary" v-model='form.salary'>
 												<small class="text-danger" v-if="errors.salary">{{ errors.salary[0] }}</small>
 											</div>
 										</div>
@@ -42,7 +42,7 @@
 												<small class="text-danger" v-if="errors.address">{{ errors.address[0] }}</small>
 											</div>
 											<div class="col-md-6">
-												<input type="text" class="form-control" id="exampleInputNid" placeholder="Enter NID" v-model='form.nid'>
+												<input type="number" class="form-control" id="exampleInputNid" placeholder="Enter NID" v-model='form.nid'>
 												<small class="text-danger" v-if="errors.nid">{{ errors.nid[0] }}</small>
 											</div>
 										</div>
@@ -55,7 +55,6 @@
 
 												<div class="custom-file" style="margin-top: 16px;">
 													<input type="file" class="custom-file-input" id="customFile" @change="onFileSelected">
-													<small class="text-danger" v-if="errors.name">{{ errors.photo[0] }}</small>
 													<label class="custom-file-label" for="customFile">Choose file</label>
 												</div>
 											</div>
@@ -104,6 +103,7 @@ export default {
 			errors: {}
 		}
 	},
+	
 	methods:{
 		onFileSelected(event){
 			let file = event.target.files[0];
@@ -119,7 +119,12 @@ export default {
 			}
 		},
 		storeEmployee(){
-
+			axios.post('/api/employee', this.form)
+			.then(() => {
+				this.$router.push({name: 'employee'})
+				Notification.success()
+			})
+			.catch(error => this.errors = error.response.data.errors)
 		}
 	}
 }
