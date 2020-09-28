@@ -22,13 +22,16 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td><a href="#">RA0449</a></td>
-										<td>Udin Wayang</td>
-										<td>Nasi Padang</td>
-										<td><span class="badge badge-success">Delivered</span></td>
-										<td><a href="#" class="btn btn-sm btn-primary">Detail</a></td>
-										<td><a href="#" class="btn btn-sm btn-primary">Detail</a></td>
+									<tr v-for="employee in employees" :key="employee.id">
+										<td>{{ employee.name }}</td>
+										<td><img :src="employee.photo" id="img_size"></td>
+										<td>{{ employee.phone }}</td>
+										<td>{{ employee.salary }}</td>
+										<td>{{ employee.joining_date }}</td>
+										<td>
+											<a href="#" class="btn btn-sm btn-primary">Edit</a>
+											<a href="#" class="btn btn-sm btn-danger">Delete</a>
+										</td>
 									</tr>
 								</tbody>
 							</table>
@@ -52,21 +55,24 @@ export default {
 
 	data () {
 		return {
-			form:{
-				name: null,
-				email: null,
-				phone: null,
-				salary: null,
-				address: null,
-				nid: null,
-				joining_date: null,
-				photo: null,
-			},
-			errors: {}
+			employees: []
 		}
+	},
+	methods: {
+		allEmployee(){
+			axios.get('/api/employee')
+				 .then(({data}) => (this.employees = data))
+				 .catch()
+		}
+	},
+	mounted(){
+		this.allEmployee();
 	}
 }
 </script>
 
 <style lang="css" scoped>
+#img_size{
+	width: 40px;
+}
 </style>
