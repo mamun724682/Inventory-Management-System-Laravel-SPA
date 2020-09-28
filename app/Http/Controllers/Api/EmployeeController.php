@@ -121,6 +121,14 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $employee = Employee::findOrFail($id);
+        $photo = $employee->photo;
+
+        if ($photo) {
+            unlink($photo);
+            $employee->delete();
+        }else{
+            $employee->delete();
+        }
     }
 }
