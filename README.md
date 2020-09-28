@@ -12,6 +12,7 @@ An Inventory and Sales Management System using __Laravel 7 (PHP Framework)__, __
 - Jwt Auth
 - Sweetalert2 intigration with vue
 - Noty  intigration with vue
+- Image Intervention
 
 ## Installation Instruction
 
