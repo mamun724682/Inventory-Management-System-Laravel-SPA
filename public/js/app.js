@@ -2374,6 +2374,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     if (!User.loggedIn()) {
@@ -45786,13 +45805,20 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row justify-content-center" }, [
     _c("div", { staticClass: "col-xl-12 col-lg-12 col-md-12" }, [
-      _c("div", { staticClass: "card shadow-sm my-5" }, [
-        _c("div", { staticClass: "card-body p-0" }, [
-          _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-lg-12 mb-4" }, [
+          _c("div", { staticClass: "card" }, [
             _c(
               "div",
-              { staticClass: "col-lg-12" },
+              {
+                staticClass:
+                  "card-header py-3 d-flex flex-row align-items-center justify-content-between"
+              },
               [
+                _c("h2", { staticClass: "m-0 font-weight-bold text-primary" }, [
+                  _vm._v("Employee List")
+                ]),
+                _vm._v(" "),
                 _c(
                   "router-link",
                   {
@@ -45801,12 +45827,14 @@ var render = function() {
                     attrs: { to: "/store-employee" }
                   },
                   [_vm._v("Add Employee")]
-                ),
-                _vm._v(" "),
-                _vm._m(0)
+                )
               ],
               1
-            )
+            ),
+            _vm._v(" "),
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-footer" })
           ])
         ])
       ])
@@ -45818,14 +45846,56 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "login-form" }, [
-      _c("div", { staticClass: "text-center" }, [
-        _c("h1", { staticClass: "h4 text-gray-900 mb-4" }, [
-          _vm._v("All Employee")
+    return _c("div", { staticClass: "table-responsive" }, [
+      _c("table", { staticClass: "table align-items-center table-flush" }, [
+        _c("thead", { staticClass: "thead-light" }, [
+          _c("tr", [
+            _c("th", [_vm._v("Name")]),
+            _vm._v(" "),
+            _c("th", [_vm._v("Photo")]),
+            _vm._v(" "),
+            _c("th", [_vm._v("Phone")]),
+            _vm._v(" "),
+            _c("th", [_vm._v("Salary")]),
+            _vm._v(" "),
+            _c("th", [_vm._v("Joining Date")]),
+            _vm._v(" "),
+            _c("th", [_vm._v("Action")])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("tbody", [
+          _c("tr", [
+            _c("td", [_c("a", { attrs: { href: "#" } }, [_vm._v("RA0449")])]),
+            _vm._v(" "),
+            _c("td", [_vm._v("Udin Wayang")]),
+            _vm._v(" "),
+            _c("td", [_vm._v("Nasi Padang")]),
+            _vm._v(" "),
+            _c("td", [
+              _c("span", { staticClass: "badge badge-success" }, [
+                _vm._v("Delivered")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _c(
+                "a",
+                { staticClass: "btn btn-sm btn-primary", attrs: { href: "#" } },
+                [_vm._v("Detail")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _c(
+                "a",
+                { staticClass: "btn btn-sm btn-primary", attrs: { href: "#" } },
+                [_vm._v("Detail")]
+              )
+            ])
+          ])
         ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "text-center" })
+      ])
     ])
   }
 ]
