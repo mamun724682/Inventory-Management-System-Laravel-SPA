@@ -43,8 +43,8 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $supplier = Supplier::findOrFail($id);
-        return response()->json($supplier);
+        $category = Category::findOrFail($id);
+        return response()->json($category);
     }
 
     /**
@@ -57,42 +57,12 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|unique:suppliers|max:80',
-            'email' => 'required|unique:suppliers',
-            'phone' => 'required|unique:suppliers',
+            'category_name' => 'required|unique:categories|max:80',
         ]);
 
-        $supplier = Supplier::findOrFail($id);
-        $supplier->name = $request->name;
-        $supplier->email = $request->email;
-        $supplier->phone = $request->phone;
-        $supplier->shopName = $request->shopName;
-        $supplier->address = $request->address;
-
-        if ($image = $request->newPhoto) {
-            $position = strpos($image, ';');
-            $sub = substr($image, 0, $position);
-            $ext = explode('/', $sub)[1];
-
-            $name = time().'.'.$ext;
-            $img = Image::make($image)->resize(240, 200);
-
-            $upload_path = 'backend/supplier/';
-            $image_url = $upload_path.$name;
-            $newImage = $img->save($image_url);
-
-            if ($newImage) {
-                unlink($supplier->photo);
-
-                $supplier->photo = $image_url;
-                $supplier->save();
-            }
-
-            $supplier->save();
-
-        } else {
-            $supplier->save();
-        }
+        $category = Category::findOrFail($id);
+        $category->category_name = $request->category_name;
+        $category->save();
     }
 
     /**
