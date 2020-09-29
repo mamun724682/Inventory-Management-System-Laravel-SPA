@@ -103,14 +103,6 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $supplier = Supplier::findOrFail($id);
-        $photo = $supplier->photo;
-
-        if ($photo) {
-            unlink($photo);
-            $supplier->delete();
-        }else{
-            $supplier->delete();
-        }
+        Category::findOrFail($id)->delete();
     }
 }

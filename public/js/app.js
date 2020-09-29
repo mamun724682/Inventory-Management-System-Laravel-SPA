@@ -2462,14 +2462,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     if (!User.loggedIn()) {
@@ -2480,7 +2472,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      suppliers: [],
+      categories: [],
       searchTerm: ""
     };
   },
@@ -2488,21 +2480,21 @@ __webpack_require__.r(__webpack_exports__);
     filtersearch: function filtersearch() {
       var _this = this;
 
-      return this.suppliers.filter(function (supplier) {
-        return supplier.phone.match(_this.searchTerm);
+      return this.categories.filter(function (category) {
+        return category.category_name.match(_this.searchTerm);
       });
     }
   },
   methods: {
-    allSupplier: function allSupplier() {
+    allCategory: function allCategory() {
       var _this2 = this;
 
-      axios.get('/api/supplier').then(function (_ref) {
+      axios.get('/api/category').then(function (_ref) {
         var data = _ref.data;
-        return _this2.suppliers = data;
+        return _this2.categories = data;
       })["catch"]();
     },
-    deleteSupplier: function deleteSupplier(id) {
+    deleteCategory: function deleteCategory(id) {
       var _this3 = this;
 
       Swal.fire({
@@ -2515,13 +2507,13 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.isConfirmed) {
-          axios["delete"]('/api/supplier/' + id).then(function () {
-            _this3.suppliers = _this3.suppliers.filter(function (supplier) {
-              return supplier.id != id;
+          axios["delete"]('/api/category/' + id).then(function () {
+            _this3.categories = _this3.categories.filter(function (category) {
+              return category.id != id;
             });
           })["catch"](function () {
             _this3.$router.push({
-              name: 'supplier'
+              name: 'category'
             });
           });
           Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
@@ -2530,7 +2522,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.allSupplier();
+    this.allCategory();
   }
 });
 
@@ -47568,7 +47560,7 @@ var render = function() {
               },
               [
                 _c("h2", { staticClass: "m-0 font-weight-bold text-primary" }, [
-                  _vm._v("Supplier List")
+                  _vm._v("Category List")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -47599,9 +47591,9 @@ var render = function() {
                   {
                     staticClass: "btn btn-primary float-right",
                     staticStyle: { "margin-top": "6px", "margin-right": "6px" },
-                    attrs: { to: "/store-supplier" }
+                    attrs: { to: "/store-category" }
                   },
-                  [_vm._v("Add Supplier")]
+                  [_vm._v("Add Category")]
                 )
               ],
               1
@@ -47616,21 +47608,9 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "tbody",
-                    _vm._l(_vm.filtersearch, function(supplier) {
-                      return _c("tr", { key: supplier.id }, [
-                        _c("td", [_vm._v(_vm._s(supplier.name))]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c("img", {
-                            attrs: { src: supplier.photo, id: "img_size" }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(supplier.phone))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(supplier.shopName))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(supplier.email))]),
+                    _vm._l(_vm.filtersearch, function(category) {
+                      return _c("tr", { key: category.id }, [
+                        _c("td", [_vm._v(_vm._s(category.category_name))]),
                         _vm._v(" "),
                         _c(
                           "td",
@@ -47641,8 +47621,8 @@ var render = function() {
                                 staticClass: "btn btn-sm btn-primary",
                                 attrs: {
                                   to: {
-                                    name: "editSupplier",
-                                    params: { id: supplier.id }
+                                    name: "editCategory",
+                                    params: { id: category.id }
                                   }
                                 }
                               },
@@ -47656,7 +47636,7 @@ var render = function() {
                                 staticStyle: { color: "white" },
                                 on: {
                                   click: function($event) {
-                                    return _vm.deleteSupplier(supplier.id)
+                                    return _vm.deleteCategory(category.id)
                                   }
                                 }
                               },
@@ -47687,15 +47667,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "thead-light" }, [
       _c("tr", [
-        _c("th", [_vm._v("Name")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Photo")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Phone")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Shop Name")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Email")]),
+        _c("th", [_vm._v("Category Name")]),
         _vm._v(" "),
         _c("th", [_vm._v("Action")])
       ])
