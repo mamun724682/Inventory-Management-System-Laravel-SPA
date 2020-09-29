@@ -73,8 +73,8 @@ class SupplierController extends Controller
      */
     public function show($id)
     {
-        $employee = Employee::findOrFail($id);
-        return response()->json($employee);
+        $supplier = Supplier::findOrFail($id);
+        return response()->json($supplier);
     }
 
     /**
@@ -87,19 +87,17 @@ class SupplierController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|unique:employees|max:80',
-            'email' => 'required|unique:employees',
-            'phone' => 'required|unique:employees',
+            'name' => 'required|unique:suppliers|max:80',
+            'email' => 'required|unique:suppliers',
+            'phone' => 'required|unique:suppliers',
         ]);
 
-        $employee = Employee::findOrFail($id);
-        $employee->name = $request->name;
-        $employee->email = $request->email;
-        $employee->phone = $request->phone;
-        $employee->salary = $request->salary;
-        $employee->address = $request->address;
-        $employee->nid = $request->nid;
-        $employee->joining_date = $request->joining_date;
+        $supplier = Supplier::findOrFail($id);
+        $supplier->name = $request->name;
+        $supplier->email = $request->email;
+        $supplier->phone = $request->phone;
+        $supplier->shopName = $request->shopName;
+        $supplier->address = $request->address;
 
         if ($image = $request->newPhoto) {
             $position = strpos($image, ';');
@@ -109,21 +107,21 @@ class SupplierController extends Controller
             $name = time().'.'.$ext;
             $img = Image::make($image)->resize(240, 200);
 
-            $upload_path = 'backend/employee/';
+            $upload_path = 'backend/supplier/';
             $image_url = $upload_path.$name;
             $newImage = $img->save($image_url);
 
             if ($newImage) {
-                unlink($employee->photo);
+                unlink($supplier->photo);
 
-                $employee->photo = $image_url;
-                $employee->save();
+                $supplier->photo = $image_url;
+                $supplier->save();
             }
 
-            $employee->save();
+            $supplier->save();
 
         } else {
-            $employee->save();
+            $supplier->save();
         }
     }
 
