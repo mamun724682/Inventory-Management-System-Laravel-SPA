@@ -10,7 +10,7 @@
 								<div class="text-center">
 									<h1 class="h4 text-gray-900 mb-4">Edit Employee</h1>
 								</div>
-								<form @submit.prevent='storeEmployee'>
+								<form @submit.prevent='updateEmployee' enctype="multipart/form-data">
 									<div class="form-group">
 										<div class="form-row">
 											<div class="col-md-6">
@@ -91,14 +91,15 @@ export default {
 	data () {
 		return {
 			form:{
-				name: null,
-				email: null,
-				phone: null,
-				salary: null,
-				address: null,
-				nid: null,
-				joining_date: null,
-				photo: null,
+				name: '',
+				email: '',
+				phone: '',
+				salary: '',
+				address: '',
+				nid: '',
+				joining_date: '',
+				photo: '',
+				newPhoto: ''
 			},
 			errors: {}
 		}
@@ -117,14 +118,14 @@ export default {
 			} else {
 				let reader = new FileReader;
 				reader.onload = event => {
-					this.form.photo = event.target.result
-					console.log(event.target.result);
+					this.form.newPhoto = event.target.result
 				};
 				reader.readAsDataURL(file)
 			}
 		},
-		storeEmployee(){
-			axios.post('/api/employee', this.form)
+		updateEmployee(){
+			let id = this.$route.params.id
+			axios.patch('/api/employee/' + id, this.form)
 			.then(() => {
 				this.$router.push({name: 'employee'})
 				Notification.success()

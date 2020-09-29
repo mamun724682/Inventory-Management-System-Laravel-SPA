@@ -10,7 +10,7 @@
 								<div class="text-center">
 									<h1 class="h4 text-gray-900 mb-4">Add Employee</h1>
 								</div>
-								<form @submit.prevent='storeEmployee'>
+								<form @submit.prevent='storeEmployee' enctype="multipart/form-data">
 									<div class="form-group">
 										<div class="form-row">
 											<div class="col-md-6">

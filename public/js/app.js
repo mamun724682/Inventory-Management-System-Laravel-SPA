@@ -2442,14 +2442,15 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       form: {
-        name: null,
-        email: null,
-        phone: null,
-        salary: null,
-        address: null,
-        nid: null,
-        joining_date: null,
-        photo: null
+        name: '',
+        email: '',
+        phone: '',
+        salary: '',
+        address: '',
+        nid: '',
+        joining_date: '',
+        photo: '',
+        newPhoto: ''
       },
       errors: {}
     };
@@ -2475,17 +2476,17 @@ __webpack_require__.r(__webpack_exports__);
         var reader = new FileReader();
 
         reader.onload = function (event) {
-          _this2.form.photo = event.target.result;
-          console.log(event.target.result);
+          _this2.form.newPhoto = event.target.result;
         };
 
         reader.readAsDataURL(file);
       }
     },
-    storeEmployee: function storeEmployee() {
+    updateEmployee: function updateEmployee() {
       var _this3 = this;
 
-      axios.post('/api/employee', this.form).then(function () {
+      var id = this.$route.params.id;
+      axios.patch('/api/employee/' + id, this.form).then(function () {
         _this3.$router.push({
           name: 'employee'
         });
@@ -46273,6 +46274,7 @@ var render = function() {
                   _c(
                     "form",
                     {
+                      attrs: { enctype: "multipart/form-data" },
                       on: {
                         submit: function($event) {
                           $event.preventDefault()
@@ -46675,10 +46677,11 @@ var render = function() {
                   _c(
                     "form",
                     {
+                      attrs: { enctype: "multipart/form-data" },
                       on: {
                         submit: function($event) {
                           $event.preventDefault()
-                          return _vm.storeEmployee($event)
+                          return _vm.updateEmployee($event)
                         }
                       }
                     },
