@@ -135,14 +135,14 @@ class SupplierController extends Controller
      */
     public function destroy($id)
     {
-        $employee = Employee::findOrFail($id);
-        $photo = $employee->photo;
+        $supplier = Supplier::findOrFail($id);
+        $photo = $supplier->photo;
 
         if ($photo) {
             unlink($photo);
-            $employee->delete();
+            $supplier->delete();
         }else{
-            $employee->delete();
+            $supplier->delete();
         }
     }
 }

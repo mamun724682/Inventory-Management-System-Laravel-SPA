@@ -6,9 +6,9 @@
 					<!-- Simple Tables -->
 					<div class="card">
 						<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-							<h2 class="m-0 font-weight-bold text-primary">Employee List</h2>
+							<h2 class="m-0 font-weight-bold text-primary">Supplier List</h2>
 							<input type="text" placeholder="Search By Phone" v-model="searchTerm" class="form-control" style="width: 300px;margin-right: -900px;">
-							<router-link to="/store-employee" class="btn btn-primary float-right" style="margin-top: 6px;margin-right: 6px;">Add Employee</router-link>
+							<router-link to="/store-supplier" class="btn btn-primary float-right" style="margin-top: 6px;margin-right: 6px;">Add Supplier</router-link>
 						</div>
 						<div class="table-responsive">
 							<table class="table align-items-center table-flush">
@@ -17,21 +17,21 @@
 										<th>Name</th>
 										<th>Photo</th>
 										<th>Phone</th>
-										<th>Salary</th>
-										<th>Joining Date</th>
+										<th>Shop Name</th>
+										<th>Email</th>
 										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr v-for="employee in filtersearch" :key="employee.id">
-										<td>{{ employee.name }}</td>
-										<td><img :src="employee.photo" id="img_size"></td>
-										<td>{{ employee.phone }}</td>
-										<td>{{ employee.salary }}</td>
-										<td>{{ employee.joining_date }}</td>
+									<tr v-for="supplier in filtersearch" :key="supplier.id">
+										<td>{{ supplier.name }}</td>
+										<td><img :src="supplier.photo" id="img_size"></td>
+										<td>{{ supplier.phone }}</td>
+										<td>{{ supplier.shopName }}</td>
+										<td>{{ supplier.email }}</td>
 										<td>
-											<router-link :to="{name: 'editEmployee', params: {id: employee.id}}" class="btn btn-sm btn-primary">Edit</router-link>
-											<a @click="deleteEmployee(employee.id)" class="btn btn-sm btn-danger" style="color: white">Delete</a>
+											<router-link :to="{name: 'editSupplier', params: {id: supplier.id}}" class="btn btn-sm btn-primary">Edit</router-link>
+											<a @click="deleteSupplier(supplier.id)" class="btn btn-sm btn-danger" style="color: white">Delete</a>
 										</td>
 									</tr>
 								</tbody>
@@ -56,24 +56,24 @@ export default {
 
 	data () {
 		return {
-			employees: [],
+			suppliers: [],
 			searchTerm:""
 		}
 	},
 	computed: {
 		filtersearch(){
-			return this.employees.filter(employee => {
-				return employee.phone.match(this.searchTerm)
+			return this.suppliers.filter(supplier => {
+				return supplier.phone.match(this.searchTerm)
 			})
 		}
 	},
 	methods: {
-		allEmployee(){
-			axios.get('/api/employee')
-			.then(({data}) => (this.employees = data))
+		allSupplier(){
+			axios.get('/api/supplier')
+			.then(({data}) => (this.suppliers = data))
 			.catch()
 		},
-		deleteEmployee(id){
+		deleteSupplier(id){
 			Swal.fire({
 				title: 'Are you sure?',
 				text: "You won't be able to revert this!",
@@ -84,14 +84,14 @@ export default {
 				confirmButtonText: 'Yes, delete it!'
 			}).then((result) => {
 				if (result.isConfirmed) {
-					axios.delete('/api/employee/' + id)
+					axios.delete('/api/supplier/' + id)
 						 .then(() => {
-						 	this.employees = this.employees.filter(employee => {
-						 		return employee.id != id
+						 	this.suppliers = this.suppliers.filter(supplier => {
+						 		return supplier.id != id
 						 	})
 						 })
 						 .catch(() => {
-						 	this.$router.push({name: 'employee'})
+						 	this.$router.push({name: 'supplier'})
 						 })
 
 					Swal.fire(
@@ -104,7 +104,7 @@ export default {
 		}
 	},
 	mounted(){
-		this.allEmployee();
+		this.allSupplier();
 	}
 }
 </script>

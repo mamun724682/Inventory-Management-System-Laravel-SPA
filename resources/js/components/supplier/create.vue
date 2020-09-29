@@ -10,7 +10,7 @@
 								<div class="text-center">
 									<h1 class="h4 text-gray-900 mb-4">Add Supplier</h1>
 								</div>
-								<form @submit.prevent='storeEmployee' enctype="multipart/form-data">
+								<form @submit.prevent='storeSupplier' enctype="multipart/form-data">
 									<div class="form-group">
 										<div class="form-row">
 											<div class="col-md-6">
@@ -30,7 +30,7 @@
 												<small class="text-danger" v-if="errors.phone">{{ errors.phone[0] }}</small>
 											</div>
 											<div class="col-md-6">
-												<input type="number" class="form-control" id="exampleInputSalary" placeholder="Enter Shop Name" v-model='form.shopName'>
+												<input type="text" class="form-control" id="exampleInputSalary" placeholder="Enter Shop Name" v-model='form.shopName'>
 												<small class="text-danger" v-if="errors.shopName">{{ errors.shopName[0] }}</small>
 											</div>
 										</div>
@@ -103,7 +103,7 @@ export default {
 				reader.readAsDataURL(file)
 			}
 		},
-		storeEmployee(){
+		storeSupplier(){
 			axios.post('/api/supplier', this.form)
 			.then(() => {
 				this.$router.push({name: 'supplier'})
