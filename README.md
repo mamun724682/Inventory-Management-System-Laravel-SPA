@@ -3,7 +3,8 @@ An Inventory and Sales Management System using __Laravel 7 (PHP Framework)__, __
 
 ## Features
 
--
+- Employee Management
+- Supplier Management
 
 ## Packages Used
 
