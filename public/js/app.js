@@ -49953,7 +49953,7 @@ var render = function() {
                               ],
                               staticClass: "form-control",
                               attrs: {
-                                type: "text",
+                                type: "number",
                                 id: "exampleInputEmail",
                                 placeholder: "Enter Product Code"
                               },

@@ -18,7 +18,7 @@
 												<small class="text-danger" v-if="errors.product_name"> {{ errors.product_name[0] }} </small>
 											</div>
 											<div class="col-md-6">
-												<input type="text" class="form-control" id="exampleInputEmail" placeholder="Enter Product Code" v-model='form.product_code'>
+												<input type="number" class="form-control" id="exampleInputEmail" placeholder="Enter Product Code" v-model='form.product_code'>
 												<small class="text-danger" v-if="errors.product_code">{{ errors.product_code[0] }}</small>
 											</div>
 										</div>

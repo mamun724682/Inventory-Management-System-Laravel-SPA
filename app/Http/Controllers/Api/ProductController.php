@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Model\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
 {
@@ -15,18 +16,14 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        return response()->json($products);
-    }
+        $products = DB::table('products')
+                            ->join('categories', 'products.category_id', 'categories.id')
+                            ->join('suppliers', 'products.supplier_id', 'suppliers.id')
+                            ->select('products.*', 'categories.category_name', 'suppliers.name')
+                            ->orderBy('products.id', 'desc')
+                            ->get();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json($products);
     }
 
     /**
@@ -38,43 +35,53 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:employees|max:80',
-            'email' => 'required',
-            'phone' => 'required|unique:employees',
+            'category_id'      => 'required',
+            'supplier_id'      => 'required',
+            'product_name'     => 'required',
+            'product_code'     => 'required|max:80',
+            'root'             => 'required|max:80',
+            'buying_price'     => 'required|max:80',
+            'selling_price'    => 'required|max:80',
+            'buying_date'      => 'required|max:80',
+            'product_quantity' => 'required',
         ]);
 
-        if ($request->photo) {
-            $position = strpos($request->photo, ';');
-            $sub = substr($request->photo, 0, $position);
+        if ($request->image) {
+            $position = strpos($request->image, ';');
+            $sub = substr($request->image, 0, $position);
             $ext = explode('/', $sub)[1];
 
             $name = time().'.'.$ext;
-            $img = Image::make($request->photo)->resize(240, 200);
+            $img = Image::make($request->image)->resize(240, 200);
 
-            $upload_path = 'backend/employee/';
+            $upload_path = 'backend/product/';
             $image_url = $upload_path.$name;
             $img->save($image_url);
 
-            $employee = new Employee;
-            $employee->name = $request->name;
-            $employee->email = $request->email;
-            $employee->phone = $request->phone;
-            $employee->salary = $request->salary;
-            $employee->address = $request->address;
-            $employee->nid = $request->nid;
-            $employee->joining_date = $request->joining_date;
-            $employee->photo = $image_url;
-            $employee->save();
+            $product = new Product;
+            $product->category_id = $request->category_id;
+            $product->supplier_id = $request->supplier_id;
+            $product->product_name = $request->product_name;
+            $product->product_code = $request->product_code;
+            $product->root = $request->root;
+            $product->buying_price = $request->buying_price;
+            $product->selling_price = $request->selling_price;
+            $product->buying_date = $request->buying_date;
+            $product->product_quantity = $request->product_quantity;
+            $product->image = $image_url;
+            $product->save();
         } else {
-            $employee = new Employee;
-            $employee->name = $request->name;
-            $employee->email = $request->email;
-            $employee->phone = $request->phone;
-            $employee->salary = $request->salary;
-            $employee->address = $request->address;
-            $employee->nid = $request->nid;
-            $employee->joining_date = $request->joining_date;
-            $employee->save();
+            $product = new Product;
+            $product->category_id = $request->category_id;
+            $product->supplier_id = $request->supplier_id;
+            $product->product_name = $request->product_name;
+            $product->product_code = $request->product_code;
+            $product->root = $request->root;
+            $product->buying_price = $request->buying_price;
+            $product->selling_price = $request->selling_price;
+            $product->buying_date = $request->buying_date;
+            $product->product_quantity = $request->product_quantity;
+            $product->save();
         }
     }
 
@@ -125,7 +132,7 @@ class ProductController extends Controller
         $employee->nid = $request->nid;
         $employee->joining_date = $request->joining_date;
 
-        if ($image = $request->newPhoto) {
+        if ($image = $request->newimage) {
             $position = strpos($image, ';');
             $sub = substr($image, 0, $position);
             $ext = explode('/', $sub)[1];
