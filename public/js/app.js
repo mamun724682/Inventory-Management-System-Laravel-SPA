@@ -3648,6 +3648,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     if (!User.loggedIn()) {
@@ -3658,7 +3668,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      employees: [],
+      products: [],
       searchTerm: ""
     };
   },
@@ -3666,21 +3676,21 @@ __webpack_require__.r(__webpack_exports__);
     filtersearch: function filtersearch() {
       var _this = this;
 
-      return this.employees.filter(function (employee) {
-        return employee.phone.match(_this.searchTerm);
+      return this.products.filter(function (product) {
+        return product.product_name.match(_this.searchTerm);
       });
     }
   },
   methods: {
-    allEmployee: function allEmployee() {
+    allProduct: function allProduct() {
       var _this2 = this;
 
-      axios.get('/api/employee').then(function (_ref) {
+      axios.get('/api/product').then(function (_ref) {
         var data = _ref.data;
-        return _this2.employees = data;
+        return _this2.products = data;
       })["catch"]();
     },
-    deleteEmployee: function deleteEmployee(id) {
+    deleteProduct: function deleteProduct(id) {
       var _this3 = this;
 
       Swal.fire({
@@ -3693,13 +3703,13 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.isConfirmed) {
-          axios["delete"]('/api/employee/' + id).then(function () {
-            _this3.employees = _this3.employees.filter(function (employee) {
-              return employee.id != id;
+          axios["delete"]('/api/product/' + id).then(function () {
+            _this3.products = _this3.products.filter(function (product) {
+              return product.id != id;
             });
           })["catch"](function () {
             _this3.$router.push({
-              name: 'employee'
+              name: 'product'
             });
           });
           Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
@@ -3708,7 +3718,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.allEmployee();
+    this.allProduct();
   }
 });
 
@@ -50793,7 +50803,7 @@ var render = function() {
               },
               [
                 _c("h2", { staticClass: "m-0 font-weight-bold text-primary" }, [
-                  _vm._v("Employee List")
+                  _vm._v("Product List")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -50824,9 +50834,9 @@ var render = function() {
                   {
                     staticClass: "btn btn-primary float-right",
                     staticStyle: { "margin-top": "6px", "margin-right": "6px" },
-                    attrs: { to: "/store-employee" }
+                    attrs: { to: "/store-product" }
                   },
-                  [_vm._v("Add Employee")]
+                  [_vm._v("Add Product")]
                 )
               ],
               1
@@ -50841,21 +50851,31 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "tbody",
-                    _vm._l(_vm.filtersearch, function(employee) {
-                      return _c("tr", { key: employee.id }, [
-                        _c("td", [_vm._v(_vm._s(employee.name))]),
+                    _vm._l(_vm.filtersearch, function(product) {
+                      return _c("tr", { key: product.id }, [
+                        _c("td", [_vm._v(_vm._s(product.product_name))]),
                         _vm._v(" "),
                         _c("td", [
                           _c("img", {
-                            attrs: { src: employee.photo, id: "img_size" }
+                            attrs: { src: product.image, id: "img_size" }
                           })
                         ]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(employee.phone))]),
+                        _c("td", [_vm._v(_vm._s(product.product_code))]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(employee.salary))]),
+                        _c("td", [_vm._v(_vm._s(product.category_name))]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(employee.joining_date))]),
+                        _c("td", [_vm._v(_vm._s(product.name))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(product.root))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(product.buying_price))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(product.selling_price))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(product.product_quantity))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(product.buying_date))]),
                         _vm._v(" "),
                         _c(
                           "td",
@@ -50866,8 +50886,8 @@ var render = function() {
                                 staticClass: "btn btn-sm btn-primary",
                                 attrs: {
                                   to: {
-                                    name: "editEmployee",
-                                    params: { id: employee.id }
+                                    name: "editProduct",
+                                    params: { id: product.id }
                                   }
                                 }
                               },
@@ -50881,7 +50901,7 @@ var render = function() {
                                 staticStyle: { color: "white" },
                                 on: {
                                   click: function($event) {
-                                    return _vm.deleteEmployee(employee.id)
+                                    return _vm.deleteProduct(product.id)
                                   }
                                 }
                               },
@@ -50912,15 +50932,25 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "thead-light" }, [
       _c("tr", [
-        _c("th", [_vm._v("Name")]),
+        _c("th", [_vm._v("Product Name")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Photo")]),
+        _c("th", [_vm._v("Image")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Phone")]),
+        _c("th", [_vm._v("Product Code")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Salary")]),
+        _c("th", [_vm._v("Category")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Joining Date")]),
+        _c("th", [_vm._v("Supplier")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Root")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Buying Price")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Selling Price")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Product Quantity")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Buying Date")]),
         _vm._v(" "),
         _c("th", [_vm._v("Action")])
       ])

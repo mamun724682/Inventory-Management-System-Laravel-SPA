@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Model\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
 
@@ -166,14 +167,14 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $employee = Employee::findOrFail($id);
-        $photo = $employee->photo;
+        $product = Product::findOrFail($id);
+        $image = $product->image;
 
-        if ($photo) {
-            unlink($photo);
-            $employee->delete();
+        if ($image) {
+            unlink($image);
+            $product->delete();
         }else{
-            $employee->delete();
+            $product->delete();
         }
     }
 }

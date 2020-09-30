@@ -6,32 +6,42 @@
 					<!-- Simple Tables -->
 					<div class="card">
 						<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-							<h2 class="m-0 font-weight-bold text-primary">Employee List</h2>
+							<h2 class="m-0 font-weight-bold text-primary">Product List</h2>
 							<input type="text" placeholder="Search By Phone" v-model="searchTerm" class="form-control" style="width: 300px;margin-right: -900px;">
-							<router-link to="/store-employee" class="btn btn-primary float-right" style="margin-top: 6px;margin-right: 6px;">Add Employee</router-link>
+							<router-link to="/store-product" class="btn btn-primary float-right" style="margin-top: 6px;margin-right: 6px;">Add Product</router-link>
 						</div>
 						<div class="table-responsive">
 							<table class="table align-items-center table-flush">
 								<thead class="thead-light">
 									<tr>
-										<th>Name</th>
-										<th>Photo</th>
-										<th>Phone</th>
-										<th>Salary</th>
-										<th>Joining Date</th>
+										<th>Product Name</th>
+										<th>Image</th>
+										<th>Product Code</th>
+										<th>Category</th>
+										<th>Supplier</th>
+										<th>Root</th>
+										<th>Buying Price</th>
+										<th>Selling Price</th>
+										<th>Product Quantity</th>
+										<th>Buying Date</th>
 										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr v-for="employee in filtersearch" :key="employee.id">
-										<td>{{ employee.name }}</td>
-										<td><img :src="employee.photo" id="img_size"></td>
-										<td>{{ employee.phone }}</td>
-										<td>{{ employee.salary }}</td>
-										<td>{{ employee.joining_date }}</td>
+									<tr v-for="product in filtersearch" :key="product.id">
+										<td>{{ product.product_name }}</td>
+										<td><img :src="product.image" id="img_size"></td>
+										<td>{{ product.product_code }}</td>
+										<td>{{ product.category_name }}</td>
+										<td>{{ product.name }}</td>
+										<td>{{ product.root }}</td>
+										<td>{{ product.buying_price }}</td>
+										<td>{{ product.selling_price }}</td>
+										<td>{{ product.product_quantity }}</td>
+										<td>{{ product.buying_date }}</td>
 										<td>
-											<router-link :to="{name: 'editEmployee', params: {id: employee.id}}" class="btn btn-sm btn-primary">Edit</router-link>
-											<a @click="deleteEmployee(employee.id)" class="btn btn-sm btn-danger" style="color: white">Delete</a>
+											<router-link :to="{name: 'editProduct', params: {id: product.id}}" class="btn btn-sm btn-primary">Edit</router-link>
+											<a @click="deleteProduct(product.id)" class="btn btn-sm btn-danger" style="color: white">Delete</a>
 										</td>
 									</tr>
 								</tbody>
@@ -56,24 +66,24 @@ export default {
 
 	data () {
 		return {
-			employees: [],
+			products: [],
 			searchTerm:""
 		}
 	},
 	computed: {
 		filtersearch(){
-			return this.employees.filter(employee => {
-				return employee.phone.match(this.searchTerm)
+			return this.products.filter(product => {
+				return product.product_name.match(this.searchTerm)
 			})
 		}
 	},
 	methods: {
-		allEmployee(){
-			axios.get('/api/employee')
-			.then(({data}) => (this.employees = data))
+		allProduct(){
+			axios.get('/api/product')
+			.then(({data}) => (this.products = data))
 			.catch()
 		},
-		deleteEmployee(id){
+		deleteProduct(id){
 			Swal.fire({
 				title: 'Are you sure?',
 				text: "You won't be able to revert this!",
@@ -84,14 +94,14 @@ export default {
 				confirmButtonText: 'Yes, delete it!'
 			}).then((result) => {
 				if (result.isConfirmed) {
-					axios.delete('/api/employee/' + id)
+					axios.delete('/api/product/' + id)
 						 .then(() => {
-						 	this.employees = this.employees.filter(employee => {
-						 		return employee.id != id
+						 	this.products = this.products.filter(product => {
+						 		return product.id != id
 						 	})
 						 })
 						 .catch(() => {
-						 	this.$router.push({name: 'employee'})
+						 	this.$router.push({name: 'product'})
 						 })
 
 					Swal.fire(
@@ -104,7 +114,7 @@ export default {
 		}
 	},
 	mounted(){
-		this.allEmployee();
+		this.allProduct();
 	}
 }
 </script>
