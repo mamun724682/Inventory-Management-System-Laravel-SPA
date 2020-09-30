@@ -5,61 +5,78 @@
 				<div class="card-body p-0">
 					<div class="row">
 						<div class="col-lg-12">
-							<router-link to="/employee" class="btn btn-primary float-right" style="margin-top: 6px;margin-right: 6px;">All Employee</router-link>
+							<router-link to="/product" class="btn btn-primary float-right" style="margin-top: 6px;margin-right: 6px;">All Product</router-link>
 							<div class="login-form">
 								<div class="text-center">
-									<h1 class="h4 text-gray-900 mb-4">Edit Employee</h1>
+									<h1 class="h4 text-gray-900 mb-4">Edit Product</h1>
 								</div>
-								<form @submit.prevent='updateEmployee' enctype="multipart/form-data">
+								<form @submit.prevent='updateProduct' enctype="multipart/form-data">
 									<div class="form-group">
 										<div class="form-row">
 											<div class="col-md-6">
-												<input type="text" class="form-control" id="exampleInputFirstName" placeholder="Enter Your Full Name" v-model="form.name">
-												<small class="text-danger" v-if="errors.name"> {{ errors.name[0] }} </small>
+												<input type="text" class="form-control" id="exampleInputFirstName" placeholder="Enter Product Name" v-model="form.product_name">
+												<small class="text-danger" v-if="errors.product_name"> {{ errors.product_name[0] }} </small>
 											</div>
 											<div class="col-md-6">
-												<input type="email" class="form-control" id="exampleInputEmail" placeholder="Enter Email" v-model='form.email'>
-												<small class="text-danger" v-if="errors.email">{{ errors.email[0] }}</small>
+												<input type="number" class="form-control" id="exampleInputEmail" placeholder="Enter Product Code" v-model='form.product_code'>
+												<small class="text-danger" v-if="errors.product_code">{{ errors.product_code[0] }}</small>
 											</div>
 										</div>
 									</div>
 									<div class="form-group">
 										<div class="form-row">
 											<div class="col-md-6">
-												<input type="text" class="form-control" id="exampleInputPhone" placeholder="Enter Phone Number" v-model='form.phone'>
-												<small class="text-danger" v-if="errors.phone">{{ errors.phone[0] }}</small>
+												<label for="exampleFormControlSelect1">Seletct Category</label>
+												<select class="form-control" id="exampleFormControlSelect1" v-model="form.category_id">
+													<option v-for="category in categories" :value="category.id">{{ category.category_name }}</option>
+												</select>
 											</div>
 											<div class="col-md-6">
-												<input type="number" class="form-control" id="exampleInputSalary" placeholder="Enter Salary" v-model='form.salary'>
-												<small class="text-danger" v-if="errors.salary">{{ errors.salary[0] }}</small>
+												<label for="exampleFormControlSelect2">Seletct Supplier</label>
+												<select class="form-control" id="exampleFormControlSelect2" v-model="form.supplier_id">
+													<option v-for="supplier in suppliers" :value="supplier.id">{{ supplier.name }}</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="form-row">
+											<div class="col-md-4">
+												<input type="text" class="form-control" id="exampleInputPhone" placeholder="Enter root" v-model='form.root'>
+												<small class="text-danger" v-if="errors.root">{{ errors.root[0] }}</small>
+											</div>
+											<div class="col-md-4">
+												<input type="number" class="form-control" id="exampleInputSalary" placeholder="Enter Buying Price" v-model='form.buying_price'>
+												<small class="text-danger" v-if="errors.buying_price">{{ errors.buying_price[0] }}</small>
+											</div>
+											<div class="col-md-4">
+												<input type="number" class="form-control" id="exampleInputSalary" placeholder="Enter Selling Price" v-model='form.selling_price'>
+												<small class="text-danger" v-if="errors.selling_price">{{ errors.selling_price[0] }}</small>
 											</div>
 										</div>
 									</div>
 									<div class="form-group">
 										<div class="form-row">
 											<div class="col-md-6">
-												<input type="text" class="form-control" id="exampleInputAddress" placeholder="Enter Full Address" v-model='form.address'>
-												<small class="text-danger" v-if="errors.address">{{ errors.address[0] }}</small>
+												<input type="date" class="form-control" id="exampleInputAddress" placeholder="Enter Buying Date" v-model='form.buying_date'>
+												<small class="text-danger" v-if="errors.buying_date">{{ errors.buying_date[0] }}</small>
 											</div>
 											<div class="col-md-6">
-												<input type="number" class="form-control" id="exampleInputNid" placeholder="Enter NID" v-model='form.nid'>
-												<small class="text-danger" v-if="errors.nid">{{ errors.nid[0] }}</small>
+												<input type="number" class="form-control" id="exampleInputNid" placeholder="Enter Product Quantity" v-model='form.product_quantity'>
+												<small class="text-danger" v-if="errors.product_quantity">{{ errors.product_quantity[0] }}</small>
 											</div>
 										</div>
 									</div>
 									<div class="form-group">
 										<div class="form-row">
 											<div class="col-md-6">
-												<input type="date" class="form-control" id="exampleInputDate" placeholder="Enter Joining Date" v-model='form.joining_date'>
-												<small class="text-danger" v-if="errors.joining_date">{{ errors.joining_date[0] }}</small>
-
-												<div class="custom-file" style="margin-top: 16px;">
+												<div class="custom-file">
 													<input type="file" class="custom-file-input" id="customFile" @change="onFileSelected">
 													<label class="custom-file-label" for="customFile">Choose file</label>
 												</div>
 											</div>
 											<div class="col-md-6">
-												<img :src="form.photo" style="width: 146px">
+												<img :src="form.image" style="width: 146px">
 											</div>
 										</div>
 									</div>
@@ -91,25 +108,37 @@ export default {
 	data () {
 		return {
 			form:{
-				name: '',
-				email: '',
-				phone: '',
-				salary: '',
-				address: '',
-				nid: '',
-				joining_date: '',
-				photo: '',
-				newPhoto: ''
+				category_id: '',
+				supplier_id: '',
+				product_name: '',
+				product_code: '',
+				root: '',
+				buying_price: '',
+				selling_price: '',
+				buying_date: '',
+				product_quantity: '',
+				image: '',
+				newImage: ''
 			},
-			errors: {}
+			errors: {},
+			categories: {},
+			suppliers: {}
 		}
 	},
-	mounted(){
+	created(){
 		let id = this.$route.params.id
-		axios.get('/api/employee/' + id)
+		axios.get('/api/product/'+id)
 			 .then(({data}) => (this.form = data))
 			 .catch(console.log('error'))
-	},	
+
+		// Category Collected
+		axios.get('/api/category/')
+			 .then(({data}) => (this.categories = data))
+
+		// Supplier Collected
+		axios.get('/api/supplier/')
+			 .then(({data}) => (this.suppliers = data))
+	},
 	methods:{
 		onFileSelected(event){
 			let file = event.target.files[0];
@@ -118,16 +147,17 @@ export default {
 			} else {
 				let reader = new FileReader;
 				reader.onload = event => {
-					this.form.newPhoto = event.target.result
+					this.form.newImage = event.target.result
+					console.log(this.form.newImage)
 				};
 				reader.readAsDataURL(file)
 			}
 		},
-		updateEmployee(){
+		updateProduct(){
 			let id = this.$route.params.id
-			axios.patch('/api/employee/' + id, this.form)
+			axios.patch('/api/product/' + id, this.form)
 			.then(() => {
-				this.$router.push({name: 'employee'})
+				this.$router.push({name: 'product'})
 				Notification.success()
 			})
 			.catch(error => this.errors = error.response.data.errors)
@@ -138,3 +168,5 @@ export default {
 
 <style lang="css" scoped>
 </style>
+
+  
