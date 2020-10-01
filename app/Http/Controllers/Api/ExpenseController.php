@@ -15,8 +15,8 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
-        return response()->json($categories);
+        $expenses = Expense::all();
+        return response()->json($expenses);
     }
 
     /**
@@ -77,7 +77,7 @@ class ExpenseController extends Controller
      */
     public function destroy($id)
     {
-        Category::findOrFail($id)->delete();
+        Expense::findOrFail($id)->delete();
     }
 }
 

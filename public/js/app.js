@@ -3123,6 +3123,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     if (!User.loggedIn()) {
@@ -3133,7 +3137,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      categories: [],
+      expenses: [],
       searchTerm: ""
     };
   },
@@ -3141,21 +3145,21 @@ __webpack_require__.r(__webpack_exports__);
     filtersearch: function filtersearch() {
       var _this = this;
 
-      return this.categories.filter(function (category) {
-        return category.category_name.match(_this.searchTerm);
+      return this.expenses.filter(function (expense) {
+        return expense.details.match(_this.searchTerm);
       });
     }
   },
   methods: {
-    allCategory: function allCategory() {
+    allExpense: function allExpense() {
       var _this2 = this;
 
-      axios.get('/api/category').then(function (_ref) {
+      axios.get('/api/expense').then(function (_ref) {
         var data = _ref.data;
-        return _this2.categories = data;
+        return _this2.expenses = data;
       })["catch"]();
     },
-    deleteCategory: function deleteCategory(id) {
+    deleteExpense: function deleteExpense(id) {
       var _this3 = this;
 
       Swal.fire({
@@ -3168,13 +3172,13 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.isConfirmed) {
-          axios["delete"]('/api/category/' + id).then(function () {
-            _this3.categories = _this3.categories.filter(function (category) {
-              return category.id != id;
+          axios["delete"]('/api/expense/' + id).then(function () {
+            _this3.expenses = _this3.expenses.filter(function (expense) {
+              return expense.id != id;
             });
           })["catch"](function () {
             _this3.$router.push({
-              name: 'category'
+              name: 'expense'
             });
           });
           Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
@@ -3183,7 +3187,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.allCategory();
+    this.allExpense();
   }
 });
 
@@ -49660,7 +49664,7 @@ var render = function() {
               },
               [
                 _c("h2", { staticClass: "m-0 font-weight-bold text-primary" }, [
-                  _vm._v("Category List")
+                  _vm._v("Expense List")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -49691,9 +49695,9 @@ var render = function() {
                   {
                     staticClass: "btn btn-primary float-right",
                     staticStyle: { "margin-top": "6px", "margin-right": "6px" },
-                    attrs: { to: "/store-category" }
+                    attrs: { to: "/store-expense" }
                   },
-                  [_vm._v("Add Category")]
+                  [_vm._v("Add Expense")]
                 )
               ],
               1
@@ -49708,9 +49712,19 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "tbody",
-                    _vm._l(_vm.filtersearch, function(category) {
-                      return _c("tr", { key: category.id }, [
-                        _c("td", [_vm._v(_vm._s(category.category_name))]),
+                    _vm._l(_vm.filtersearch, function(expense) {
+                      return _c("tr", { key: expense.id }, [
+                        expense.details.length > 10
+                          ? _c("td", [
+                              _vm._v(
+                                _vm._s(expense.details.substring(0, 30) + "..")
+                              )
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(expense.amount))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(expense.expense_date))]),
                         _vm._v(" "),
                         _c(
                           "td",
@@ -49721,8 +49735,8 @@ var render = function() {
                                 staticClass: "btn btn-sm btn-primary",
                                 attrs: {
                                   to: {
-                                    name: "editCategory",
-                                    params: { id: category.id }
+                                    name: "editExpense",
+                                    params: { id: expense.id }
                                   }
                                 }
                               },
@@ -49736,7 +49750,7 @@ var render = function() {
                                 staticStyle: { color: "white" },
                                 on: {
                                   click: function($event) {
-                                    return _vm.deleteCategory(category.id)
+                                    return _vm.deleteExpense(expense.id)
                                   }
                                 }
                               },
@@ -49767,7 +49781,11 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "thead-light" }, [
       _c("tr", [
-        _c("th", [_vm._v("Category Name")]),
+        _c("th", [_vm._v("Details")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Amount")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Date")]),
         _vm._v(" "),
         _c("th", [_vm._v("Action")])
       ])
