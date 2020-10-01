@@ -47,8 +47,8 @@ class ExpenseController extends Controller
      */
     public function show($id)
     {
-        $category = Category::findOrFail($id);
-        return response()->json($category);
+        $expense = Expense::findOrFail($id);
+        return response()->json($expense);
     }
 
     /**
@@ -61,12 +61,16 @@ class ExpenseController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'category_name' => 'required|unique:categories|max:80',
+            'details' => 'required',
+            'amount' => 'required',
+            'expense_date' => 'required',
         ]);
 
-        $category = Category::findOrFail($id);
-        $category->category_name = $request->category_name;
-        $category->save();
+        $expense = Expense::findOrFail($id);
+        $expense->details = $request->details;
+        $expense->amount = $request->amount;
+        $expense->expense_date = $request->expense_date;
+        $expense->save();
     }
 
     /**
