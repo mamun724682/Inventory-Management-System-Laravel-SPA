@@ -2943,6 +2943,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     if (!User.loggedIn()) {
@@ -2954,18 +2962,20 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       form: {
-        category_name: null
+        details: null,
+        amount: null,
+        expense_date: null
       },
       errors: {}
     };
   },
   methods: {
-    storeCategory: function storeCategory() {
+    storeExpense: function storeExpense() {
       var _this = this;
 
-      axios.post('/api/category', this.form).then(function () {
+      axios.post('/api/expense', this.form).then(function () {
         _this.$router.push({
-          name: 'storeCategory'
+          name: 'storeExpense'
         });
 
         Notification.success();
@@ -49315,9 +49325,9 @@ var render = function() {
                   {
                     staticClass: "btn btn-primary float-right",
                     staticStyle: { "margin-top": "6px", "margin-right": "6px" },
-                    attrs: { to: "/category" }
+                    attrs: { to: "/expense" }
                   },
-                  [_vm._v("All Category")]
+                  [_vm._v("All Expense")]
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "login-form" }, [
@@ -49329,28 +49339,98 @@ var render = function() {
                       on: {
                         submit: function($event) {
                           $event.preventDefault()
-                          return _vm.storeCategory($event)
+                          return _vm.storeExpense($event)
                         }
                       }
                     },
                     [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("input", {
+                        _c("textarea", {
                           directives: [
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.form.category_name,
-                              expression: "form.category_name"
+                              value: _vm.form.details,
+                              expression: "form.details"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: {
                             type: "text",
                             id: "exampleInputFirstName",
-                            placeholder: "Enter Category Name"
+                            placeholder: "Enter Expense Details",
+                            rows: "3"
                           },
-                          domProps: { value: _vm.form.category_name },
+                          domProps: { value: _vm.form.details },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.form, "details", $event.target.value)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.errors.details
+                          ? _c("small", { staticClass: "text-danger" }, [
+                              _vm._v(" " + _vm._s(_vm.errors.details[0]) + " ")
+                            ])
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.amount,
+                              expression: "form.amount"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            step: "0.01",
+                            id: "exampleInputFirstName",
+                            placeholder: "Enter Expense Amount"
+                          },
+                          domProps: { value: _vm.form.amount },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.form, "amount", $event.target.value)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.errors.amount
+                          ? _c("small", { staticClass: "text-danger" }, [
+                              _vm._v(" " + _vm._s(_vm.errors.amount[0]) + " ")
+                            ])
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.expense_date,
+                              expression: "form.expense_date"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "date",
+                            id: "exampleInputFirstName",
+                            placeholder: "Enter Expense Date"
+                          },
+                          domProps: { value: _vm.form.expense_date },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -49358,17 +49438,17 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.form,
-                                "category_name",
+                                "expense_date",
                                 $event.target.value
                               )
                             }
                           }
                         }),
                         _vm._v(" "),
-                        _vm.errors.category_name
+                        _vm.errors.expense_date
                           ? _c("small", { staticClass: "text-danger" }, [
                               _vm._v(
-                                " " + _vm._s(_vm.errors.category_name[0]) + " "
+                                " " + _vm._s(_vm.errors.expense_date[0]) + " "
                               )
                             ])
                           : _vm._e()
@@ -49396,7 +49476,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "text-center" }, [
       _c("h1", { staticClass: "h4 text-gray-900 mb-4" }, [
-        _vm._v("Add Category")
+        _vm._v("Add Expense")
       ])
     ])
   },

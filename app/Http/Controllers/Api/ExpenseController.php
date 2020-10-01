@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Model\Expense;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ExpenseController extends Controller
 {
@@ -14,17 +15,8 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $categories = Category::all();
+        return response()->json($categories);
     }
 
     /**
@@ -35,7 +27,16 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'details' => 'required',
+            'amount' => 'required',
+            'expense_date' => 'required',
+        ]);
+        $expense = new Expense;
+        $expense->details = $request->details;
+        $expense->amount = $request->amount;
+        $expense->expense_date = $request->expense_date;
+        $expense->save();
     }
 
     /**
@@ -46,18 +47,8 @@ class ExpenseController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $category = Category::findOrFail($id);
+        return response()->json($category);
     }
 
     /**
@@ -69,7 +60,13 @@ class ExpenseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'category_name' => 'required|unique:categories|max:80',
+        ]);
+
+        $category = Category::findOrFail($id);
+        $category->category_name = $request->category_name;
+        $category->save();
     }
 
     /**
@@ -80,6 +77,7 @@ class ExpenseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Category::findOrFail($id)->delete();
     }
 }
+

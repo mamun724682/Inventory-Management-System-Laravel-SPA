@@ -5,15 +5,23 @@
 				<div class="card-body p-0">
 					<div class="row">
 						<div class="col-lg-12">
-							<router-link to="/category" class="btn btn-primary float-right" style="margin-top: 6px;margin-right: 6px;">All Category</router-link>
+							<router-link to="/expense" class="btn btn-primary float-right" style="margin-top: 6px;margin-right: 6px;">All Expense</router-link>
 							<div class="login-form">
 								<div class="text-center">
-									<h1 class="h4 text-gray-900 mb-4">Add Category</h1>
+									<h1 class="h4 text-gray-900 mb-4">Add Expense</h1>
 								</div>
-								<form @submit.prevent='storeCategory'>
+								<form @submit.prevent='storeExpense'>
 									<div class="form-group">
-										<input type="text" class="form-control" id="exampleInputFirstName" placeholder="Enter Category Name" v-model="form.category_name">
-										<small class="text-danger" v-if="errors.category_name"> {{ errors.category_name[0] }} </small>
+										<textarea type="text" class="form-control" id="exampleInputFirstName" placeholder="Enter Expense Details" v-model="form.details" rows="3"></textarea>
+										<small class="text-danger" v-if="errors.details"> {{ errors.details[0] }} </small>
+									</div>
+									<div class="form-group">
+										<input type="number" step="0.01" class="form-control" id="exampleInputFirstName" placeholder="Enter Expense Amount" v-model="form.amount">
+										<small class="text-danger" v-if="errors.amount"> {{ errors.amount[0] }} </small>
+									</div>
+									<div class="form-group">
+										<input type="date" class="form-control" id="exampleInputFirstName" placeholder="Enter Expense Date" v-model="form.expense_date">
+										<small class="text-danger" v-if="errors.expense_date"> {{ errors.expense_date[0] }} </small>
 									</div>
 									
 									<div class="form-group">
@@ -43,16 +51,18 @@ export default {
 	data () {
 		return {
 			form:{
-				category_name: null,
+				details: null,
+				amount: null,
+				expense_date: null,
 			},
 			errors: {}
 		}
 	},	
 	methods:{
-		storeCategory(){
-			axios.post('/api/category', this.form)
+		storeExpense(){
+			axios.post('/api/expense', this.form)
 			.then(() => {
-				this.$router.push({name: 'storeCategory'})
+				this.$router.push({name: 'storeExpense'})
 				Notification.success()
 			})
 			.catch(error => this.errors = error.response.data.errors)
