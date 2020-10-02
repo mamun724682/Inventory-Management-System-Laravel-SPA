@@ -46,4 +46,25 @@ class SalaryController extends Controller
 
     	return response()->json($salaries);
     }
+
+    public function edit($id)
+    {
+    	$salary = DB::table('salaries')
+    					->join('employees', 'salaries.employee_id', 'employees.id')
+    					->select('salaries.*', 'employees.name', 'employees.email')
+    					->where('salaries.id', $id)
+    					->first();
+
+    	return response()->json($salary);
+    }
+
+    public function update(Request $request, $id)
+    {
+    	$data = [];
+    	$data['employee_id'] = $request->employee_id;
+    	$data['amount'] = $request->amount;
+    	$data['salary_month'] = $request->salary_month;
+
+    	DB::table('salaries')->where('id', $id)->update($data);
+    }
 }

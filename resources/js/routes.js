@@ -36,6 +36,7 @@ let salary = require('./components/salary/all_employee.vue').default;
 let paySalary = require('./components/salary/paySalary.vue').default;
 let allSalary = require('./components/salary/index.vue').default;
 let viewSalary = require('./components/salary/view.vue').default;
+let editSalary = require('./components/salary/edit.vue').default;
 
 export const routes = [
 
@@ -77,4 +78,5 @@ export const routes = [
   { path: '/pay-salary/:id', component: paySalary, name:'paySalary' },
   { path: '/salary', component: allSalary, name:'allSalary' },
   { path: '/view-salary/:month', component: viewSalary, name:'viewSalary' },
+  { path: '/edit-salary/:id', component: editSalary, name:'editSalary' },
 ]
