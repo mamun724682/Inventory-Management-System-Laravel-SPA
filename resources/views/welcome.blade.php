@@ -94,6 +94,12 @@
             </div>
         </li>
         <li class="nav-item">
+          <router-link to="stock" class="nav-link" aria-expanded="true">
+            <i class="far fa fa-credit-card"></i>
+            <span>Stock</span>
+            </router-link>
+        </li>
+        <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap4"
                     aria-expanded="true" aria-controls="collapseBootstrap4">
                     <i class="far fa fa-book"></i>
@@ -119,6 +125,7 @@
                 </div>
             </div>
         </li>
+        
 
 
 
