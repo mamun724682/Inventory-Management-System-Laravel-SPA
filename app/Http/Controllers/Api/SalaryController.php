@@ -26,7 +26,24 @@ class SalaryController extends Controller
     	$data['salary_date'] = date('d/m/Y');
     	$data['salary_month'] = $month;
     	$data['salary_year'] = date('Y');
-    	
+
     	DB::table('salaries')->insert($data);
+    }
+
+    public function allSalary()
+    {
+    	$salaries = DB::table('salaries')->select('salary_month')->groupBy('salary_month')->get();
+    	return response()->json($salaries);
+    }
+
+    public function salaryByMonth($month)
+    {
+    	$salaries = DB::table('salaries')
+    					->where('salary_month', $month)
+    					->join('employees', 'salaries.employee_id', 'employees.id')
+    					->select('salaries.*', 'employees.name')
+    					->get();
+
+    	return response()->json($salaries);
     }
 }

@@ -6,7 +6,7 @@
 					<!-- Simple Tables -->
 					<div class="card">
 						<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-							<h2 class="m-0 font-weight-bold text-primary">Employee List</h2>
+							<h2 class="m-0 font-weight-bold text-primary">Paid in this month</h2>
 							<input type="text" placeholder="Search By Phone" v-model="searchTerm" class="form-control" style="width: 300px;margin-right: -900px;">
 							<router-link to="/salary" class="btn btn-primary float-right" style="margin-top: 6px;margin-right: 6px;">All Salary</router-link>
 						</div>
@@ -14,23 +14,21 @@
 							<table class="table align-items-center table-flush">
 								<thead class="thead-light">
 									<tr>
-										<th>Name</th>
-										<th>Photo</th>
-										<th>Phone</th>
-										<th>Salary</th>
-										<th>Joining Date</th>
+										<th>Month</th>
+										<th>Employee Name</th>
+										<th>Amount</th>
+										<th>Salary Date</th>
 										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr v-for="employee in filtersearch" :key="employee.id">
-										<td>{{ employee.name }}</td>
-										<td><img :src="employee.photo" id="img_size"></td>
-										<td>{{ employee.phone }}</td>
-										<td>{{ employee.salary }}</td>
-										<td>{{ employee.joining_date }}</td>
+									<tr v-for="salary in filtersearch" :key="salary.id">
+										<td>{{ salary.salary_month }}</td>
+										<td>{{ salary.name }}</td>
+										<td>{{ salary.amount }}</td>
+										<td>{{ salary.salary_date }}</td>
 										<td>
-											<router-link :to="{name: 'paySalary', params: {id: employee.id}}" class="btn btn-sm btn-primary">Pay Salary</router-link>
+											<router-link :to="{id: 'editsalary', params: {month: salary.salary_month}}" class="btn btn-sm btn-primary">View Salary</router-link>
 										</td>
 									</tr>
 								</tbody>
@@ -55,26 +53,27 @@ export default {
 
 	data () {
 		return {
-			employees: [],
+			salaries: [],
 			searchTerm:""
 		}
 	},
 	computed: {
 		filtersearch(){
-			return this.employees.filter(employee => {
-				return employee.name.match(this.searchTerm)
+			return this.salaries.filter(salary => {
+				return salary.name.match(this.searchTerm)
 			})
 		}
 	},
 	methods: {
-		allEmployee(){
-			axios.get('/api/employee')
-			.then(({data}) => (this.employees = data))
+		allSalary(){
+			let month = this.$route.params.month
+			axios.get('/api/salary/' + month)
+			.then(({data}) => (this.salaries = data))
 			.catch()
 		}
 	},
 	mounted(){
-		this.allEmployee();
+		this.allSalary();
 	}
 }
 </script>
