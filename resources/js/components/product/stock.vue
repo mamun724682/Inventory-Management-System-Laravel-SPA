@@ -35,7 +35,7 @@
 										<td v-else=""><span class="badge badge-danger">Stock Out</span></td>
 										<td>{{ product.product_quantity }}</td>
 										<td>
-											<router-link :to="{name: 'editProduct', params: {id: product.id}}" class="btn btn-sm btn-primary">Edit</router-link>
+											<router-link :to="{name: 'editStock', params: {id: product.id}}" class="btn btn-sm btn-primary">Edit Stock</router-link>
 										</td>
 									</tr>
 								</tbody>
