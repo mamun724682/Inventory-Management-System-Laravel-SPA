@@ -144,14 +144,14 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        $employee = Employee::findOrFail($id);
-        $photo = $employee->photo;
+        $customer = Customer::findOrFail($id);
+        $photo = $customer->photo;
 
         if ($photo) {
             unlink($photo);
-            $employee->delete();
+            $customer->delete();
         }else{
-            $employee->delete();
+            $customer->delete();
         }
     }
 }

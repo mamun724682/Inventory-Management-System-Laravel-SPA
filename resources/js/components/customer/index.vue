@@ -6,9 +6,9 @@
 					<!-- Simple Tables -->
 					<div class="card">
 						<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-							<h2 class="m-0 font-weight-bold text-primary">Employee List</h2>
+							<h2 class="m-0 font-weight-bold text-primary">Customer List</h2>
 							<input type="text" placeholder="Search By Phone" v-model="searchTerm" class="form-control" style="width: 300px;margin-right: -900px;">
-							<router-link to="/store-employee" class="btn btn-primary float-right" style="margin-top: 6px;margin-right: 6px;">Add Employee</router-link>
+							<router-link to="/store-customer" class="btn btn-primary float-right" style="margin-top: 6px;margin-right: 6px;">Add Customer</router-link>
 						</div>
 						<div class="table-responsive">
 							<table class="table align-items-center table-flush">
@@ -17,21 +17,21 @@
 										<th>Name</th>
 										<th>Photo</th>
 										<th>Phone</th>
-										<th>Salary</th>
-										<th>Joining Date</th>
+										<th>Email</th>
+										<th>Address</th>
 										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr v-for="employee in filtersearch" :key="employee.id">
-										<td>{{ employee.name }}</td>
-										<td><img :src="employee.photo" id="img_size"></td>
-										<td>{{ employee.phone }}</td>
-										<td>{{ employee.salary }}</td>
-										<td>{{ employee.joining_date }}</td>
+									<tr v-for="customer in filtersearch" :key="customer.id">
+										<td>{{ customer.name }}</td>
+										<td><img :src="customer.photo" id="img_size"></td>
+										<td>{{ customer.phone }}</td>
+										<td>{{ customer.email }}</td>
+										<td>{{ customer.address }}</td>
 										<td>
-											<router-link :to="{name: 'editEmployee', params: {id: employee.id}}" class="btn btn-sm btn-primary">Edit</router-link>
-											<a @click="deleteEmployee(employee.id)" class="btn btn-sm btn-danger" style="color: white">Delete</a>
+											<router-link :to="{name: 'editCustomer', params: {id: customer.id}}" class="btn btn-sm btn-primary">Edit</router-link>
+											<a @click="deleteCustomer(customer.id)" class="btn btn-sm btn-danger" style="color: white">Delete</a>
 										</td>
 									</tr>
 								</tbody>
@@ -56,24 +56,24 @@ export default {
 
 	data () {
 		return {
-			employees: [],
+			customers: [],
 			searchTerm:""
 		}
 	},
 	computed: {
 		filtersearch(){
-			return this.employees.filter(employee => {
-				return employee.phone.match(this.searchTerm)
+			return this.customers.filter(customer => {
+				return customer.phone.match(this.searchTerm)
 			})
 		}
 	},
 	methods: {
-		allEmployee(){
-			axios.get('/api/employee')
-			.then(({data}) => (this.employees = data))
+		allCustomer(){
+			axios.get('/api/customer')
+			.then(({data}) => (this.customers = data))
 			.catch()
 		},
-		deleteEmployee(id){
+		deleteCustomer(id){
 			Swal.fire({
 				title: 'Are you sure?',
 				text: "You won't be able to revert this!",
@@ -84,14 +84,14 @@ export default {
 				confirmButtonText: 'Yes, delete it!'
 			}).then((result) => {
 				if (result.isConfirmed) {
-					axios.delete('/api/employee/' + id)
+					axios.delete('/api/customer/' + id)
 						 .then(() => {
-						 	this.employees = this.employees.filter(employee => {
-						 		return employee.id != id
+						 	this.customers = this.customers.filter(customer => {
+						 		return customer.id != id
 						 	})
 						 })
 						 .catch(() => {
-						 	this.$router.push({name: 'employee'})
+						 	this.$router.push({name: 'customer'})
 						 })
 
 					Swal.fire(
@@ -104,7 +104,7 @@ export default {
 		}
 	},
 	mounted(){
-		this.allEmployee();
+		this.allCustomer();
 	}
 }
 </script>

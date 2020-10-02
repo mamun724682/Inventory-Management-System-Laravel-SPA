@@ -2827,7 +2827,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      employees: [],
+      customers: [],
       searchTerm: ""
     };
   },
@@ -2835,21 +2835,21 @@ __webpack_require__.r(__webpack_exports__);
     filtersearch: function filtersearch() {
       var _this = this;
 
-      return this.employees.filter(function (employee) {
-        return employee.phone.match(_this.searchTerm);
+      return this.customers.filter(function (customer) {
+        return customer.phone.match(_this.searchTerm);
       });
     }
   },
   methods: {
-    allEmployee: function allEmployee() {
+    allCustomer: function allCustomer() {
       var _this2 = this;
 
-      axios.get('/api/employee').then(function (_ref) {
+      axios.get('/api/customer').then(function (_ref) {
         var data = _ref.data;
-        return _this2.employees = data;
+        return _this2.customers = data;
       })["catch"]();
     },
-    deleteEmployee: function deleteEmployee(id) {
+    deleteCustomer: function deleteCustomer(id) {
       var _this3 = this;
 
       Swal.fire({
@@ -2862,13 +2862,13 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.isConfirmed) {
-          axios["delete"]('/api/employee/' + id).then(function () {
-            _this3.employees = _this3.employees.filter(function (employee) {
-              return employee.id != id;
+          axios["delete"]('/api/customer/' + id).then(function () {
+            _this3.customers = _this3.customers.filter(function (customer) {
+              return customer.id != id;
             });
           })["catch"](function () {
             _this3.$router.push({
-              name: 'employee'
+              name: 'customer'
             });
           });
           Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
@@ -2877,7 +2877,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.allEmployee();
+    this.allCustomer();
   }
 });
 
@@ -50458,7 +50458,7 @@ var render = function() {
               },
               [
                 _c("h2", { staticClass: "m-0 font-weight-bold text-primary" }, [
-                  _vm._v("Employee List")
+                  _vm._v("Customer List")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -50489,9 +50489,9 @@ var render = function() {
                   {
                     staticClass: "btn btn-primary float-right",
                     staticStyle: { "margin-top": "6px", "margin-right": "6px" },
-                    attrs: { to: "/store-employee" }
+                    attrs: { to: "/store-customer" }
                   },
-                  [_vm._v("Add Employee")]
+                  [_vm._v("Add Customer")]
                 )
               ],
               1
@@ -50506,21 +50506,21 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "tbody",
-                    _vm._l(_vm.filtersearch, function(employee) {
-                      return _c("tr", { key: employee.id }, [
-                        _c("td", [_vm._v(_vm._s(employee.name))]),
+                    _vm._l(_vm.filtersearch, function(customer) {
+                      return _c("tr", { key: customer.id }, [
+                        _c("td", [_vm._v(_vm._s(customer.name))]),
                         _vm._v(" "),
                         _c("td", [
                           _c("img", {
-                            attrs: { src: employee.photo, id: "img_size" }
+                            attrs: { src: customer.photo, id: "img_size" }
                           })
                         ]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(employee.phone))]),
+                        _c("td", [_vm._v(_vm._s(customer.phone))]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(employee.salary))]),
+                        _c("td", [_vm._v(_vm._s(customer.email))]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(employee.joining_date))]),
+                        _c("td", [_vm._v(_vm._s(customer.address))]),
                         _vm._v(" "),
                         _c(
                           "td",
@@ -50531,8 +50531,8 @@ var render = function() {
                                 staticClass: "btn btn-sm btn-primary",
                                 attrs: {
                                   to: {
-                                    name: "editEmployee",
-                                    params: { id: employee.id }
+                                    name: "editCustomer",
+                                    params: { id: customer.id }
                                   }
                                 }
                               },
@@ -50546,7 +50546,7 @@ var render = function() {
                                 staticStyle: { color: "white" },
                                 on: {
                                   click: function($event) {
-                                    return _vm.deleteEmployee(employee.id)
+                                    return _vm.deleteCustomer(customer.id)
                                   }
                                 }
                               },
@@ -50583,9 +50583,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Phone")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Salary")]),
+        _c("th", [_vm._v("Email")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Joining Date")]),
+        _c("th", [_vm._v("Address")]),
         _vm._v(" "),
         _c("th", [_vm._v("Action")])
       ])
