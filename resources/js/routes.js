@@ -31,9 +31,13 @@ let storeExpense = require('./components/expense/create.vue').default;
 let expense = require('./components/expense/index.vue').default;
 let editExpense = require('./components/expense/edit.vue').default;
 
+// Expense Components
+let salary = require('./components/salary/all_employee.vue').default;
+let paySalary = require('./components/salary/paySalary.vue').default;
+
 export const routes = [
 
-  //Auth Route
+  //Auth Routes
   { path: '/', component: login, name:'/' },
   { path: '/register', component: register, name:'register' },
   { path: '/forget', component: forget, name:'forget' },
@@ -41,28 +45,32 @@ export const routes = [
 
   { path: '/home', component: home, name:'home' },
   
-  // Employee Route
+  // Employee Routes
   { path: '/store-employee', component: storeEmployee, name:'storeEmployee' },
   { path: '/employee', component: employee, name:'employee' },
   { path: '/edit-employee/:id', component: editEmployee, name:'editEmployee' },
 
-  // Supplier Route
+  // Supplier Routes
   { path: '/store-supplier', component: storeSupplier, name:'storeSupplier' },
   { path: '/supplier', component: supplier, name:'supplier' },
   { path: '/edit-supplier/:id', component: editSupplier, name:'editSupplier' },
 
-  // Category Route
+  // Category Routes
   { path: '/store-category', component: storeCategory, name:'storeCategory' },
   { path: '/category', component: category, name:'category' },
   { path: '/edit-category/:id', component: editCategory, name:'editCategory' },
 
-  // Product Route
+  // Product Routes
   { path: '/store-product', component: storeProduct, name:'storeProduct' },
   { path: '/product', component: product, name:'product' },
   { path: '/edit-product/:id', component: editProduct, name:'editProduct' },
 
-  // Expense Route
+  // Expense Routes
   { path: '/store-expense', component: storeExpense, name:'storeExpense' },
   { path: '/expense', component: expense, name:'expense' },
   { path: '/edit-expense/:id', component: editExpense, name:'editExpense' },
+
+  // Expense Routes
+  { path: '/given-salary', component: salary, name:'given-salary' },
+  { path: '/pay-salary/:id', component: paySalary, name:'paySalary' },
 ]
