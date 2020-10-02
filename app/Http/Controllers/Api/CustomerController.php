@@ -71,19 +71,8 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        $employee = Employee::findOrFail($id);
-        return response()->json($employee);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $customer = Customer::findOrFail($id);
+        return response()->json($customer);
     }
 
     /**
@@ -96,19 +85,16 @@ class CustomerController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|unique:employees|max:80',
-            'email' => 'required|unique:employees',
-            'phone' => 'required|unique:employees',
+            'name' => 'required|max:80',
+            'email' => 'required',
+            'phone' => 'required',
         ]);
 
-        $employee = Employee::findOrFail($id);
-        $employee->name = $request->name;
-        $employee->email = $request->email;
-        $employee->phone = $request->phone;
-        $employee->salary = $request->salary;
-        $employee->address = $request->address;
-        $employee->nid = $request->nid;
-        $employee->joining_date = $request->joining_date;
+        $customer = Customer::findOrFail($id);
+        $customer->name = $request->name;
+        $customer->email = $request->email;
+        $customer->phone = $request->phone;
+        $customer->address = $request->address;
 
         if ($image = $request->newPhoto) {
             $position = strpos($image, ';');
@@ -118,21 +104,22 @@ class CustomerController extends Controller
             $name = time().'.'.$ext;
             $img = Image::make($image)->resize(240, 200);
 
-            $upload_path = 'backend/employee/';
+            $upload_path = 'backend/customer/';
             $image_url = $upload_path.$name;
-            $newImage = $img->save($image_url);
+            $img->save($image_url);
 
-            if ($newImage) {
-                unlink($employee->photo);
+            if ($customer->photo) {
+                unlink($customer->photo);
 
-                $employee->photo = $image_url;
-                $employee->save();
+                $customer->photo = $image_url;
+                $customer->save();
+            } else {
+                $customer->photo = $image_url;
+                $customer->save();
             }
 
-            $employee->save();
-
         } else {
-            $employee->save();
+            $customer->save();
         }
     }
 

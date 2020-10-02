@@ -5,12 +5,12 @@
 				<div class="card-body p-0">
 					<div class="row">
 						<div class="col-lg-12">
-							<router-link to="/employee" class="btn btn-primary float-right" style="margin-top: 6px;margin-right: 6px;">All Employee</router-link>
+							<router-link to="/customer" class="btn btn-primary float-right" style="margin-top: 6px;margin-right: 6px;">All Customer</router-link>
 							<div class="login-form">
 								<div class="text-center">
-									<h1 class="h4 text-gray-900 mb-4">Edit Employee</h1>
+									<h1 class="h4 text-gray-900 mb-4">Edit Customer</h1>
 								</div>
-								<form @submit.prevent='updateEmployee' enctype="multipart/form-data">
+								<form @submit.prevent='updateCustomer' enctype="multipart/form-data">
 									<div class="form-group">
 										<div class="form-row">
 											<div class="col-md-6">
@@ -30,29 +30,14 @@
 												<small class="text-danger" v-if="errors.phone">{{ errors.phone[0] }}</small>
 											</div>
 											<div class="col-md-6">
-												<input type="number" class="form-control" id="exampleInputSalary" placeholder="Enter Salary" v-model='form.salary'>
-												<small class="text-danger" v-if="errors.salary">{{ errors.salary[0] }}</small>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="form-row">
-											<div class="col-md-6">
 												<input type="text" class="form-control" id="exampleInputAddress" placeholder="Enter Full Address" v-model='form.address'>
 												<small class="text-danger" v-if="errors.address">{{ errors.address[0] }}</small>
 											</div>
-											<div class="col-md-6">
-												<input type="number" class="form-control" id="exampleInputNid" placeholder="Enter NID" v-model='form.nid'>
-												<small class="text-danger" v-if="errors.nid">{{ errors.nid[0] }}</small>
-											</div>
 										</div>
 									</div>
 									<div class="form-group">
 										<div class="form-row">
 											<div class="col-md-6">
-												<input type="date" class="form-control" id="exampleInputDate" placeholder="Enter Joining Date" v-model='form.joining_date'>
-												<small class="text-danger" v-if="errors.joining_date">{{ errors.joining_date[0] }}</small>
-
 												<div class="custom-file" style="margin-top: 16px;">
 													<input type="file" class="custom-file-input" id="customFile" @change="onFileSelected">
 													<label class="custom-file-label" for="customFile">Choose file</label>
@@ -94,10 +79,7 @@ export default {
 				name: '',
 				email: '',
 				phone: '',
-				salary: '',
 				address: '',
-				nid: '',
-				joining_date: '',
 				photo: '',
 				newPhoto: ''
 			},
@@ -106,7 +88,7 @@ export default {
 	},
 	mounted(){
 		let id = this.$route.params.id
-		axios.get('/api/employee/' + id)
+		axios.get('/api/customer/' + id)
 			 .then(({data}) => (this.form = data))
 			 .catch(console.log('error'))
 	},	
@@ -119,15 +101,16 @@ export default {
 				let reader = new FileReader;
 				reader.onload = event => {
 					this.form.newPhoto = event.target.result
+					console.log(this.form.newPhoto)
 				};
 				reader.readAsDataURL(file)
 			}
 		},
-		updateEmployee(){
+		updateCustomer(){
 			let id = this.$route.params.id
-			axios.patch('/api/employee/' + id, this.form)
+			axios.patch('/api/customer/' + id, this.form)
 			.then(() => {
-				this.$router.push({name: 'employee'})
+				this.$router.push({name: 'customer'})
 				Notification.success()
 			})
 			.catch(error => this.errors = error.response.data.errors)

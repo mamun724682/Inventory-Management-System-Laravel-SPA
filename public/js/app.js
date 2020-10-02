@@ -2676,21 +2676,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     if (!User.loggedIn()) {
@@ -2705,10 +2690,7 @@ __webpack_require__.r(__webpack_exports__);
         name: '',
         email: '',
         phone: '',
-        salary: '',
         address: '',
-        nid: '',
-        joining_date: '',
         photo: '',
         newPhoto: ''
       },
@@ -2719,7 +2701,7 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     var id = this.$route.params.id;
-    axios.get('/api/employee/' + id).then(function (_ref) {
+    axios.get('/api/customer/' + id).then(function (_ref) {
       var data = _ref.data;
       return _this.form = data;
     })["catch"](console.log('error'));
@@ -2737,18 +2719,19 @@ __webpack_require__.r(__webpack_exports__);
 
         reader.onload = function (event) {
           _this2.form.newPhoto = event.target.result;
+          console.log(_this2.form.newPhoto);
         };
 
         reader.readAsDataURL(file);
       }
     },
-    updateEmployee: function updateEmployee() {
+    updateCustomer: function updateCustomer() {
       var _this3 = this;
 
       var id = this.$route.params.id;
-      axios.patch('/api/employee/' + id, this.form).then(function () {
+      axios.patch('/api/customer/' + id, this.form).then(function () {
         _this3.$router.push({
-          name: 'employee'
+          name: 'customer'
         });
 
         Notification.success();
@@ -50056,9 +50039,9 @@ var render = function() {
                   {
                     staticClass: "btn btn-primary float-right",
                     staticStyle: { "margin-top": "6px", "margin-right": "6px" },
-                    attrs: { to: "/employee" }
+                    attrs: { to: "/customer" }
                   },
-                  [_vm._v("All Employee")]
+                  [_vm._v("All Customer")]
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "login-form" }, [
@@ -50071,7 +50054,7 @@ var render = function() {
                       on: {
                         submit: function($event) {
                           $event.preventDefault()
-                          return _vm.updateEmployee($event)
+                          return _vm.updateCustomer($event)
                         }
                       }
                     },
@@ -50202,48 +50185,6 @@ var render = function() {
                                 {
                                   name: "model",
                                   rawName: "v-model",
-                                  value: _vm.form.salary,
-                                  expression: "form.salary"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: {
-                                type: "number",
-                                id: "exampleInputSalary",
-                                placeholder: "Enter Salary"
-                              },
-                              domProps: { value: _vm.form.salary },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.form,
-                                    "salary",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _vm.errors.salary
-                              ? _c("small", { staticClass: "text-danger" }, [
-                                  _vm._v(_vm._s(_vm.errors.salary[0]))
-                                ])
-                              : _vm._e()
-                          ])
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("div", { staticClass: "form-row" }, [
-                          _c("div", { staticClass: "col-md-6" }, [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
                                   value: _vm.form.address,
                                   expression: "form.address"
                                 }
@@ -50274,40 +50215,6 @@ var render = function() {
                                   _vm._v(_vm._s(_vm.errors.address[0]))
                                 ])
                               : _vm._e()
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-6" }, [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.form.nid,
-                                  expression: "form.nid"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: {
-                                type: "number",
-                                id: "exampleInputNid",
-                                placeholder: "Enter NID"
-                              },
-                              domProps: { value: _vm.form.nid },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(_vm.form, "nid", $event.target.value)
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _vm.errors.nid
-                              ? _c("small", { staticClass: "text-danger" }, [
-                                  _vm._v(_vm._s(_vm.errors.nid[0]))
-                                ])
-                              : _vm._e()
                           ])
                         ])
                       ]),
@@ -50315,42 +50222,6 @@ var render = function() {
                       _c("div", { staticClass: "form-group" }, [
                         _c("div", { staticClass: "form-row" }, [
                           _c("div", { staticClass: "col-md-6" }, [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.form.joining_date,
-                                  expression: "form.joining_date"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: {
-                                type: "date",
-                                id: "exampleInputDate",
-                                placeholder: "Enter Joining Date"
-                              },
-                              domProps: { value: _vm.form.joining_date },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.form,
-                                    "joining_date",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _vm.errors.joining_date
-                              ? _c("small", { staticClass: "text-danger" }, [
-                                  _vm._v(_vm._s(_vm.errors.joining_date[0]))
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
                             _c(
                               "div",
                               {
@@ -50407,7 +50278,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "text-center" }, [
       _c("h1", { staticClass: "h4 text-gray-900 mb-4" }, [
-        _vm._v("Edit Employee")
+        _vm._v("Edit Customer")
       ])
     ])
   },
