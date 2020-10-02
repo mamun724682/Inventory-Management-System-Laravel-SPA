@@ -31,6 +31,11 @@ let storeExpense = require('./components/expense/create.vue').default;
 let expense = require('./components/expense/index.vue').default;
 let editExpense = require('./components/expense/edit.vue').default;
 
+// Custpmer Components
+let storeCustomer = require('./components/customer/create.vue').default;
+let customer = require('./components/customer/index.vue').default;
+let editCustomer = require('./components/customer/edit.vue').default;
+
 // Expense Components
 let salary = require('./components/salary/all_employee.vue').default;
 let paySalary = require('./components/salary/paySalary.vue').default;
@@ -76,6 +81,11 @@ export const routes = [
   { path: '/store-expense', component: storeExpense, name:'storeExpense' },
   { path: '/expense', component: expense, name:'expense' },
   { path: '/edit-expense/:id', component: editExpense, name:'editExpense' },
+
+  // Customer Routes
+  { path: '/store-customer', component: storeCustomer, name:'storeCustomer' },
+  { path: '/customer', component: customer, name:'customer' },
+  { path: '/edit-customer/:id', component: editCustomer, name:'editCustomer' },
 
   // Expense Routes
   { path: '/given-salary', component: salary, name:'given-salary' },

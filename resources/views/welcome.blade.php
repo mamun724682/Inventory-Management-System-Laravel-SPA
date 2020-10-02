@@ -113,6 +113,19 @@
             </div>
         </li>
         <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrapcustomer"
+                    aria-expanded="true" aria-controls="collapseBootstrapcustomer">
+                    <i class="far fa fa-user"></i>
+                    <span>Customer</span>
+                </a>
+                <div id="collapseBootstrapcustomer" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+                  <div class="bg-white py-2 collapse-inner rounded">
+                    <router-link class="collapse-item" to="/store-customer">Add Customer</router-link>
+                    <router-link class="collapse-item" to="customer">All Customer</router-link>
+                </div>
+            </div>
+        </li>
+        <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap5"
                     aria-expanded="true" aria-controls="collapseBootstrap5">
                     <i class="far fa fa-credit-card"></i>
@@ -122,6 +135,19 @@
                   <div class="bg-white py-2 collapse-inner rounded">
                     <router-link class="collapse-item" to="/given-salary">Add Salary</router-link>
                     <router-link class="collapse-item" to="salary">All Salary</router-link>
+                </div>
+            </div>
+        </li>
+        <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrapreport"
+                    aria-expanded="true" aria-controls="collapseBootstrapreport">
+                    <i class="far fa fa-credit-card"></i>
+                    <span>Report</span>
+                </a>
+                <div id="collapseBootstrapreport" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+                  <div class="bg-white py-2 collapse-inner rounded">
+                    <router-link class="collapse-item" to="/store-report">Add Report</router-link>
+                    <router-link class="collapse-item" to="report">All Report</router-link>
                 </div>
             </div>
         </li>
