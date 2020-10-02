@@ -21,16 +21,6 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -92,17 +82,6 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -136,16 +115,17 @@ class EmployeeController extends Controller
 
             $upload_path = 'backend/employee/';
             $image_url = $upload_path.$name;
-            $newImage = $img->save($image_url);
-
-            if ($newImage) {
+            $img->save($image_url);
+            
+            if ($employee->photo) {
                 unlink($employee->photo);
 
                 $employee->photo = $image_url;
                 $employee->save();
+            } else {
+                $employee->photo = $image_url;
+                $employee->save();
             }
-
-            $employee->save();
 
         } else {
             $employee->save();
