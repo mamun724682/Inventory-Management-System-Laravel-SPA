@@ -7,8 +7,7 @@
 					<div class="card">
 						<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 							<h2 class="m-0 font-weight-bold text-primary">Employee List</h2>
-							<input type="text" placeholder="Search By Phone" v-model="searchTerm" class="form-control" style="width: 300px;margin-right: -900px;">
-							<router-link to="/store-employee" class="btn btn-primary float-right" style="margin-top: 6px;margin-right: 6px;">Add Employee</router-link>
+							<input type="text" placeholder="Search By Phone" v-model="searchTerm" class="form-control" style="width: 300px;">
 						</div>
 						<div class="table-responsive">
 							<table class="table align-items-center table-flush">
@@ -62,7 +61,7 @@ export default {
 	computed: {
 		filtersearch(){
 			return this.employees.filter(employee => {
-				return employee.phone.match(this.searchTerm)
+				return employee.name.match(this.searchTerm)
 			})
 		}
 	},

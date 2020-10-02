@@ -4114,7 +4114,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     if (!User.loggedIn()) {
@@ -4134,7 +4133,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       return this.employees.filter(function (employee) {
-        return employee.phone.match(_this.searchTerm);
+        return employee.name.match(_this.searchTerm);
       });
     }
   },
@@ -52335,7 +52334,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  staticStyle: { width: "300px", "margin-right": "-900px" },
+                  staticStyle: { width: "300px" },
                   attrs: { type: "text", placeholder: "Search By Phone" },
                   domProps: { value: _vm.searchTerm },
                   on: {
@@ -52346,19 +52345,8 @@ var render = function() {
                       _vm.searchTerm = $event.target.value
                     }
                   }
-                }),
-                _vm._v(" "),
-                _c(
-                  "router-link",
-                  {
-                    staticClass: "btn btn-primary float-right",
-                    staticStyle: { "margin-top": "6px", "margin-right": "6px" },
-                    attrs: { to: "/store-employee" }
-                  },
-                  [_vm._v("Add Employee")]
-                )
-              ],
-              1
+                })
+              ]
             ),
             _vm._v(" "),
             _c("div", { staticClass: "table-responsive" }, [
