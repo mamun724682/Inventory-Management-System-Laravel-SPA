@@ -19,24 +19,29 @@
 </head>
 
 <body id="page-top">
-    <div id="app">
-      <div id="wrapper">
+  <div id="app">
+    <div id="wrapper">
 
-        <!-- Sidebar -->
-        <nav id="sidebar" v-show="$route.path === '/' || $route.path === '/register' || $route.path === 'forget' ? false : true " style="display: none;">
+      <!-- Sidebar -->
+      <nav id="sidebar" v-show="$route.path === '/' || $route.path === '/register' || $route.path === 'forget' ? false : true " style="display: none;">
         <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon">
-                    <img src="{{ asset('backend/img/logo/logo2.png') }}">
-                </div>
-                <div class="sidebar-brand-text mx-3">IMS</div>
-            </a>
-            <hr class="sidebar-divider my-0">
-            <li class="nav-item active">
-                <router-link class="nav-link" to="/home">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></router-link>
-                </li>
+          <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <div class="sidebar-brand-icon">
+              <img src="{{ asset('backend/img/logo/logo2.png') }}">
+            </div>
+            <div class="sidebar-brand-text mx-3">IMS</div>
+          </a>
+          <hr class="sidebar-divider my-0">
+          <li class="nav-item active">
+            <router-link class="nav-link" to="/home">
+              <i class="fas fa-fw fa-tachometer-alt"></i>
+              <span>Dashboard</span></router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/pos">
+              <i class="fas fa-fw fa-table"></i>
+              <span>POS</span></router-link>
+            </li>
                 <hr class="sidebar-divider">
                 <div class="sidebar-heading">
                     Features
@@ -141,7 +146,7 @@
         <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrapreport"
                     aria-expanded="true" aria-controls="collapseBootstrapreport">
-                    <i class="far fa fa-credit-card"></i>
+                    <i class="fab fa-fw fa-wpforms"></i>
                     <span>Report</span>
                 </a>
                 <div id="collapseBootstrapreport" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">

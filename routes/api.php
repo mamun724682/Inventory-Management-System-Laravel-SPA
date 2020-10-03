@@ -31,3 +31,6 @@ Route::post('/update-salary/{id}', 'Api\SalaryController@update');
 
 //Stock Routes
 Route::patch('/stock/{id}', 'Api\ProductController@updateStock');
+
+//POS Route
+Route::get('/category/product/{id}', 'Api\PosController@categoryProducts');
