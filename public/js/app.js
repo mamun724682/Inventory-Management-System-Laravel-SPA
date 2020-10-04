@@ -4281,6 +4281,8 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"]();
     },
     orderDone: function orderDone() {
+      var _this10 = this;
+
       var total = this.sub_total * this.vats.vat / 100 + this.sub_total;
       var data = {
         qty: this.qty,
@@ -4289,10 +4291,14 @@ __webpack_require__.r(__webpack_exports__);
         pay: this.pay,
         due: this.due,
         payBy: this.payBy,
-        vat: this.vats.vat
+        vat: this.vats.vat,
+        total: total
       };
       axios.post('/api/order', data).then(function () {
-        // this.$router.push({name: 'home'})
+        _this10.$router.push({
+          name: 'home'
+        });
+
         Notification.success();
       });
     }

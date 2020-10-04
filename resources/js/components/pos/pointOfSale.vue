@@ -319,11 +319,12 @@ export default {
                 due: this.due,
                 payBy: this.payBy,
                 vat: this.vats.vat,
+                total: total
             }
 
             axios.post('/api/order', data)
             .then(() => {
-                // this.$router.push({name: 'home'})
+                this.$router.push({name: 'home'})
                 Notification.success()
             })
         }
