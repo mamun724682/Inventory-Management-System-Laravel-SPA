@@ -4136,7 +4136,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     if (!User.loggedIn()) {
@@ -53360,21 +53359,44 @@ var render = function() {
                                           "input-group-btn input-group-prepend"
                                       },
                                       [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-primary btn-sm bootstrap-touchspin-down",
-                                            attrs: { type: "button" },
-                                            on: {
-                                              click: function($event) {
-                                                $event.preventDefault()
-                                                return _vm.decrement(product.id)
-                                              }
-                                            }
-                                          },
-                                          [_vm._v("-")]
-                                        )
+                                        product.product_quantity >= 2
+                                          ? _c(
+                                              "button",
+                                              {
+                                                staticClass:
+                                                  "btn btn-primary btn-sm bootstrap-touchspin-down",
+                                                attrs: { type: "button" },
+                                                on: {
+                                                  click: function($event) {
+                                                    $event.preventDefault()
+                                                    return _vm.decrement(
+                                                      product.id
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [_vm._v("-")]
+                                            )
+                                          : _c(
+                                              "button",
+                                              {
+                                                staticClass:
+                                                  "btn btn-primary btn-sm bootstrap-touchspin-down",
+                                                attrs: {
+                                                  type: "button",
+                                                  disabled: ""
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    $event.preventDefault()
+                                                    return _vm.decrement(
+                                                      product.id
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [_vm._v("-")]
+                                            )
                                       ]
                                     ),
                                     _vm._v(" "),
@@ -53426,6 +53448,7 @@ var render = function() {
                                   "a",
                                   {
                                     staticClass: "btn btn-sm btn-danger",
+                                    staticStyle: { color: "white" },
                                     on: {
                                       click: function($event) {
                                         return _vm.deleteItem(product.id)
@@ -53644,7 +53667,12 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  _vm._s(product.product_name)
+                                                  _vm._s(product.product_name) +
+                                                    " - " +
+                                                    _vm._s(
+                                                      product.selling_price
+                                                    ) +
+                                                    "$"
                                                 )
                                               ]
                                             ),
@@ -53769,7 +53797,12 @@ var render = function() {
                                                 _vm._v(
                                                   _vm._s(
                                                     catProduct.product_name
-                                                  )
+                                                  ) +
+                                                    " - " +
+                                                    _vm._s(
+                                                      catProduct.selling_price
+                                                    ) +
+                                                    "$"
                                                 )
                                               ]
                                             ),
@@ -53810,9 +53843,7 @@ var render = function() {
                                                     },
                                                     [_vm._v("Stock Out")]
                                                   )
-                                                ]),
-                                            _vm._v(" "),
-                                            _vm._m(8, true)
+                                                ])
                                           ]
                                         )
                                       ]
@@ -54050,17 +54081,6 @@ var staticRenderFns = [
         )
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "btn btn-primary", attrs: { href: "#" } }, [
-      _c("i", {
-        staticClass: "fa fa-cart-plus",
-        attrs: { "aria-hidden": "true" }
-      })
-    ])
   }
 ]
 render._withStripped = true

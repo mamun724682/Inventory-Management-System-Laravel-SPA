@@ -36,7 +36,8 @@
                 					<td>
                 						<div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
                 							<span class="input-group-btn input-group-prepend">
-                								<button @click.prevent="decrement(product.id)" class="btn btn-primary btn-sm bootstrap-touchspin-down" type="button">-</button>
+                                                <button @click.prevent="decrement(product.id)" class="btn btn-primary btn-sm bootstrap-touchspin-down" type="button" v-if="product.product_quantity >= 2">-</button>
+                								<button @click.prevent="decrement(product.id)" class="btn btn-primary btn-sm bootstrap-touchspin-down" type="button" v-else="" disabled="">-</button>
                 							</span>
                 							<input type="text" readonly class="form-control" :value="product.product_quantity" style="width: 28px;">
                 							<span class="input-group-btn input-group-append">
@@ -46,8 +47,7 @@
                 					</td>
                 					<td>{{ product.product_price }}</td>
                 					<td>{{ product.sub_total }}$</td>
-                					<!-- <td><span class="badge badge-success">Delivered</span></td> -->
-                					<td><a @click="deleteItem(product.id)" class="btn btn-sm btn-danger">X</a></td>
+                					<td><a @click="deleteItem(product.id)" class="btn btn-sm btn-danger" style="color: white;">X</a></td>
                 				</tr>
                 			</tbody>
                 		</table>
@@ -139,7 +139,7 @@
                 						<button class="btn btn-sm" @click.prevent="addToCart(product.id)">
                 							<img :src="product.image" class="card-img-top" id="image_size" alt="...">
                 							<div class="card-body">
-                								<h5 class="card-title text-center">{{ product.product_name }}</h5>
+                								<h5 class="card-title text-center">{{ product.product_name }} - {{ product.selling_price }}$</h5>
                 								<td v-if="product.product_quantity >= 1"><span class="badge badge-success">Available <span class="badge badge-light">{{ product.product_quantity }}</span></span></td>
                 								<td v-else=""><span class="badge badge-danger">Stock Out</span></td>
                 							</div>
@@ -157,10 +157,9 @@
                 						<button class="btn btn-sm" @click.prevent="addToCart(catProduct.id)">
                 							<img :src="catProduct.image" class="card-img-top" id="image_size" alt="...">
                 							<div class="card-body">
-                								<h5 class="card-title text-center">{{ catProduct.product_name }}</h5>
+                								<h5 class="card-title text-center">{{ catProduct.product_name }} - {{ catProduct.selling_price }}$</h5>
                 								<td v-if="catProduct.product_quantity >= 1"><span class="badge badge-success">Available <span class="badge badge-light">{{ catProduct.product_quantity }}</span></span></td>
                 								<td v-else=""><span class="badge badge-danger">Stock Out</span></td>
-                								<a href="#" class="btn btn-primary"><i class="fa fa-cart-plus" aria-hidden="true"></i></a>
                 							</div>
                 						</button>
                 					</div>
