@@ -38,3 +38,4 @@ Route::get('/category/product/{id}', 'Api\PosController@categoryProducts');
 //Cart Routes
 Route::get('/addToCart/{id}', 'Api\CartController@addToCart');
 Route::get('/cart-products', 'Api\CartController@cartProducts');
+Route::get('/cart/delete/{id}', 'Api\CartController@cartDelete');

@@ -53,6 +53,15 @@ class Notification{
 			timeout: 2000,
 		}).show();
 	}
+
+	cart_delete(){
+		new Noty({
+			type: 'error',
+			layout: 'topRight',
+			text: 'Product removed from cart!',
+			timeout: 2000,
+		}).show();
+	}
 }
 
 export default Notification = new Notification()

@@ -4137,7 +4137,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     if (!User.loggedIn()) {
@@ -4147,10 +4146,15 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    var _this = this;
+
     this.allProduct();
     this.allCategory();
     this.allCustomers();
     this.cartProducts();
+    Reload.$on('afterAddToCart', function () {
+      _this.cartProducts();
+    });
   },
   data: function data() {
     return {
@@ -4164,65 +4168,72 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     filtersearch: function filtersearch() {
-      var _this = this;
+      var _this2 = this;
 
       return this.products.filter(function (product) {
-        return product.product_name.match(_this.searchTerm);
+        return product.product_name.match(_this2.searchTerm);
       });
     },
     filterCatSearch: function filterCatSearch() {
-      var _this2 = this;
+      var _this3 = this;
 
       return this.categoryProducts.filter(function (catProduct) {
-        return catProduct.product_name.match(_this2.searchTerm);
+        return catProduct.product_name.match(_this3.searchTerm);
       });
     }
   },
   methods: {
     allProduct: function allProduct() {
-      var _this3 = this;
+      var _this4 = this;
 
       axios.get('/api/product').then(function (_ref) {
         var data = _ref.data;
-        return _this3.products = data;
+        return _this4.products = data;
       })["catch"]();
     },
     allCategory: function allCategory() {
-      var _this4 = this;
+      var _this5 = this;
 
       axios.get('/api/category').then(function (_ref2) {
         var data = _ref2.data;
-        return _this4.categories = data;
+        return _this5.categories = data;
       })["catch"]();
     },
     categoryProduct: function categoryProduct(id) {
-      var _this5 = this;
+      var _this6 = this;
 
       axios.get('/api/category/product/' + id).then(function (_ref3) {
         var data = _ref3.data;
-        return _this5.categoryProducts = data;
+        return _this6.categoryProducts = data;
       })["catch"]();
     },
     allCustomers: function allCustomers() {
-      var _this6 = this;
+      var _this7 = this;
 
       axios.get('/api/customer').then(function (_ref4) {
         var data = _ref4.data;
-        return _this6.customers = data;
+        return _this7.customers = data;
       })["catch"]();
     },
     // Cart
     addToCart: function addToCart(id) {
       axios.get('/api/addToCart/' + id).then(function () {
+        Reload.$emit('afterAddToCart');
         Notification.cart_success();
       })["catch"]();
     },
     cartProducts: function cartProducts() {
-      var _this7 = this;
+      var _this8 = this;
 
       axios.get('/api/cart-products').then(function (_ref5) {
         var data = _ref5.data;
-        return _this7.cartProduct = data;
+        return _this8.cartProduct = data;
+      })["catch"]();
+    },
+    deleteItem: function deleteItem(id) {
+      axios.get('/api/cart/delete/' + id).then(function () {
+        Reload.$emit('afterAddToCart');
+        Notification.cart_delete();
       })["catch"]();
     }
   }
@@ -53347,9 +53358,24 @@ var render = function() {
                               _vm._v(" "),
                               _c("td", [_vm._v(_vm._s(product.product_price))]),
                               _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(product.sub_total))]),
+                              _c("td", [
+                                _vm._v(_vm._s(product.sub_total) + "$")
+                              ]),
                               _vm._v(" "),
-                              _vm._m(5, true)
+                              _c("td", [
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass: "btn btn-sm btn-danger",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.deleteItem(product.id)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("X")]
+                                )
+                              ])
                             ])
                           }),
                           0
@@ -53362,7 +53388,7 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "card-footer" }, [
                 _c("div", { staticClass: "order-md-2 mb-4" }, [
-                  _vm._m(6),
+                  _vm._m(5),
                   _vm._v(" "),
                   _c("form", [
                     _c("div", { staticClass: "form-group" }, [
@@ -53389,11 +53415,11 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
+                    _vm._m(6),
+                    _vm._v(" "),
                     _vm._m(7),
                     _vm._v(" "),
                     _vm._m(8),
-                    _vm._v(" "),
-                    _vm._m(9),
                     _vm._v(" "),
                     _c("button", { staticClass: "btn btn-success" }, [
                       _vm._v("Submit")
@@ -53451,7 +53477,7 @@ var render = function() {
                   attrs: { id: "myTab", role: "tablist" }
                 },
                 [
-                  _vm._m(10),
+                  _vm._m(9),
                   _vm._v(" "),
                   _vm._l(_vm.categories, function(category) {
                     return _c(
@@ -53727,7 +53753,7 @@ var render = function() {
                                                   )
                                                 ]),
                                             _vm._v(" "),
-                                            _vm._m(11, true)
+                                            _vm._m(10, true)
                                           ]
                                         )
                                       ]
@@ -53832,7 +53858,7 @@ var staticRenderFns = [
       _c(
         "button",
         {
-          staticClass: "btn btn-primary bootstrap-touchspin-down",
+          staticClass: "btn btn-primary btn-sm bootstrap-touchspin-down",
           attrs: { type: "button" }
         },
         [_vm._v("-")]
@@ -53847,21 +53873,11 @@ var staticRenderFns = [
       _c(
         "button",
         {
-          staticClass: "btn btn-primary bootstrap-touchspin-up",
+          staticClass: "btn btn-primary btn-sm bootstrap-touchspin-up",
           attrs: { type: "button" }
         },
         [_vm._v("+")]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("a", { staticClass: "btn btn-sm btn-danger", attrs: { href: "#" } }, [
-        _vm._v("X")
-      ])
     ])
   },
   function() {
@@ -72756,6 +72772,7 @@ var Toast = sweetalert2__WEBPACK_IMPORTED_MODULE_5___default.a.mixin({
 });
 window.Toast = Toast; //Sweet alert 2 end
 
+window.Reload = new vue__WEBPACK_IMPORTED_MODULE_0___default.a();
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: _routes__WEBPACK_IMPORTED_MODULE_2__["routes"],
   mode: 'history'
@@ -75290,6 +75307,16 @@ var Notification = /*#__PURE__*/function () {
         type: 'success',
         layout: 'topRight',
         text: 'Successfully added to cart!',
+        timeout: 2000
+      }).show();
+    }
+  }, {
+    key: "cart_delete",
+    value: function cart_delete() {
+      new Noty({
+        type: 'error',
+        layout: 'topRight',
+        text: 'Product removed from cart!',
         timeout: 2000
       }).show();
     }

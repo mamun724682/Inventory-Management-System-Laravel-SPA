@@ -42,4 +42,10 @@ class CartController extends Controller
 		$products = DB::table('pos')->get();
 		return response()->json($products);
 	}
+
+	public function cartDelete($id)
+	{
+		DB::table('pos')->where('id', $id)->delete();
+		return response('Done');
+	}
 }

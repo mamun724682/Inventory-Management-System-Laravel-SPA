@@ -36,19 +36,18 @@
                 					<td>
                 						<div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
                 							<span class="input-group-btn input-group-prepend">
-                								<button class="btn btn-primary bootstrap-touchspin-down" type="button">-</button>
+                								<button class="btn btn-primary btn-sm bootstrap-touchspin-down" type="button">-</button>
                 							</span>
                 							<input type="text" class="form-control" :value="product.product_quantity">
                 							<span class="input-group-btn input-group-append">
-                								<button class="btn btn-primary bootstrap-touchspin-up" type="button">+</button>
+                								<button class="btn btn-primary btn-sm bootstrap-touchspin-up" type="button">+</button>
                 							</span>
                 						</div>
                 					</td>
-                					<!-- <td>{{ product.product_quantity }}</td> -->
                 					<td>{{ product.product_price }}</td>
-                					<td>{{ product.sub_total }}</td>
+                					<td>{{ product.sub_total }}$</td>
                 					<!-- <td><span class="badge badge-success">Delivered</span></td> -->
-                					<td><a href="#" class="btn btn-sm btn-danger">X</a></td>
+                					<td><a @click="deleteItem(product.id)" class="btn btn-sm btn-danger">X</a></td>
                 				</tr>
                 			</tbody>
                 		</table>
@@ -193,6 +192,9 @@ export default {
 		this.allCategory();
 		this.allCustomers();
 		this.cartProducts();
+		Reload.$on('afterAddToCart', () => {
+			this.cartProducts()
+		});
 	},
 
 	data () {
@@ -245,6 +247,7 @@ export default {
 		addToCart(id){
 			axios.get('/api/addToCart/' + id)
 			.then(() => {
+				Reload.$emit('afterAddToCart')
 				Notification.cart_success()
 			})
 			.catch()
@@ -252,6 +255,14 @@ export default {
 		cartProducts(){
 			axios.get('/api/cart-products')
 			.then(({data}) => (this.cartProduct = data))
+			.catch()
+		},
+		deleteItem(id){
+			axios.get('/api/cart/delete/' + id)
+			.then(() => {
+				Reload.$emit('afterAddToCart')
+				Notification.cart_delete()
+			})
 			.catch()
 		}
 	}
