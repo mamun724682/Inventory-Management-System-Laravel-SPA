@@ -34,3 +34,7 @@ Route::patch('/stock/{id}', 'Api\ProductController@updateStock');
 
 //POS Route
 Route::get('/category/product/{id}', 'Api\PosController@categoryProducts');
+
+//Cart Routes
+Route::get('/addToCart/{id}', 'Api\CartController@addToCart');
+Route::get('/cart-products', 'Api\CartController@cartProducts');
