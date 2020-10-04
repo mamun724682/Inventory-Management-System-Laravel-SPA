@@ -16,7 +16,7 @@ class CartController extends Controller
 		if ($exist_product) {
 			
 			DB::table('pos')->where('product_id', $id)->increment('product_quantity');
-			
+
 			$product = DB::table('pos')->where('product_id', $id)->first();
 			$sub_total = $product->product_price * $product->product_quantity;
 			DB::table('pos')->where('product_id', $id)->update(['sub_total' => $sub_total]);
@@ -66,5 +66,11 @@ class CartController extends Controller
 		$product = DB::table('pos')->where('id', $id)->first();
 		$sub_total = $product->product_price * $product->product_quantity;
 		DB::table('pos')->where('id', $id)->update(['sub_total' => $sub_total]);
+	}
+
+	public function vat()
+	{
+		$vat = DB::table('extra')->first();
+		return response()->json($vat);
 	}
 }

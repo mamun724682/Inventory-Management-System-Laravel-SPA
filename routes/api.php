@@ -41,3 +41,8 @@ Route::get('/cart-products', 'Api\CartController@cartProducts');
 Route::get('/cart/delete/{id}', 'Api\CartController@cartDelete');
 Route::get('/cart/increment/{id}', 'Api\CartController@increment');
 Route::get('/cart/decrement/{id}', 'Api\CartController@decrement');
+
+Route::get('/vat', 'Api\CartController@vat');
+
+// Order
+Route::post('/order', 'Api\PosController@order');

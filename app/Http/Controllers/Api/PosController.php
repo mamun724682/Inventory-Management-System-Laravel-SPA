@@ -14,4 +14,9 @@ class PosController extends Controller
 
         return response()->json($categoryProducts);
     }
+
+    public function order(Request $request)
+    {
+    	return response('Fine');
+    }
 }

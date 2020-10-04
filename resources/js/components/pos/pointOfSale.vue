@@ -60,52 +60,52 @@
                 				<div>
                 					<h6 class="my-0">Total Quantity</h6>
                 				</div>
-                				<span class="text-muted">12</span>
+                				<span class="text-muted">{{ qty }}</span>
                 			</li>
                 			<li class="list-group-item d-flex justify-content-between lh-condensed">
                 				<div>
                 					<h6 class="my-0">Sub Total</h6>
                 				</div>
-                				<span class="text-muted">$8</span>
+                				<span class="text-muted">${{ sub_total }}</span>
                 			</li>
                 			<li class="list-group-item d-flex justify-content-between lh-condensed">
                 				<div>
                 					<h6 class="my-0">Vat</h6>
                 				</div>
-                				<span class="text-muted">5%</span>
+                				<span class="text-muted">{{ vats.vat }}%</span>
                 			</li>
                 			<li class="list-group-item d-flex justify-content-between bg-light">
                 				<div class="text-success">
                 					<h6 class="my-0">Total (USD)</h6>
                 				</div>
-                				<span class="text-success">$20</span>
+                				<span class="text-success">${{ sub_total*vats.vat/100 + sub_total }}</span>
                 			</li>
                 		</ul>
 
-                		<form>
+                		<form @submit.prevent="orderDone">
                 			<div class="form-group">
                 				<label for="exampleFormControlSelect1">Select Customer</label>
-                				<select class="form-control" id="exampleFormControlSelect1">
+                				<select class="form-control" id="exampleFormControlSelect1" v-model="customer_id">
                 					<option v-for="customer in customers" :value="customer.id">{{ customer.name }}</option>
                 				</select>
                 			</div>
                 			<div class="form-group">
                 				<label for="exampleFormControlInput1">Pay</label>
-                				<input type="text" class="form-control" id="exampleFormControlInput1">
+                				<input type="text" class="form-control" v-model="pay" id="exampleFormControlInput1">
                 			</div>
                 			<div class="form-group">
                 				<label for="exampleFormControlInput2">Due</label>
-                				<input type="text" class="form-control" id="exampleFormControlInput2">
+                				<input type="text" class="form-control" v-model="due" id="exampleFormControlInput2">
                 			</div>
                 			<div class="form-group">
-                				<label for="exampleFormControlSelect1">Pay By</label>
-                				<select class="form-control" id="exampleFormControlSelect1">
-                					<option>Cheque</option>
-                					<option>Hand Cash</option>
-                					<option>Gift Card</option>
+                				<label for="exampleFormControlSelect2">Pay By</label>
+                				<select class="form-control" id="exampleFormControlSelect2" v-model="payBy">
+                					<option value="cheque">Cheque</option>
+                					<option value="handCash">Hand Cash</option>
+                					<option value="giftCard">Gift Card</option>
                 				</select>
                 			</div>
-                			<button class="btn btn-success">Submit</button>
+                			<button class="btn btn-success" type="submit">Submit</button>
                 		</form>
                 	</div>
                 </div>
@@ -190,7 +190,8 @@ export default {
 		this.allProduct();
 		this.allCategory();
 		this.allCustomers();
-		this.cartProducts();
+        this.cartProducts();
+		this.vat();
 		Reload.$on('afterAddToCart', () => {
 			this.cartProducts()
 		});
@@ -203,7 +204,14 @@ export default {
 			categoryProducts: [],
 			customers: [],
 			cartProduct: [],
-			searchTerm:""
+			searchTerm: "",
+            vats: '',
+
+            // Form
+            customer_id: '',
+            pay: '',
+            due: '',
+            payBy: '',
 		}
 	},
 
@@ -217,7 +225,23 @@ export default {
 			return this.categoryProducts.filter(catProduct => {
 				return catProduct.product_name.match(this.searchTerm)
 			})
-		}
+		},
+        qty(){
+            let sum = 0;
+            for (let i = 0; i < this.cartProduct.length; i++) {
+                sum += (parseFloat(this.cartProduct[i].product_quantity));
+            }
+
+            return sum;
+        },
+        sub_total(){
+            let sum = 0;
+            for (let i = 0; i < this.cartProduct.length; i++) {
+                sum += (parseFloat(this.cartProduct[i].sub_total));
+            }
+
+            return sum;
+        },
 	},
 
 	methods: {
@@ -280,6 +304,29 @@ export default {
             })
             .catch()
         },
+        vat(){
+            axios.get('/api/vat')
+            .then(({data}) => (this.vats = data))
+            .catch()
+        },
+        orderDone(){
+            let total = this.sub_total*this.vats.vat/100 + this.sub_total
+            var data = {
+                qty: this.qty,
+                sub_total: this.sub_total,
+                customer_id: this.customer_id,
+                pay: this.pay,
+                due: this.due,
+                payBy: this.payBy,
+                vat: this.vats.vat,
+            }
+
+            axios.post('/api/order', data)
+            .then(() => {
+                // this.$router.push({name: 'home'})
+                Notification.success()
+            })
+        }
 	}
 }
 </script>
