@@ -36,11 +36,11 @@
                 					<td>
                 						<div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
                 							<span class="input-group-btn input-group-prepend">
-                								<button class="btn btn-primary btn-sm bootstrap-touchspin-down" type="button">-</button>
+                								<button @click.prevent="decrement(product.id)" class="btn btn-primary btn-sm bootstrap-touchspin-down" type="button">-</button>
                 							</span>
-                							<input type="text" class="form-control" :value="product.product_quantity">
+                							<input type="text" readonly class="form-control" :value="product.product_quantity" style="width: 28px;">
                 							<span class="input-group-btn input-group-append">
-                								<button class="btn btn-primary btn-sm bootstrap-touchspin-up" type="button">+</button>
+                								<button @click.prevent="increment(product.id)" class="btn btn-primary btn-sm bootstrap-touchspin-up" type="button">+</button>
                 							</span>
                 						</div>
                 					</td>
@@ -264,7 +264,23 @@ export default {
 				Notification.cart_delete()
 			})
 			.catch()
-		}
+		},
+        increment(id){
+            axios.get('/api/cart/increment/' + id)
+            .then(() => {
+                Reload.$emit('afterAddToCart')
+                Notification.success()
+            })
+            .catch()
+        },
+        decrement(id){
+            axios.get('/api/cart/decrement/' + id)
+            .then(() => {
+                Reload.$emit('afterAddToCart')
+                Notification.success()
+            })
+            .catch()
+        },
 	}
 }
 </script>

@@ -4235,6 +4235,18 @@ __webpack_require__.r(__webpack_exports__);
         Reload.$emit('afterAddToCart');
         Notification.cart_delete();
       })["catch"]();
+    },
+    increment: function increment(id) {
+      axios.get('/api/cart/increment/' + id).then(function () {
+        Reload.$emit('afterAddToCart');
+        Notification.success();
+      })["catch"]();
+    },
+    decrement: function decrement(id) {
+      axios.get('/api/cart/decrement/' + id).then(function () {
+        Reload.$emit('afterAddToCart');
+        Notification.success();
+      })["catch"]();
     }
   }
 });
@@ -53341,17 +53353,64 @@ var render = function() {
                                       "input-group bootstrap-touchspin bootstrap-touchspin-injected"
                                   },
                                   [
-                                    _vm._m(3, true),
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass:
+                                          "input-group-btn input-group-prepend"
+                                      },
+                                      [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-primary btn-sm bootstrap-touchspin-down",
+                                            attrs: { type: "button" },
+                                            on: {
+                                              click: function($event) {
+                                                $event.preventDefault()
+                                                return _vm.decrement(product.id)
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("-")]
+                                        )
+                                      ]
+                                    ),
                                     _vm._v(" "),
                                     _c("input", {
                                       staticClass: "form-control",
-                                      attrs: { type: "text" },
+                                      staticStyle: { width: "28px" },
+                                      attrs: { type: "text", readonly: "" },
                                       domProps: {
                                         value: product.product_quantity
                                       }
                                     }),
                                     _vm._v(" "),
-                                    _vm._m(4, true)
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass:
+                                          "input-group-btn input-group-append"
+                                      },
+                                      [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-primary btn-sm bootstrap-touchspin-up",
+                                            attrs: { type: "button" },
+                                            on: {
+                                              click: function($event) {
+                                                $event.preventDefault()
+                                                return _vm.increment(product.id)
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("+")]
+                                        )
+                                      ]
+                                    )
                                   ]
                                 )
                               ]),
@@ -53388,7 +53447,7 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "card-footer" }, [
                 _c("div", { staticClass: "order-md-2 mb-4" }, [
-                  _vm._m(5),
+                  _vm._m(3),
                   _vm._v(" "),
                   _c("form", [
                     _c("div", { staticClass: "form-group" }, [
@@ -53415,11 +53474,11 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
+                    _vm._m(4),
+                    _vm._v(" "),
+                    _vm._m(5),
+                    _vm._v(" "),
                     _vm._m(6),
-                    _vm._v(" "),
-                    _vm._m(7),
-                    _vm._v(" "),
-                    _vm._m(8),
                     _vm._v(" "),
                     _c("button", { staticClass: "btn btn-success" }, [
                       _vm._v("Submit")
@@ -53477,7 +53536,7 @@ var render = function() {
                   attrs: { id: "myTab", role: "tablist" }
                 },
                 [
-                  _vm._m(9),
+                  _vm._m(7),
                   _vm._v(" "),
                   _vm._l(_vm.categories, function(category) {
                     return _c(
@@ -53753,7 +53812,7 @@ var render = function() {
                                                   )
                                                 ]),
                                             _vm._v(" "),
-                                            _vm._m(10, true)
+                                            _vm._m(8, true)
                                           ]
                                         )
                                       ]
@@ -53848,36 +53907,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Action")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "input-group-btn input-group-prepend" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary btn-sm bootstrap-touchspin-down",
-          attrs: { type: "button" }
-        },
-        [_vm._v("-")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "input-group-btn input-group-append" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary btn-sm bootstrap-touchspin-up",
-          attrs: { type: "button" }
-        },
-        [_vm._v("+")]
-      )
     ])
   },
   function() {

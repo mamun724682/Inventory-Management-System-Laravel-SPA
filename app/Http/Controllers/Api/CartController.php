@@ -14,15 +14,16 @@ class CartController extends Controller
 		$exist_product = DB::table('pos')->where('product_id', $id)->first();
 
 		if ($exist_product) {
+			
+			DB::table('pos')->where('product_id', $id)->increment('product_quantity');
+			
+			$product = DB::table('pos')->where('product_id', $id)->first();
+			$sub_total = $product->product_price * $product->product_quantity;
+			DB::table('pos')->where('product_id', $id)->update(['sub_total' => $sub_total]);
 
-			$data = [];
-			$data['product_quantity'] = $exist_product->product_quantity += 1;
-			$data['sub_total'] = $exist_product->sub_total += $exist_product->sub_total;
-			DB::table('pos')->where('product_id', $id)->update($data);
-
-			$product = Product::find($id);
-			$product->product_quantity -= 1;
-			$product->save();
+			// $product = Product::find($id);
+			// $product->product_quantity -= 1;
+			// $product->save();
 		} else {
 			$product = DB::table('products')->where('id', $id)->first();
 
@@ -47,5 +48,23 @@ class CartController extends Controller
 	{
 		DB::table('pos')->where('id', $id)->delete();
 		return response('Done');
+	}
+
+	public function increment($id)
+	{
+		$quantity = DB::table('pos')->where('id', $id)->increment('product_quantity');
+
+		$product = DB::table('pos')->where('id', $id)->first();
+		$sub_total = $product->product_price * $product->product_quantity;
+		DB::table('pos')->where('id', $id)->update(['sub_total' => $sub_total]);
+	}
+
+	public function decrement($id)
+	{
+		$quantity = DB::table('pos')->where('id', $id)->decrement('product_quantity');
+
+		$product = DB::table('pos')->where('id', $id)->first();
+		$sub_total = $product->product_price * $product->product_quantity;
+		DB::table('pos')->where('id', $id)->update(['sub_total' => $sub_total]);
 	}
 }
