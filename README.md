@@ -7,7 +7,7 @@ An Inventory and Sales Management System using __Laravel 7 (PHP Framework)__, __
 - Supplier Management
 - Product Management
 - Expense Management
-- Pay Salary Employee
+- Pay Salary to Employee
 
 ## Packages Used
 

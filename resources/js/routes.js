@@ -50,6 +50,9 @@ let editStock = require('./components/product/editStock.vue').default;
 //POS Components
 let pos = require('./components/pos/pointOfSale.vue').default;
 
+//Order Components
+let todayOrders = require('./components/order/order.vue').default;
+
 export const routes = [
 
   //Auth Routes
@@ -103,4 +106,7 @@ export const routes = [
 
   //POS Routes
   { path: '/pos', component: pos, name:'pos' },
+
+  //Order Routes
+  { path: '/today-orders', component: todayOrders, name:'todayOrders' },
 ]
