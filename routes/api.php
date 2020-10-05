@@ -49,3 +49,10 @@ Route::post('/order', 'Api\PosController@order');
 Route::get('/today-order', 'Api\OrderController@todayOrder');
 Route::get('/orders/{id}', 'Api\OrderController@orders');
 Route::get('/order/details/{id}', 'Api\OrderController@orderDetails');
+
+// Dashboard Routes
+Route::get('/today/sell', 'Api\PosController@todaySell');
+Route::get('/today/income', 'Api\PosController@todayIncome');
+Route::get('/today/due', 'Api\PosController@todayDue');
+Route::get('/total/expense', 'Api\PosController@expenses');
+Route::get('/stockout/product', 'Api\PosController@stockOut');
