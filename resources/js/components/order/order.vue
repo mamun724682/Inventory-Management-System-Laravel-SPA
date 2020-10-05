@@ -8,7 +8,6 @@
 						<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 							<h2 class="m-0 font-weight-bold text-primary">Today Orders</h2>
 							<input type="text" placeholder="Search By Phone" v-model="searchTerm" class="form-control" style="width: 300px;">
-							<!-- <router-link to="/store-order" class="btn btn-primary float-right" style="margin-top: 6px;margin-right: 6px;">Add order</router-link> -->
 						</div>
 						<div class="table-responsive">
 							<table class="table align-items-center table-flush">

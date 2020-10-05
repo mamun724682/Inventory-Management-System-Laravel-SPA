@@ -47,3 +47,5 @@ Route::get('/vat', 'Api\CartController@vat');
 // Order
 Route::post('/order', 'Api\PosController@order');
 Route::get('/today-order', 'Api\OrderController@todayOrder');
+Route::get('/orders/{id}', 'Api\OrderController@orders');
+Route::get('/order/details/{id}', 'Api\OrderController@orderDetails');

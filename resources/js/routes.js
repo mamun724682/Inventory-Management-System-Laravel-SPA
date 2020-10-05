@@ -52,6 +52,7 @@ let pos = require('./components/pos/pointOfSale.vue').default;
 
 //Order Components
 let todayOrders = require('./components/order/order.vue').default;
+let orderDetails = require('./components/order/orderDetails.vue').default;
 
 export const routes = [
 
@@ -109,4 +110,5 @@ export const routes = [
 
   //Order Routes
   { path: '/today-orders', component: todayOrders, name:'todayOrders' },
+  { path: '/order-details/:id', component: orderDetails, name:'orderDetails' },
 ]

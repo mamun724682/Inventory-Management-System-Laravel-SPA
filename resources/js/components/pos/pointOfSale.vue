@@ -100,9 +100,9 @@
                 			<div class="form-group">
                 				<label for="exampleFormControlSelect2">Pay By</label>
                 				<select class="form-control" id="exampleFormControlSelect2" v-model="payBy">
-                					<option value="cheque">Cheque</option>
-                					<option value="handCash">Hand Cash</option>
-                					<option value="giftCard">Gift Card</option>
+                					<option value="Cheque">Cheque</option>
+                					<option value="Hand Cash">Hand Cash</option>
+                					<option value="Gift Card">Gift Card</option>
                 				</select>
                 			</div>
                 			<button class="btn btn-success" type="submit">Submit</button>
