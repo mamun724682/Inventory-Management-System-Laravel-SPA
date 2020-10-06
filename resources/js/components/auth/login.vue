@@ -7,7 +7,7 @@
 						<div class="col-lg-12">
 							<div class="login-form">
 								<div class="text-center">
-									<h1 class="h4 text-gray-900 mb-4">Login</h1>
+									<h1 class="h4 text-gray-900 mb-4">An Inventory and Sales Management System using Laravel 7, Vue js with API</h1>
 								</div>
 								<form class="user" @submit.prevent='login'>
 									<div class="form-group">

@@ -128,7 +128,7 @@ export default {
 	methods:{
 		onFileSelected(event){
 			let file = event.target.files[0];
-			if (file.size > 1048576) {
+			if (file.size > 5048576) {
 				Notification.image_validation();
 			} else {
 				let reader = new FileReader;

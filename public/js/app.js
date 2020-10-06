@@ -4552,7 +4552,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var file = event.target.files[0];
 
-      if (file.size > 1048576) {
+      if (file.size > 5048576) {
         Notification.image_validation();
       } else {
         var reader = new FileReader();
@@ -49646,7 +49646,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "text-center" }, [
-      _c("h1", { staticClass: "h4 text-gray-900 mb-4" }, [_vm._v("Login")])
+      _c("h1", { staticClass: "h4 text-gray-900 mb-4" }, [
+        _vm._v(
+          "An Inventory and Sales Management System using Laravel 7, Vue js with API"
+        )
+      ])
     ])
   },
   function() {

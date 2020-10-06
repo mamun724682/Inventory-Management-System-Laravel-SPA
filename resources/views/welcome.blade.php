@@ -175,7 +175,7 @@
         <a class="nav-link dropdown-toggle" href="/" id="userDropdown" role="button" data-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false">
         <img class="img-profile rounded-circle" src="{{ asset('backend/img/boy.png') }}" style="max-width: 60px">
-        <span class="ml-2 d-none d-lg-inline text-white small">Mamun</span>
+        <span class="ml-2 d-none d-lg-inline text-white small">Admin</span>
         <router-link to="/logout" class="ml-2 d-none d-lg-inline text-white small">Logout</router-link>
       </a>
     </li>
