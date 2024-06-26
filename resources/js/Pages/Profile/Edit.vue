@@ -1,9 +1,9 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import DeleteUserForm from './Partials/DeleteUserForm.vue';
-import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
-import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
-import { Head } from '@inertiajs/vue3';
+import {Head} from '@inertiajs/vue3';
+import CardProfile from "@/Components/Cards/CardProfile.vue";
+import UpdateProfileInformationForm from "@/Pages/Profile/Partials/UpdateProfileInformationForm.vue";
+import UpdatePasswordForm from "@/Pages/Profile/Partials/UpdatePasswordForm.vue";
 
 defineProps({
     mustVerifyEmail: {
@@ -16,30 +16,33 @@ defineProps({
 </script>
 
 <template>
-    <Head title="Profile" />
+    <Head title="Profile"/>
 
     <AuthenticatedLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Profile</h2>
-        </template>
+        <div class="flex flex-wrap">
+            <div class="w-full lg:w-8/12 px-4">
+                <div
+                    class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0"
+                >
+                    <div class="rounded-t bg-white mb-0 px-6 py-6">
+                        <div class="text-center flex justify-between">
+                            <h6 class="text-blueGray-700 text-xl font-bold">My account</h6>
+                        </div>
+                    </div>
+                    <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
+                        <UpdateProfileInformationForm
+                            :must-verify-email="mustVerifyEmail"
+                            :status="status"
+                        />
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <UpdateProfileInformationForm
-                        :must-verify-email="mustVerifyEmail"
-                        :status="status"
-                        class="max-w-xl"
-                    />
-                </div>
+                        <hr class="mt-6 border-b-1 border-blueGray-300"/>
 
-                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <UpdatePasswordForm class="max-w-xl" />
+                        <UpdatePasswordForm/>
+                    </div>
                 </div>
-
-                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <DeleteUserForm class="max-w-xl" />
-                </div>
+            </div>
+            <div class="w-full lg:w-4/12 px-4">
+                <CardProfile/>
             </div>
         </div>
     </AuthenticatedLayout>
