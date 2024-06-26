@@ -5,12 +5,21 @@ import CardLineChart from "@/Components/Cards/CardLineChart.vue";
 import CardBarChart from "@/Components/Cards/CardBarChart.vue";
 import CardPageVisits from "@/Components/Cards/CardPageVisits.vue";
 import CardSocialTraffic from "@/Components/Cards/CardSocialTraffic.vue";
+import HeaderStats from "@/Components/Headers/HeaderStats.vue";
 </script>
 
 <template>
     <Head title="Dashboard" />
 
     <AuthenticatedLayout>
+        <template #breadcrumb>
+            Dashboard
+        </template>
+
+        <template #headerState>
+            <HeaderStats/>
+        </template>
+
         <div>
             <div class="flex flex-wrap">
                 <div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
