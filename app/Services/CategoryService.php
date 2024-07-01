@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Enums\CategoryFieldsEnum;
-use App\Enums\CategoryFiltersEnum;
+use App\Enums\Category\CategoryFieldsEnum;
+use App\Enums\Category\CategoryFiltersEnum;
 use App\Enums\Core\SortOrderEnum;
 use App\Exceptions\CategoryNotFoundException;
 use App\Exceptions\DBCommitException;
@@ -35,11 +35,17 @@ class CategoryService
             filters: ArrayHelper::getFiltersValues($queryParameters, CategoryFiltersEnum::values()),
             fields: $queryParameters["fields"] ?? [],
             expand: $queryParameters["expand"] ?? [],
-            sortBy: $queryParameters["sort_by"] ?? null,
-            sortOrder: $queryParameters["sort_order"] ?? SortOrderEnum::ASC->value,
+            sortBy: $queryParameters["sort_by"] ?? CategoryFieldsEnum::CREATED_AT->value,
+            sortOrder: $queryParameters["sort_order"] ?? SortOrderEnum::DESC->value,
         );
     }
 
+    /**
+     * @param int $id
+     * @param array $expands
+     * @return Category|null
+     * @throws CategoryNotFoundException
+     */
     public function findById(int $id, array $expands = []): ?Category
     {
         $category = $this->repository->find([

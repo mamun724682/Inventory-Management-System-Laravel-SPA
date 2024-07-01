@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Enums;
+namespace App\Enums\Category;
 
-enum CategoryFiltersEnum: string implements BaseEnumInterface
+use App\Enums\BaseEnumInterface;
+use App\Enums\BaseEnumTrait;
+
+enum CategoryFieldsEnum: string implements BaseEnumInterface
 {
     use BaseEnumTrait;
 

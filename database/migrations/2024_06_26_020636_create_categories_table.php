@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\CategoryFieldsEnum;
+use App\Enums\Category\CategoryFieldsEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string(CategoryFieldsEnum::NAME->value);
+            $table->string(CategoryFieldsEnum::NAME->value)->index();
             $table->timestamps();
         });
     }

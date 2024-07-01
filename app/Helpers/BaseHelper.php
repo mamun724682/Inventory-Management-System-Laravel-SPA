@@ -17,4 +17,21 @@ class BaseHelper
 
         return $perPage;
     }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public static function convertKeyValueToLabelValueArray(array $data): array
+    {
+        $result = [];
+        foreach ($data as $key => $value) {
+            $result[] = [
+                "label" => $value,
+                "value" => $key
+            ];
+        }
+
+        return $result;
+    }
 }

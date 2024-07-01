@@ -100,6 +100,24 @@
 
                     <li class="items-center">
                         <Link
+                            :href="route('categories.index')"
+                            class="text-xs uppercase py-3 font-bold block"
+                            :class="[
+                  route().current('categories.index')
+                    ? 'text-emerald-500 hover:text-emerald-600'
+                    : 'text-blueGray-700 hover:text-blueGray-500',
+                ]"
+                        >
+                            <i
+                                class="fas fa-tools mr-2 text-sm"
+                                :class="[route().current('categories.index') ? 'opacity-75' : 'text-blueGray-300']"
+                            ></i>
+                            Categories
+                        </Link>
+                    </li>
+
+                    <li class="items-center">
+                        <Link
                             :href="route('profile.edit')"
                             class="text-xs uppercase py-3 font-bold block"
                             :class="[

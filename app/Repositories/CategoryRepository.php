@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Enums\CategoryFieldsEnum;
-use App\Enums\CategoryFiltersEnum;
+use App\Enums\Category\CategoryFieldsEnum;
+use App\Enums\Category\CategoryFiltersEnum;
 use App\Enums\Core\SortOrderEnum;
 use App\Exceptions\DBCommitException;
 use App\Models\Category;
@@ -31,7 +31,7 @@ class CategoryRepository
         array  $filters = [],
         array  $fields = [],
         array  $expand = [],
-        string $sortBy = null,
+        string $sortBy = "id",
         string $sortOrder = "ASC"
     ): LengthAwarePaginator
     {
@@ -45,22 +45,17 @@ class CategoryRepository
             ->when(isset($filters[CategoryFiltersEnum::CREATED_AT->value]), function ($query) use ($filters) {
                 $query->whereBetween(CategoryFieldsEnum::CREATED_AT->value, $filters[CategoryFiltersEnum::CREATED_AT->value]);
             })
+            ->orderBy($sortBy, $sortOrder)
             ->with($expand);
 
         if (count($fields) > 0) {
             $query = $query->select($fields);
         }
 
-        if ($sortBy) {
-            $query = $query->orderBy($sortBy, $sortOrder);
-        } else {
-            $query = $query->orderBy(CategoryFieldsEnum::ID->value, SortOrderEnum::DESC->value);
-        }
-
         return $query->paginate(
             perPage: $perPage,
             page: $page
-        );
+        )->withQueryString();
     }
 
     /**
