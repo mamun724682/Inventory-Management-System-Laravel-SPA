@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Enums\Category\CategorySortFieldsEnum;
 use App\Enums\Core\FilterFieldTypeEnum;
 use App\Enums\Core\SortOrderEnum;
+use App\Exceptions\CategoryNotFoundException;
 use App\Helpers\BaseHelper;
 use App\Http\Requests\Category\CategoryIndexRequest;
+use App\Http\Requests\CategoryUpdateRequest;
 use App\Models\Category;
 use App\Services\CategoryService;
 use Inertia\Inertia;
@@ -47,5 +49,20 @@ class CategoryController extends Controller
                     ]
                 ],
             ]);
+    }
+
+
+    public function update(CategoryUpdateRequest $request, $id)
+    {
+        try {
+            $this->service->update($id, $request->validated());
+        } catch (CategoryNotFoundException $e) {
+            $message = $e->getMessage();
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+
+        return redirect(route('categories.index'));
+
     }
 }

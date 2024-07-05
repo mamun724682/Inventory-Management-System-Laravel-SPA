@@ -46,14 +46,14 @@ class CategoryService
      * @return Category|null
      * @throws CategoryNotFoundException
      */
-    public function findById(int $id, array $expands = []): ?Category
+    public function findByIdOrFail(int $id, array $expands = []): ?Category
     {
         $category = $this->repository->find([
             CategoryFiltersEnum::ID->value => $id
         ], $expands);
 
         if (!$category) {
-            throw new CategoryNotFoundException('Category not found by the given id');
+            throw new CategoryNotFoundException('Category not found by the given id.');
         }
 
         return $category;
@@ -93,7 +93,7 @@ class CategoryService
      */
     public function update(int $id, array $payload): Category
     {
-        $category = $this->findById($id);
+        $category = $this->findByIdOrFail($id);
 
         $processPayload = [
             CategoryFieldsEnum::NAME->value => $payload[CategoryFieldsEnum::NAME->value],
@@ -109,7 +109,7 @@ class CategoryService
      */
     public function delete(int $id): ?bool
     {
-        $category = $this->findById($id);
+        $category = $this->findByIdOrFail($id);
         return $this->repository->delete($category);
     }
 }

@@ -15,7 +15,7 @@
                                 :placeholder="filter.placeholder"
                                 v-model="form[key]"
                                 type="text"
-                                class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                                class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                             />
                             <select
                                 v-else-if="filter.type === 'select_static'"
@@ -50,9 +50,21 @@
         <div class="block w-full overflow-x-auto">
             <!-- Projects table -->
             <table class="items-center w-full bg-transparent border-collapse">
+                <thead>
+                <tr>
+                    <TableHead v-for="(tableHead, index) in tableHeads" :key="index" v-html="tableHead"></TableHead>
+                </tr>
+                </thead>
+                <tbody>
 
                 <slot/>
 
+                <tr v-if="paginatedData.data.length === 0">
+                    <td colspan="4" class="text-center py-4">
+                        No data found
+                    </td>
+                </tr>
+                </tbody>
             </table>
         </div>
     </div>
@@ -66,9 +78,14 @@ import throttle from 'lodash/throttle'
 import mapValues from 'lodash/mapValues'
 import pickBy from 'lodash/pickBy'
 import Pagination from "@/Components/Pagination.vue";
+import TableHead from "@/Components/TableHead.vue";
+import TableData from "@/Components/TableData.vue";
+import Button from "@/Components/Button.vue";
 
 export default {
     components: {
+        Button, TableData,
+        TableHead,
         Pagination,
         TableDropdown,
     },
@@ -76,6 +93,7 @@ export default {
         indexRoute: String,
         paginatedData: Object,
         filters: Object,
+        tableHeads: Array
     },
     data() {
         return {
@@ -97,7 +115,7 @@ export default {
 
                 // if Changed than send request
                 if (isFormChanged) {
-                    this.$inertia.get(route(this.indexRoute), pickBy(this.form), { preserveState: true });
+                    this.$inertia.get(route(this.indexRoute), pickBy(this.form), {preserveState: true});
                 }
             }, 150),
         },

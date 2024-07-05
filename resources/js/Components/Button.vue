@@ -13,6 +13,8 @@ defineProps({
         :class="[
             type === 'red'
             ? 'bg-red-500'
+            : type === 'gray'
+            ? 'bg-gray-500'
             : 'bg-emerald-500'
         ]"
     >

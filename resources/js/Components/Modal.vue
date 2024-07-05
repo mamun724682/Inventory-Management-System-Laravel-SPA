@@ -1,7 +1,16 @@
 <script setup>
-import { computed, onMounted, onUnmounted, watch } from 'vue';
+import {computed, onMounted, onUnmounted, watch} from 'vue';
+import Button from "@/Components/Button.vue";
+import SubmitButton from "@/Components/SubmitButton.vue";
 
 const props = defineProps({
+    title: {
+        type: String,
+    },
+    formProcessing: {
+        type: Boolean,
+        default: false,
+    },
     show: {
         type: Boolean,
         default: false,
@@ -16,7 +25,7 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'submitAction']);
 
 watch(
     () => props.show,
@@ -28,6 +37,10 @@ watch(
         }
     }
 );
+
+const submitAction = () => {
+    emit('submitAction');
+};
 
 const close = () => {
     if (props.closeable) {
@@ -62,7 +75,9 @@ const maxWidthClass = computed(() => {
 <template>
     <Teleport to="body">
         <Transition leave-active-class="duration-200">
-            <div v-show="show" class="fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 z-50" scroll-region>
+            <div v-show="show"
+                 class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex"
+                 scroll-region>
                 <Transition
                     enter-active-class="ease-out duration-300"
                     enter-from-class="opacity-0"
@@ -72,7 +87,7 @@ const maxWidthClass = computed(() => {
                     leave-to-class="opacity-0"
                 >
                     <div v-show="show" class="fixed inset-0 transform transition-all" @click="close">
-                        <div class="absolute inset-0 bg-gray-500 opacity-75" />
+                        <div class="absolute inset-0 bg-gray-500 opacity-75"/>
                     </div>
                 </Transition>
 
@@ -89,7 +104,37 @@ const maxWidthClass = computed(() => {
                         class="mb-6 bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:mx-auto"
                         :class="maxWidthClass"
                     >
-                        <slot v-if="show" />
+                        <div
+                            class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+                            <h4 class="text-3xl font-semibold">
+                                {{ title }}
+                            </h4>
+                            <button
+                                class="p-1 ml-auto bg-transparent border-0 text-black opacity-100 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                                @click="close"
+                            >
+                                <span
+                                    class="bg-transparent text-black opacity-100 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                                    ×
+                                </span>
+                            </button>
+                        </div>
+
+                        <div class="p-6">
+
+                            <slot v-if="show"/>
+
+                            <div class="mt-6 flex justify-end">
+                                <Button type="gray" @click="close">Cancel</Button>
+                                <SubmitButton
+                                    :processing="formProcessing"
+                                    @click="submitAction"
+                                    class="text-white bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                                >
+                                    Submit
+                                </SubmitButton>
+                            </div>
+                        </div>
                     </div>
                 </Transition>
             </div>
