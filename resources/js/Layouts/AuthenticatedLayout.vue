@@ -2,9 +2,17 @@
 import Sidebar from "@/Components/Sidebar/Sidebar.vue";
 import AdminNavbar from "@/Components/Navbars/AdminNavbar.vue";
 import FooterAdmin from "@/Components/Footers/FooterAdmin.vue";
+import {Notification, Notivue, pastelTheme} from "notivue";
 </script>
 
 <template>
+    <Notivue v-slot="item">
+        <Notification
+            :item="item"
+            :theme="pastelTheme"
+        />
+    </Notivue>
+
     <div>
         <Sidebar/>
 

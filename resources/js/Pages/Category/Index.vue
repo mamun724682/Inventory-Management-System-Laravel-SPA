@@ -1,11 +1,12 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import {Head} from '@inertiajs/vue3';
+import {Head, usePage} from '@inertiajs/vue3';
 import CardTable from "@/Components/Cards/CardTable.vue";
 import TableData from "@/Components/TableData.vue";
 import Button from "@/Components/Button.vue";
 import InputError from "@/Components/InputError.vue";
 import Modal from "@/Components/Modal.vue";
+import { push } from 'notivue'
 
 defineProps({
     filters: {
@@ -20,7 +21,8 @@ import {useForm} from '@inertiajs/vue3';
 import {nextTick, ref} from 'vue';
 
 const selectedCategory = ref(null);
-const showModal = ref(false);
+const showEditModal = ref(false);
+const showDeleteModal = ref(false);
 const nameInput = ref(null);
 const tableHeads = ref(['#', "Name", "Action"]);
 
@@ -31,22 +33,49 @@ const form = useForm({
 const editCategoryModal = (category) => {
     selectedCategory.value = category;
     form.name = category.name
-    showModal.value = true;
+    showEditModal.value = true;
 
     nextTick(() => nameInput.value.focus());
+};
+
+const deleteCategoryModal = (category) => {
+    selectedCategory.value = category;
+    showDeleteModal.value = true;
 };
 
 const updateCategory = () => {
     form.put(route('categories.update', selectedCategory.value.id), {
         preserveScroll: true,
-        onSuccess: () => closeModal(),
+        onSuccess: () => {
+            closeModal();
+            showToast();
+        },
         onError: () => nameInput.value.focus(),
     });
 };
 
+const deleteCategory = () => {
+    form.delete(route('categories.destroy', selectedCategory.value.id), {
+        preserveScroll: true,
+        onSuccess: () => {
+            closeModal();
+            showToast();
+        },
+    });
+};
+
 const closeModal = () => {
-    showModal.value = false;
+    showEditModal.value = false;
+    showDeleteModal.value = false;
     form.reset();
+};
+
+const showToast = () => {
+    if (usePage().props.flash.isSuccess) {
+        push.success(usePage().props.flash.message)
+    } else {
+        push.error(usePage().props.flash.message)
+    }
 };
 </script>
 
@@ -75,7 +104,10 @@ const closeModal = () => {
                             <Button @click="editCategoryModal(category)">
                                 <i class="fa fa-edit"></i>
                             </Button>
-                            <Button type="red">
+                            <Button
+                                @click="deleteCategoryModal(category)"
+                                type="red"
+                            >
                                 <i class="fa fa-trash-alt"></i>
                             </Button>
                         </TableData>
@@ -87,7 +119,7 @@ const closeModal = () => {
         <!--Edit data-->
         <Modal
             title="Edit"
-            :show="showModal"
+            :show="showEditModal"
             :formProcessing="form.processing"
             @close="closeModal"
             @submitAction="updateCategory"
@@ -105,6 +137,19 @@ const closeModal = () => {
                 />
                 <InputError :message="form.errors.name"/>
             </div>
+        </Modal>
+
+        <!--Delete data-->
+        <Modal
+            title="Delete"
+            :show="showDeleteModal"
+            :formProcessing="form.processing"
+            @close="closeModal"
+            @submitAction="deleteCategory"
+            maxWidth="sm"
+            submitButtonText="Yes, delete it!"
+        >
+            Are you sure you want to delete this category?
         </Modal>
     </AuthenticatedLayout>
 </template>

@@ -9,8 +9,10 @@ use App\Exceptions\CategoryNotFoundException;
 use App\Helpers\BaseHelper;
 use App\Http\Requests\Category\CategoryIndexRequest;
 use App\Http\Requests\CategoryUpdateRequest;
-use App\Models\Category;
 use App\Services\CategoryService;
+use Exception;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -51,18 +53,64 @@ class CategoryController extends Controller
             ]);
     }
 
-
-    public function update(CategoryUpdateRequest $request, $id)
+    public function update(CategoryUpdateRequest $request, $id): RedirectResponse
     {
         try {
-            $this->service->update($id, $request->validated());
+            $this->service->update(
+                id: $id,
+                payload: $request->validated()
+            );
+            $flash = [
+                "message" => 'Category updated successfully.'
+            ];
         } catch (CategoryNotFoundException $e) {
-            $message = $e->getMessage();
-        } catch (\Exception $exception) {
-            throw $exception;
+            $flash = [
+                "isSuccess" => false,
+                "message"   => $e->getMessage(),
+            ];
+        } catch (Exception $e) {
+            $flash = [
+                "isSuccess" => false,
+                "message"   => "Category update failed!",
+            ];
+
+            Log::error("Something went wrong", [
+                "message" => $e->getMessage(),
+                "traces"  => $e->getTrace()
+            ]);
         }
 
-        return redirect(route('categories.index'));
+        return redirect()
+            ->route('categories.index')
+            ->with('flash', $flash);
+    }
 
+    public function destroy($id): RedirectResponse
+    {
+        try {
+            $this->service->delete(id: $id);
+            $flash = [
+                "message" => 'Category deleted successfully.'
+            ];
+        } catch (CategoryNotFoundException $e) {
+            $flash = [
+                "isSuccess" => false,
+                "message"   => $e->getMessage(),
+            ];
+        } catch (Exception $e) {
+            $flash = [
+                "isSuccess" => false,
+                "message"   => "Category deletion failed!",
+            ];
+
+            Log::error("Something went wrong", [
+                "message" => $e->getMessage(),
+                "traces"  => $e->getTrace()
+            ]);
+        }
+
+        return redirect()
+            ->route('categories.index')
+            ->with('flash', $flash);
     }
 }

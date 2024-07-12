@@ -23,6 +23,10 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
+    submitButtonText: {
+        type: String,
+        default: "Submit",
+    },
 });
 
 const emit = defineEmits(['close', 'submitAction']);
@@ -105,10 +109,10 @@ const maxWidthClass = computed(() => {
                         :class="maxWidthClass"
                     >
                         <div
-                            class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                            <h4 class="text-3xl font-semibold">
+                            class="flex items-start justify-between p-3 border-b border-solid border-blueGray-200 rounded-t">
+                            <h6 class="text-2xl font-semibold">
                                 {{ title }}
-                            </h4>
+                            </h6>
                             <button
                                 class="p-1 ml-auto bg-transparent border-0 text-black opacity-100 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                                 @click="close"
@@ -131,7 +135,7 @@ const maxWidthClass = computed(() => {
                                     @click="submitAction"
                                     class="text-white bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                                 >
-                                    Submit
+                                    {{ submitButtonText }}
                                 </SubmitButton>
                             </div>
                         </div>
