@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string(CategoryFieldsEnum::NAME->value)->index();
+            $table->string(CategoryFieldsEnum::NAME->value)->unique();
             $table->timestamps();
         });
     }

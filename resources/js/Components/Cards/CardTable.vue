@@ -3,6 +3,9 @@
         <div class="rounded-t mb-3 px-4 py-3 border-0">
             <div class="flex flex-wrap items-center">
                 <div class="relative w-full px-4 max-w-full flex-grow flex-1">
+
+                    <slot name="cardHeader"/>
+
                     <div class="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
                         <div
                             v-for="(filter, key, index) in filters" :key="index"

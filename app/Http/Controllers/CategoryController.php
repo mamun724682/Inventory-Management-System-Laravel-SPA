@@ -7,8 +7,9 @@ use App\Enums\Core\FilterFieldTypeEnum;
 use App\Enums\Core\SortOrderEnum;
 use App\Exceptions\CategoryNotFoundException;
 use App\Helpers\BaseHelper;
+use App\Http\Requests\Category\CategoryCreateRequest;
 use App\Http\Requests\Category\CategoryIndexRequest;
-use App\Http\Requests\CategoryUpdateRequest;
+use App\Http\Requests\Category\CategoryUpdateRequest;
 use App\Services\CategoryService;
 use Exception;
 use Illuminate\Http\RedirectResponse;
@@ -51,6 +52,32 @@ class CategoryController extends Controller
                     ]
                 ],
             ]);
+    }
+
+    public function store(CategoryCreateRequest $request): RedirectResponse
+    {
+        try {
+            $this->service->create(
+                payload: $request->validated()
+            );
+            $flash = [
+                "message" => 'Category created successfully.'
+            ];
+        } catch (Exception $e) {
+            $flash = [
+                "isSuccess" => false,
+                "message"   => "Category creation failed!",
+            ];
+
+            Log::error("Something went wrong", [
+                "message" => $e->getMessage(),
+                "traces"  => $e->getTrace()
+            ]);
+        }
+
+        return redirect()
+            ->route('categories.index')
+            ->with('flash', $flash);
     }
 
     public function update(CategoryUpdateRequest $request, $id): RedirectResponse

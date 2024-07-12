@@ -21,6 +21,7 @@ import {useForm} from '@inertiajs/vue3';
 import {nextTick, ref} from 'vue';
 
 const selectedCategory = ref(null);
+const showCreateModal = ref(false);
 const showEditModal = ref(false);
 const showDeleteModal = ref(false);
 const nameInput = ref(null);
@@ -29,6 +30,12 @@ const tableHeads = ref(['#', "Name", "Action"]);
 const form = useForm({
     name: null,
 });
+
+const createCategoryModal = () => {
+    showCreateModal.value = true;
+
+    nextTick(() => nameInput.value.focus());
+};
 
 const editCategoryModal = (category) => {
     selectedCategory.value = category;
@@ -41,6 +48,17 @@ const editCategoryModal = (category) => {
 const deleteCategoryModal = (category) => {
     selectedCategory.value = category;
     showDeleteModal.value = true;
+};
+
+const createCategory = () => {
+    form.post(route('categories.store'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            closeModal();
+            showToast();
+        },
+        onError: () => nameInput.value.focus(),
+    });
 };
 
 const updateCategory = () => {
@@ -65,6 +83,7 @@ const deleteCategory = () => {
 };
 
 const closeModal = () => {
+    showCreateModal.value = false;
     showEditModal.value = false;
     showDeleteModal.value = false;
     form.reset();
@@ -95,6 +114,13 @@ const showToast = () => {
                     :filters="filters"
                     :tableHeads="tableHeads"
                 >
+                    <template #cardHeader>
+                        <div class="flex justify-between items-center">
+                            <h4 class="text-2xl">Apply filters</h4>
+                            <Button @click="createCategoryModal">Create Category</Button>
+                        </div>
+                    </template>
+
                     <tr v-for="(category, index) in categories.data" :key="category.id">
                         <TableData>
                             {{ (categories.current_page * categories.per_page) - (categories.per_page - (index + 1)) }}
@@ -115,6 +141,29 @@ const showToast = () => {
                 </CardTable>
             </div>
         </div>
+
+        <!--Create data-->
+        <Modal
+            title="Create"
+            :show="showCreateModal"
+            :formProcessing="form.processing"
+            @close="closeModal"
+            @submitAction="createCategory"
+        >
+            <div>
+                <label for="name">Name</label>
+                <input
+                    id="name"
+                    ref="nameInput"
+                    v-model="form.name"
+                    @keyup.enter="createCategory"
+                    type="text"
+                    placeholder="Enter name"
+                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full"
+                />
+                <InputError :message="form.errors.name"/>
+            </div>
+        </Modal>
 
         <!--Edit data-->
         <Modal
