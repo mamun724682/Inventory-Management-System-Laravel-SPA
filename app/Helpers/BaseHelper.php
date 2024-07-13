@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Facades\Storage;
+
 class BaseHelper
 {
     /**
@@ -33,5 +35,19 @@ class BaseHelper
         }
 
         return $result;
+    }
+
+    /**
+     * @param string|null $fileName
+     * @param string $folderName
+     * @return string
+     */
+    public static function storageLink(string $fileName = null, string $folderName = "others"): string
+    {
+        if ($fileName) {
+            return Storage::url("{$folderName}/{$fileName}");
+        } else {
+            return asset("assets/img/default-image.jpg");
+        }
     }
 }

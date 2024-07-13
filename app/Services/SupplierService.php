@@ -16,7 +16,10 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class SupplierService
 {
-    public function __construct(private readonly SupplierRepository $repository)
+    public function __construct(
+        private readonly SupplierRepository $repository,
+        private readonly FileManagerService  $fileManagerService
+    )
     {
     }
 
@@ -60,29 +63,26 @@ class SupplierService
     }
 
     /**
-     * @param int $id
-     * @return bool
-     */
-    public function isIdExists(int $id): bool
-    {
-        return $this->repository->exists([
-            SupplierFieldsEnum::ID->value => $id
-        ]);
-    }
-
-    /**
      * @param array $payload
      * @return mixed
      * @throws DBCommitException
      */
     public function create(array $payload): mixed
     {
+        $photo = null;
+        if (isset($payload['photo'])){
+            $photo = $this->fileManagerService->uploadFile(
+                file: $payload['photo'],
+                uploadPath: Supplier::PHOTO_PATH
+            );
+        }
+
         $processPayload = [
             SupplierFieldsEnum::NAME->value      => $payload[SupplierFieldsEnum::NAME->value],
             SupplierFieldsEnum::EMAIL->value     => $payload[SupplierFieldsEnum::EMAIL->value],
             SupplierFieldsEnum::PHONE->value     => $payload[SupplierFieldsEnum::PHONE->value],
             SupplierFieldsEnum::ADDRESS->value   => $payload[SupplierFieldsEnum::ADDRESS->value],
-            SupplierFieldsEnum::PHOTO->value     => $payload[SupplierFieldsEnum::PHOTO->value],
+            SupplierFieldsEnum::PHOTO->value     => $photo,
             SupplierFieldsEnum::SHOP_NAME->value => $payload[SupplierFieldsEnum::SHOP_NAME->value],
         ];
 

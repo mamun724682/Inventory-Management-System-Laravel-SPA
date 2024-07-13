@@ -80,59 +80,29 @@
                 <!-- Navigation -->
 
                 <ul class="md:flex-col md:min-w-full flex flex-col list-none">
-                    <li class="items-center">
-                        <Link
-                            :href="route('dashboard')"
-                            class="text-xs uppercase py-3 font-bold block"
-                            :class="[
-                  route().current('dashboard')
-                    ? 'text-emerald-500 hover:text-emerald-600'
-                    : 'text-blueGray-700 hover:text-blueGray-500',
-                ]"
-                        >
-                            <i
-                                class="fas fa-tv mr-2 text-sm"
-                                :class="[route().current('dashboard') ? 'opacity-75' : 'text-blueGray-300']"
-                            ></i>
-                            Dashboard
-                        </Link>
-                    </li>
+                    <SidebarItem
+                        name="Dashboard"
+                        routeName="dashboard"
+                        icon="fas fa-tv"
+                    />
 
-                    <li class="items-center">
-                        <Link
-                            :href="route('categories.index')"
-                            class="text-xs uppercase py-3 font-bold block"
-                            :class="[
-                  route().current('categories.index')
-                    ? 'text-emerald-500 hover:text-emerald-600'
-                    : 'text-blueGray-700 hover:text-blueGray-500',
-                ]"
-                        >
-                            <i
-                                class="fas fa-tools mr-2 text-sm"
-                                :class="[route().current('categories.index') ? 'opacity-75' : 'text-blueGray-300']"
-                            ></i>
-                            Categories
-                        </Link>
-                    </li>
+                    <SidebarItem
+                        name="Categories"
+                        routeName="categories.index"
+                        icon="fas fa-list"
+                    />
 
-                    <li class="items-center">
-                        <Link
-                            :href="route('profile.edit')"
-                            class="text-xs uppercase py-3 font-bold block"
-                            :class="[
-                  route().current('profile.edit')
-                    ? 'text-emerald-500 hover:text-emerald-600'
-                    : 'text-blueGray-700 hover:text-blueGray-500',
-                ]"
-                        >
-                            <i
-                                class="fas fa-tools mr-2 text-sm"
-                                :class="[route().current('profile.edit') ? 'opacity-75' : 'text-blueGray-300']"
-                            ></i>
-                            Settings
-                        </Link>
-                    </li>
+                    <SidebarItem
+                        name="Suppliers"
+                        routeName="suppliers.index"
+                        icon="fas fa-users-cog"
+                    />
+
+                    <SidebarItem
+                        name="Settings"
+                        routeName="profile.edit"
+                        icon="fas fa-tools"
+                    />
                 </ul>
 
                 <!-- Divider -->
@@ -293,12 +263,12 @@
         </div>
     </nav>
 </template>
-); }
 
 <script>
 import NotificationDropdown from "@/Components/Dropdowns/NotificationDropdown.vue";
 import UserDropdown from "@/Components/Dropdowns/UserDropdown.vue";
 import {Link} from "@inertiajs/vue3";
+import SidebarItem from "@/Components/Sidebar/SidebarItem.vue";
 
 export default {
     data() {
@@ -312,6 +282,7 @@ export default {
         },
     },
     components: {
+        SidebarItem,
         NotificationDropdown,
         UserDropdown,
         Link,

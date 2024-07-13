@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string(SupplierFieldsEnum::NAME->value);
             $table->string(SupplierFieldsEnum::EMAIL->value);
             $table->string(SupplierFieldsEnum::PHONE->value);
-            $table->string(SupplierFieldsEnum::ADDRESS->value);
+            $table->string(SupplierFieldsEnum::ADDRESS->value)->nullable();
             $table->string(SupplierFieldsEnum::PHOTO->value)->nullable();
             $table->string(SupplierFieldsEnum::SHOP_NAME->value)->nullable();
             $table->timestamps();

@@ -28,7 +28,7 @@ class SupplierController extends Controller
         return Inertia::render(
             component: 'Supplier/Index',
             props: [
-                'categories' => $this->service->getAll($request->validated()),
+                'suppliers' => $this->service->getAll($request->validated()),
                 'filters'    => [
                     "name"       => [
                         'label'       => 'Name',
@@ -94,7 +94,7 @@ class SupplierController extends Controller
         }
 
         return redirect()
-            ->route('categories.index')
+            ->route('suppliers.index')
             ->with('flash', $flash);
     }
 
@@ -126,7 +126,7 @@ class SupplierController extends Controller
         }
 
         return redirect()
-            ->route('categories.index')
+            ->route('suppliers.index')
             ->with('flash', $flash);
     }
 
@@ -155,7 +155,7 @@ class SupplierController extends Controller
         }
 
         return redirect()
-            ->route('categories.index')
+            ->route('suppliers.index')
             ->with('flash', $flash);
     }
 }

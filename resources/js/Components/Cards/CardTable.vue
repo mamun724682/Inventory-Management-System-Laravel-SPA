@@ -63,8 +63,13 @@
                 <slot/>
 
                 <tr v-if="paginatedData.data.length === 0">
-                    <td colspan="4" class="text-center py-4">
-                        No data found
+                    <td :colspan="tableHeads.length" class="py-4">
+                        <div class="flex justify-center">
+                            <img
+                                alt="Inventory management system"
+                                :src="emptyData"
+                            />
+                        </div>
                     </td>
                 </tr>
                 </tbody>
@@ -84,10 +89,12 @@ import Pagination from "@/Components/Pagination.vue";
 import TableHead from "@/Components/TableHead.vue";
 import TableData from "@/Components/TableData.vue";
 import Button from "@/Components/Button.vue";
+import emptyData from "@/assets/img/emptyData.png"
 
 export default {
     components: {
-        Button, TableData,
+        Button,
+        TableData,
         TableHead,
         Pagination,
         TableDropdown,
@@ -101,6 +108,7 @@ export default {
     data() {
         return {
             form: {},
+            emptyData: emptyData,
         }
     },
     watch: {
