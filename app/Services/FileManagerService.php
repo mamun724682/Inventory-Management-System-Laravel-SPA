@@ -14,20 +14,23 @@ class FileManagerService
      * @param object $file
      * @param string $uploadPath
      * @param string|null $fileName
-     * @param string|null $deletePath
+     * @param string|null $deleteFileName
      * @return string|null
      */
     public function uploadFile(
         object $file,
         string $uploadPath = 'others',
         string $fileName = null,
-        string $deletePath = null,
+        string $deleteFileName = null,
     ): string|null
     {
         try {
             // Delete old file
-            if ($deletePath) {
-                $this->delete($deletePath);
+            if ($deleteFileName) {
+                $this->delete(
+                    fileName: $deleteFileName,
+                    path: $uploadPath
+                );
             }
 
             // Upload new file
@@ -69,13 +72,14 @@ class FileManagerService
     }
 
     /**
+     * @param string $fileName
      * @param string $path
      * @return bool
      */
-    public function delete(string $path): bool
+    public function delete(string $fileName, string $path = "others"): bool
     {
-        if (Storage::exists($path)) {
-            Storage::delete($path);
+        if (Storage::exists("{$path}/$fileName")) {
+            Storage::delete("{$path}/$fileName");
             return true;
         }
 

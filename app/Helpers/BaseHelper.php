@@ -39,13 +39,13 @@ class BaseHelper
 
     /**
      * @param string|null $fileName
-     * @param string $folderName
+     * @param string $folderPath
      * @return string
      */
-    public static function storageLink(string $fileName = null, string $folderName = "others"): string
+    public static function storageLink(string $fileName = null, string $folderPath = "others"): string
     {
         if ($fileName) {
-            return Storage::url("{$folderName}/{$fileName}");
+            return Storage::url("{$folderPath}/{$fileName}");
         } else {
             return asset("assets/img/default-image.jpg");
         }

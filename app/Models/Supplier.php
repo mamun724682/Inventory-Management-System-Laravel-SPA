@@ -19,7 +19,7 @@ class Supplier extends Model
         return Attribute::make(
             get: fn ($value) => BaseHelper::storageLink(
                 fileName: $value,
-                folderName: self::PHOTO_PATH
+                folderPath: self::PHOTO_PATH
             ),
         );
     }

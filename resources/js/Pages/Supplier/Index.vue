@@ -43,7 +43,14 @@ const createSupplierModal = () => {
 
 const editSupplierModal = (supplier) => {
     selectedSupplier.value = supplier;
-    form.name = supplier.name
+
+    form.name = supplier.name;
+    form.email = supplier.email;
+    form.phone = supplier.phone;
+    form.shop_name = supplier.shop_name;
+    form.address = supplier.address;
+    form.photo = null;
+
     showEditModal.value = true;
 
     nextTick(() => nameInput.value.focus());
@@ -66,14 +73,18 @@ const createSupplier = () => {
 };
 
 const updateSupplier = () => {
-    form.put(route('suppliers.update', selectedSupplier.value.id), {
-        preserveScroll: true,
-        onSuccess: () => {
-            closeModal();
-            showToast();
-        },
-        onError: () => nameInput.value.focus(),
-    });
+    form.transform((data) => ({
+        ...data,
+        _method: "put"
+    }))
+        .post(route('suppliers.update', selectedSupplier.value.id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                closeModal();
+                showToast();
+            },
+            onError: () => nameInput.value.focus(),
+        });
 };
 
 const deleteSupplier = () => {
@@ -133,7 +144,7 @@ const showToast = () => {
                             <img
                                 :src="supplier.photo"
                                 class="h-12 w-12 bg-white rounded-full border"
-                                alt="..."
+                                alt="Inventory management system"
                             />
                             <span class="ml-3 font-bold text-blueGray-600">{{ supplier.name }}</span>
                         </TableData>
@@ -221,10 +232,12 @@ const showToast = () => {
                             <path
                                 d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z"/>
                         </svg>
-                        <span v-if="form.photo" class="mt-2 text-base leading-normal">{{ form.photo.name.replace(/(^.{17}).*(\..+$)/, "$1...$2") }}</span>
+                        <span v-if="form.photo" class="mt-2 text-base leading-normal">{{
+                                form.photo.name.replace(/(^.{17}).*(\..+$)/, "$1...$2")
+                            }}</span>
                         <span v-else class="mt-2 text-base leading-normal">Select a photo</span>
                         <input
-                            @change="(event) => form.photo = event.target.files[0]"
+                            @input="form.photo = $event.target.files[0]"
                             type='file'
                             class="hidden"
                             accept="image/png, image/jpeg, image/jpg, image/gif, image/svg"
@@ -237,7 +250,6 @@ const showToast = () => {
                     <textarea
                         id="address"
                         v-model="form.address"
-                        @keyup.enter="createSupplier"
                         type="text"
                         rows="3"
                         placeholder="Enter address"
@@ -256,18 +268,88 @@ const showToast = () => {
             @close="closeModal"
             @submitAction="updateSupplier"
         >
-            <div>
-                <label for="name">Name</label>
-                <input
-                    id="name"
-                    ref="nameInput"
-                    v-model="form.name"
-                    @keyup.enter="updateSupplier"
-                    type="text"
-                    placeholder="Enter name"
-                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full"
-                />
-                <InputError :message="form.errors.name"/>
+            <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+                <div class="flex flex-col">
+                    <label for="name" class="text-stone-600 text-sm font-medium">Name</label>
+                    <input
+                        id="name"
+                        ref="nameInput"
+                        v-model="form.name"
+                        @keyup.enter="updateSupplier"
+                        type="text"
+                        placeholder="Enter name"
+                        class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
+                    />
+                    <InputError :message="form.errors.name"/>
+                </div>
+                <div class="flex flex-col">
+                    <label for="email" class="text-stone-600 text-sm font-medium">Email</label>
+                    <input
+                        id="email"
+                        v-model="form.email"
+                        @keyup.enter="updateSupplier"
+                        type="email"
+                        placeholder="Enter email"
+                        class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
+                    />
+                    <InputError :message="form.errors.email"/>
+                </div>
+                <div class="flex flex-col">
+                    <label for="phone" class="text-stone-600 text-sm font-medium">Phone</label>
+                    <input
+                        id="phone"
+                        v-model="form.phone"
+                        @keyup.enter="updateSupplier"
+                        type="text"
+                        placeholder="Enter phone"
+                        class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
+                    />
+                    <InputError :message="form.errors.phone"/>
+                </div>
+                <div class="flex flex-col">
+                    <label for="shop_name" class="text-stone-600 text-sm font-medium">Shop Name</label>
+                    <input
+                        id="shop_name"
+                        v-model="form.shop_name"
+                        @keyup.enter="updateSupplier"
+                        type="text"
+                        placeholder="Enter shop name"
+                        class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
+                    />
+                    <InputError :message="form.errors.shop_name"/>
+                </div>
+                <div class="flex flex-col">
+                    <label
+                        class="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-emerald-600">
+                        <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path
+                                d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z"/>
+                        </svg>
+                        <span v-if="form.photo" class="mt-2 text-base leading-normal">{{
+                                form.photo.name.replace(/(^.{17}).*(\..+$)/, "$1...$2")
+                            }}</span>
+                        <span v-else class="mt-2 text-base leading-normal">Select a photo</span>
+                        <input
+                            @input="form.photo = $event.target.files[0]"
+                            type='file'
+                            class="hidden"
+                            accept="image/png, image/jpeg, image/jpg, image/gif, image/svg"
+                        />
+                    </label>
+                    <InputError :message="form.errors.photo"/>
+                </div>
+                <div class="flex flex-col">
+                    <label for="address" class="text-stone-600 text-sm font-medium">Address</label>
+                    <textarea
+                        id="address"
+                        v-model="form.address"
+                        type="text"
+                        rows="3"
+                        placeholder="Enter address"
+                        class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
+                    ></textarea>
+                    <InputError :message="form.errors.address"/>
+                </div>
             </div>
         </Modal>
 

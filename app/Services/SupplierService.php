@@ -18,7 +18,7 @@ class SupplierService
 {
     public function __construct(
         private readonly SupplierRepository $repository,
-        private readonly FileManagerService  $fileManagerService
+        private readonly FileManagerService $fileManagerService
     )
     {
     }
@@ -70,7 +70,7 @@ class SupplierService
     public function create(array $payload): mixed
     {
         $photo = null;
-        if (isset($payload['photo'])){
+        if (isset($payload['photo'])) {
             $photo = $this->fileManagerService->uploadFile(
                 file: $payload['photo'],
                 uploadPath: Supplier::PHOTO_PATH
@@ -100,12 +100,21 @@ class SupplierService
     {
         $supplier = $this->findByIdOrFail($id);
 
+        $photo = $supplier->getRawOriginal(SupplierFieldsEnum::PHOTO->value);
+        if (isset($payload['photo'])) {
+            $photo = $this->fileManagerService->uploadFile(
+                file: $payload['photo'],
+                uploadPath: Supplier::PHOTO_PATH,
+                deleteFileName: $photo
+            );
+        }
+
         $processPayload = [
             SupplierFieldsEnum::NAME->value      => $payload[SupplierFieldsEnum::NAME->value] ?? $supplier->name,
             SupplierFieldsEnum::EMAIL->value     => $payload[SupplierFieldsEnum::EMAIL->value] ?? $supplier->email,
             SupplierFieldsEnum::PHONE->value     => $payload[SupplierFieldsEnum::PHONE->value] ?? $supplier->phone,
             SupplierFieldsEnum::ADDRESS->value   => $payload[SupplierFieldsEnum::ADDRESS->value] ?? $supplier->address,
-            SupplierFieldsEnum::PHOTO->value     => $payload[SupplierFieldsEnum::PHOTO->value] ?? $supplier->photo,
+            SupplierFieldsEnum::PHOTO->value     => $photo,
             SupplierFieldsEnum::SHOP_NAME->value => $payload[SupplierFieldsEnum::SHOP_NAME->value] ?? $supplier->shop_name,
         ];
 
@@ -120,6 +129,14 @@ class SupplierService
     public function delete(int $id): ?bool
     {
         $supplier = $this->findByIdOrFail($id);
+        $photo = $supplier->getRawOriginal(SupplierFieldsEnum::PHOTO->value);
+        if ($photo) {
+            $this->fileManagerService->delete(
+                fileName: $photo,
+                path: Supplier::PHOTO_PATH,
+            );
+        }
+
         return $this->repository->delete($supplier);
     }
 }
