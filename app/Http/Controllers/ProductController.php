@@ -11,7 +11,9 @@ use App\Helpers\BaseHelper;
 use App\Http\Requests\Product\ProductCreateRequest;
 use App\Http\Requests\Product\ProductIndexRequest;
 use App\Http\Requests\Product\ProductUpdateRequest;
+use App\Services\CategoryService;
 use App\Services\ProductService;
+use App\Services\SupplierService;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
@@ -101,6 +103,13 @@ class ProductController extends Controller
                     ],
                 ],
             ]);
+    }
+
+    public function create(): Response
+    {
+        return Inertia::render(
+            component: 'Product/Create'
+        );
     }
 
     public function store(ProductCreateRequest $request): RedirectResponse

@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::apiResource('suppliers', SupplierController::class);
 
     // Product
-    Route::apiResource('products', ProductController::class);
+    Route::resource('products', ProductController::class);
 });
 
 require __DIR__.'/auth.php';

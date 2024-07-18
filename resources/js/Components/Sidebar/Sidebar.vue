@@ -99,6 +99,12 @@
                     />
 
                     <SidebarItem
+                        name="Products"
+                        routeName="products.index"
+                        icon="fas fa-shopping-bag"
+                    />
+
+                    <SidebarItem
                         name="Settings"
                         routeName="profile.edit"
                         icon="fas fa-tools"
