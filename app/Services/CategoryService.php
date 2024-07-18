@@ -110,6 +110,9 @@ class CategoryService
     public function delete(int $id): ?bool
     {
         $category = $this->findByIdOrFail($id);
+
+        // Todo: prevent delete for available products
+
         return $this->repository->delete($category);
     }
 }

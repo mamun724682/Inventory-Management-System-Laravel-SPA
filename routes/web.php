@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,9 @@ Route::middleware('auth')->group(function () {
 
     // Supplier
     Route::apiResource('suppliers', SupplierController::class);
+
+    // Product
+    Route::apiResource('products', ProductController::class);
 });
 
 require __DIR__.'/auth.php';

@@ -26,7 +26,7 @@ enum SupplierFieldsEnum: string implements BaseEnumInterface
             self::EMAIL->value     => "Email",
             self::PHONE->value     => "Phone",
             self::ADDRESS->value   => "Address",
-            self::PHOTO->value     => "Phone",
+            self::PHOTO->value     => "Photo",
             self::SHOP_NAME->value => "Shop Name",
         ];
     }
