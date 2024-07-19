@@ -20,11 +20,16 @@ defineProps({
 const nameInput = ref(null);
 
 const form = useForm({
+    category_id: null,
+    supplier_id: null,
     name: null,
-    email: null,
-    phone: null,
-    shop_name: null,
-    address: null,
+    description: null,
+    product_code: null,
+    root: null,
+    buying_date: null,
+    buying_price: null,
+    selling_price: null,
+    quantity: null,
     photo: null,
 });
 
@@ -76,6 +81,31 @@ const showToast = () => {
                     <div class="block w-full overflow-x-auto px-8 py-4">
                         <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                             <div class="flex flex-col">
+                                <label for="name" class="text-stone-600 text-sm font-medium">Select Category</label>
+                                <input
+                                    id="name"
+                                    v-model="form.category_id"
+                                    @keyup.enter="createProduct"
+                                    type="text"
+                                    placeholder="Enter name"
+                                    class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
+                                />
+                                <InputError :message="form.errors.category_id"/>
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="name" class="text-stone-600 text-sm font-medium">Select Supplier</label>
+                                <input
+                                    id="name"
+                                    ref="nameInput"
+                                    v-model="form.supplier_id"
+                                    @keyup.enter="createProduct"
+                                    type="text"
+                                    placeholder="Enter name"
+                                    class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
+                                />
+                                <InputError :message="form.errors.supplier_id"/>
+                            </div>
+                            <div class="flex flex-col">
                                 <label for="name" class="text-stone-600 text-sm font-medium">Name</label>
                                 <input
                                     id="name"
@@ -89,40 +119,76 @@ const showToast = () => {
                                 <InputError :message="form.errors.name"/>
                             </div>
                             <div class="flex flex-col">
-                                <label for="email" class="text-stone-600 text-sm font-medium">Email</label>
+                                <label for="product_code" class="text-stone-600 text-sm font-medium">Product Code</label>
                                 <input
-                                    id="email"
-                                    v-model="form.email"
-                                    @keyup.enter="createProduct"
-                                    type="email"
-                                    placeholder="Enter email"
-                                    class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
-                                />
-                                <InputError :message="form.errors.email"/>
-                            </div>
-                            <div class="flex flex-col">
-                                <label for="phone" class="text-stone-600 text-sm font-medium">Phone</label>
-                                <input
-                                    id="phone"
-                                    v-model="form.phone"
+                                    id="product_code"
+                                    v-model="form.product_code"
                                     @keyup.enter="createProduct"
                                     type="text"
-                                    placeholder="Enter phone"
+                                    placeholder="Enter product code"
                                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                                 />
-                                <InputError :message="form.errors.phone"/>
+                                <InputError :message="form.errors.product_code"/>
                             </div>
                             <div class="flex flex-col">
-                                <label for="shop_name" class="text-stone-600 text-sm font-medium">Shop Name</label>
+                                <label for="root" class="text-stone-600 text-sm font-medium">Root</label>
                                 <input
-                                    id="shop_name"
-                                    v-model="form.shop_name"
+                                    id="root"
+                                    v-model="form.root"
                                     @keyup.enter="createProduct"
                                     type="text"
-                                    placeholder="Enter shop name"
+                                    placeholder="Enter root"
                                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                                 />
-                                <InputError :message="form.errors.shop_name"/>
+                                <InputError :message="form.errors.root"/>
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="buying_date" class="text-stone-600 text-sm font-medium">Buying Date</label>
+                                <input
+                                    id="buying_date"
+                                    v-model="form.buying_date"
+                                    @keyup.enter="createProduct"
+                                    type="date"
+                                    placeholder="Enter buying date"
+                                    class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
+                                />
+                                <InputError :message="form.errors.buying_date"/>
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="buying_price" class="text-stone-600 text-sm font-medium">Buying Price</label>
+                                <input
+                                    id="buying_price"
+                                    v-model="form.buying_price"
+                                    @keyup.enter="createProduct"
+                                    type="number"
+                                    placeholder="Enter buying price"
+                                    class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
+                                />
+                                <InputError :message="form.errors.buying_price"/>
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="selling_price" class="text-stone-600 text-sm font-medium">Selling Price</label>
+                                <input
+                                    id="selling_price"
+                                    v-model="form.selling_price"
+                                    @keyup.enter="createProduct"
+                                    type="number"
+                                    placeholder="Enter selling price"
+                                    class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
+                                />
+                                <InputError :message="form.errors.selling_price"/>
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="quantity" class="text-stone-600 text-sm font-medium">Quantity</label>
+                                <input
+                                    id="quantity"
+                                    v-model="form.quantity"
+                                    @keyup.enter="createProduct"
+                                    type="number"
+                                    placeholder="Enter quantity"
+                                    class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
+                                />
+                                <InputError :message="form.errors.quantity"/>
                             </div>
                             <div class="flex flex-col overflow-auto">
                                 <label
@@ -146,16 +212,16 @@ const showToast = () => {
                                 <InputError :message="form.errors.photo"/>
                             </div>
                             <div class="flex flex-col">
-                                <label for="address" class="text-stone-600 text-sm font-medium">Address</label>
+                                <label for="description" class="text-stone-600 text-sm font-medium">Description</label>
                                 <textarea
-                                    id="address"
-                                    v-model="form.address"
+                                    id="description"
+                                    v-model="form.description"
                                     type="text"
                                     rows="3"
-                                    placeholder="Enter address"
+                                    placeholder="Enter description"
                                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                                 ></textarea>
-                                <InputError :message="form.errors.address"/>
+                                <InputError :message="form.errors.description"/>
                             </div>
                         </div>
                         <div class="my-6 flex justify-end">

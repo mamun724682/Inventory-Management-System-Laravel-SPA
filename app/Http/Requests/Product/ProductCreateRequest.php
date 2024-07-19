@@ -39,13 +39,13 @@ class ProductCreateRequest extends FormRequest
                 Rule::exists((new Supplier())->getTable(), 'id')
             ],
             ProductFieldsEnum::NAME->value          => ["required", "string", "max:255"],
-            ProductFieldsEnum::DESCRIPTION->value   => ["required", "string"],
+            ProductFieldsEnum::DESCRIPTION->value   => ["nullable", "string"],
             ProductFieldsEnum::PRODUCT_CODE->value  => ["required", "string", "max:255"],
             ProductFieldsEnum::ROOT->value          => ["required", "string", "max:255"],
-            ProductFieldsEnum::BUYING_PRICE->value  => ["nullable", "decimal"],
-            ProductFieldsEnum::SELLING_PRICE->value => ["required", "decimal", "gt:0"],
+            ProductFieldsEnum::BUYING_PRICE->value  => ["nullable", "numeric"],
+            ProductFieldsEnum::SELLING_PRICE->value => ["required", "numeric", "gt:0"],
             ProductFieldsEnum::BUYING_DATE->value   => ["nullable", "date"],
-            ProductFieldsEnum::QUANTITY->value      => ["required", "string", "gt:0"],
+            ProductFieldsEnum::QUANTITY->value      => ["required", "integer", "gt:0"],
             ProductFieldsEnum::PHOTO->value         => ["required", "file", "mimes:jpg,jpeg,png,gif,svg", "max:1024"],
         ];
     }
