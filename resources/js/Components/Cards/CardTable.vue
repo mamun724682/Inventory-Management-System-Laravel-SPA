@@ -90,6 +90,8 @@ import TableHead from "@/Components/TableHead.vue";
 import TableData from "@/Components/TableData.vue";
 import Button from "@/Components/Button.vue";
 import emptyData from "@/assets/img/emptyData.png"
+import {usePage} from "@inertiajs/vue3";
+import {push} from "notivue";
 
 export default {
     components: {
@@ -126,7 +128,13 @@ export default {
 
                 // if Changed than send request
                 if (isFormChanged) {
-                    this.$inertia.get(route(this.indexRoute), pickBy(this.form), {preserveState: true});
+                    this.$inertia.get(route(this.indexRoute), pickBy(this.form), {
+                        preserveState: true,
+                        onError: (e) => {
+                            console.log(e)
+                            this.showToast()
+                        }
+                    });
                 }
             }, 150),
         },
@@ -142,6 +150,13 @@ export default {
         },
         reset() {
             this.form = mapValues(this.form, () => "")
+        },
+        showToast() {
+            if (usePage().props.flash.isSuccess) {
+                push.success(usePage().props.flash.message)
+            } else {
+                push.error(usePage().props.flash.message)
+            }
         },
     }
 }

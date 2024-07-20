@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests\Product;
 
-use App\Enums\Category\CategoryFieldsEnum;
-use App\Enums\Category\CategorySortFieldsEnum;
 use App\Enums\Core\SortOrderEnum;
 use App\Enums\Product\ProductExpandEnum;
+use App\Enums\Product\ProductFieldsEnum;
 use App\Enums\Product\ProductFiltersEnum;
+use App\Enums\Product\ProductSortFieldsEnum;
 use App\Http\Requests\BaseIndexRequest;
 use Illuminate\Validation\Rule;
 
@@ -44,8 +44,8 @@ class ProductIndexRequest extends BaseIndexRequest
             "created_at"   => ["nullable", "array", "min:2", "max:2"],
             "created_at.*" => ["nullable", "date_format:Y-m-d H:i:s"],
             "fields"       => ["nullable", "array"],
-            "fields.*"     => ["nullable", Rule::in(CategoryFieldsEnum::values())],
-            "sort_by"      => ["nullable", Rule::in(CategorySortFieldsEnum::values())],
+            "fields.*"     => ["nullable", Rule::in(ProductFieldsEnum::values())],
+            "sort_by"      => ["nullable", Rule::in(ProductSortFieldsEnum::values())],
             "sort_order"   => ["nullable", Rule::in(SortOrderEnum::values())],
             "expand"       => ["nullable", "array"],
             "expand.*"     => ["required", "string", Rule::in(ProductExpandEnum::values())],
