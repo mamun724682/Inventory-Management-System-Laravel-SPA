@@ -5,6 +5,7 @@ namespace App\Http\Requests\Product;
 use App\Enums\Category\CategoryFieldsEnum;
 use App\Enums\Category\CategorySortFieldsEnum;
 use App\Enums\Core\SortOrderEnum;
+use App\Enums\Product\ProductExpandEnum;
 use App\Enums\Product\ProductFiltersEnum;
 use App\Http\Requests\BaseIndexRequest;
 use Illuminate\Validation\Rule;
@@ -46,6 +47,8 @@ class ProductIndexRequest extends BaseIndexRequest
             "fields.*"     => ["nullable", Rule::in(CategoryFieldsEnum::values())],
             "sort_by"      => ["nullable", Rule::in(CategorySortFieldsEnum::values())],
             "sort_order"   => ["nullable", Rule::in(SortOrderEnum::values())],
+            "expand"       => ["nullable", "array"],
+            "expand.*"     => ["required", "string", Rule::in(ProductExpandEnum::values())],
             "page"         => ["nullable", "integer", "min:1"],
             "per_page"     => ["nullable", "integer", "min:1"],
         ];

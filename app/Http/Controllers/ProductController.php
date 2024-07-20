@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\Core\FilterFieldTypeEnum;
 use App\Enums\Core\SortOrderEnum;
+use App\Enums\Product\ProductExpandEnum;
 use App\Enums\Product\ProductFiltersEnum;
 use App\Enums\Product\ProductSortFieldsEnum;
 use App\Exceptions\ProductNotFoundException;
@@ -28,10 +29,16 @@ class ProductController extends Controller
 
     public function index(ProductIndexRequest $request): Response
     {
+        $params = $request->validated();
+        $params['expand'] = array_unique(array_merge($params['expand'] ?? [], [
+            ProductExpandEnum::CATEGORY->value,
+            ProductExpandEnum::SUPPLIER->value,
+        ]));
+
         return Inertia::render(
             component: 'Product/Index',
             props: [
-                'products' => $this->service->getAll($request->validated()),
+                'products' => $this->service->getAll($params),
                 'filters'  => [
                     ProductFiltersEnum::NAME->value          => [
                         'label'       => ProductFiltersEnum::NAME->label(),
