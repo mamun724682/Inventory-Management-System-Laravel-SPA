@@ -4,14 +4,27 @@ import {Head, usePage} from '@inertiajs/vue3';
 import InputError from "@/Components/InputError.vue";
 import {push} from 'notivue'
 import {useForm} from '@inertiajs/vue3';
-import {ref} from 'vue';
+import {ref, onMounted} from 'vue';
 import Button from "@/Components/Button.vue";
 import SubmitButton from "@/Components/SubmitButton.vue";
 
-defineProps({
-    filters: {
+const props = defineProps({
+    product: {
         type: Object
     },
+});
+
+onMounted(() => {
+    form.category_id = props.product.category_id;
+    form.supplier_id = props.product.supplier_id;
+    form.name = props.product.name;
+    form.description = props.product.description;
+    form.product_code = props.product.product_code;
+    form.root = props.product.root;
+    form.buying_date = props.product.buying_date.split(" ")[0] ?? "";
+    form.buying_price = props.product.buying_price;
+    form.selling_price = props.product.selling_price;
+    form.quantity = props.product.quantity;
 });
 
 const nameInput = ref(null);
@@ -30,14 +43,18 @@ const form = useForm({
     photo: null,
 });
 
-const createProduct = () => {
-    form.post(route('products.store'), {
-        preserveScroll: true,
-        onSuccess: () => {
-            showToast();
-        },
-        onError: () => nameInput.value.focus(),
-    });
+const updateProduct = () => {
+    form.transform((data) => ({
+        ...data,
+        _method: "put"
+    }))
+        .post(route('products.update', props.product.id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                showToast();
+            },
+            onError: () => nameInput.value.focus(),
+        });
 };
 
 const showToast = () => {
@@ -82,7 +99,7 @@ const showToast = () => {
                                 <input
                                     id="name"
                                     v-model="form.category_id"
-                                    @keyup.enter="createProduct"
+                                    @keyup.enter="updateProduct"
                                     type="text"
                                     placeholder="Enter name"
                                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
@@ -95,7 +112,7 @@ const showToast = () => {
                                     id="name"
                                     ref="nameInput"
                                     v-model="form.supplier_id"
-                                    @keyup.enter="createProduct"
+                                    @keyup.enter="updateProduct"
                                     type="text"
                                     placeholder="Enter name"
                                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
@@ -108,7 +125,7 @@ const showToast = () => {
                                     id="name"
                                     ref="nameInput"
                                     v-model="form.name"
-                                    @keyup.enter="createProduct"
+                                    @keyup.enter="updateProduct"
                                     type="text"
                                     placeholder="Enter name"
                                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
@@ -116,11 +133,12 @@ const showToast = () => {
                                 <InputError :message="form.errors.name"/>
                             </div>
                             <div class="flex flex-col">
-                                <label for="product_code" class="text-stone-600 text-sm font-medium">Product Code</label>
+                                <label for="product_code" class="text-stone-600 text-sm font-medium">Product
+                                    Code</label>
                                 <input
                                     id="product_code"
                                     v-model="form.product_code"
-                                    @keyup.enter="createProduct"
+                                    @keyup.enter="updateProduct"
                                     type="text"
                                     placeholder="Enter product code"
                                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
@@ -132,7 +150,7 @@ const showToast = () => {
                                 <input
                                     id="root"
                                     v-model="form.root"
-                                    @keyup.enter="createProduct"
+                                    @keyup.enter="updateProduct"
                                     type="text"
                                     placeholder="Enter root"
                                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
@@ -144,7 +162,7 @@ const showToast = () => {
                                 <input
                                     id="buying_date"
                                     v-model="form.buying_date"
-                                    @keyup.enter="createProduct"
+                                    @keyup.enter="updateProduct"
                                     type="date"
                                     placeholder="Enter buying date"
                                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
@@ -152,11 +170,12 @@ const showToast = () => {
                                 <InputError :message="form.errors.buying_date"/>
                             </div>
                             <div class="flex flex-col">
-                                <label for="buying_price" class="text-stone-600 text-sm font-medium">Buying Price</label>
+                                <label for="buying_price" class="text-stone-600 text-sm font-medium">Buying
+                                    Price</label>
                                 <input
                                     id="buying_price"
                                     v-model="form.buying_price"
-                                    @keyup.enter="createProduct"
+                                    @keyup.enter="updateProduct"
                                     type="number"
                                     placeholder="Enter buying price"
                                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
@@ -164,11 +183,12 @@ const showToast = () => {
                                 <InputError :message="form.errors.buying_price"/>
                             </div>
                             <div class="flex flex-col">
-                                <label for="selling_price" class="text-stone-600 text-sm font-medium">Selling Price</label>
+                                <label for="selling_price" class="text-stone-600 text-sm font-medium">Selling
+                                    Price</label>
                                 <input
                                     id="selling_price"
                                     v-model="form.selling_price"
-                                    @keyup.enter="createProduct"
+                                    @keyup.enter="updateProduct"
                                     type="number"
                                     placeholder="Enter selling price"
                                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
@@ -180,7 +200,7 @@ const showToast = () => {
                                 <input
                                     id="quantity"
                                     v-model="form.quantity"
-                                    @keyup.enter="createProduct"
+                                    @keyup.enter="updateProduct"
                                     type="number"
                                     placeholder="Enter quantity"
                                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
@@ -224,7 +244,7 @@ const showToast = () => {
                         <div class="my-6 flex justify-end">
                             <SubmitButton
                                 :processing="form.processing"
-                                @click="createProduct"
+                                @click="updateProduct"
                                 class="text-white bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                             >
                                 Submit

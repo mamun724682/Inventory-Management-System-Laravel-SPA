@@ -12,9 +12,7 @@ use App\Helpers\BaseHelper;
 use App\Http\Requests\Product\ProductCreateRequest;
 use App\Http\Requests\Product\ProductIndexRequest;
 use App\Http\Requests\Product\ProductUpdateRequest;
-use App\Services\CategoryService;
 use App\Services\ProductService;
-use App\Services\SupplierService;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
@@ -135,6 +133,39 @@ class ProductController extends Controller
             ];
 
             Log::error("Something went wrong", [
+                "message" => $e->getMessage(),
+                "traces"  => $e->getTrace()
+            ]);
+        }
+
+        return redirect()
+            ->route('products.index')
+            ->with('flash', $flash);
+    }
+
+    public function edit($id): Response|RedirectResponse
+    {
+        try {
+            $product = $this->service->findByIdOrFail(id: $id);
+            return Inertia::render(
+                component: 'Product/Edit',
+                props: [
+                    "product" => $product
+                ]
+            );
+        } catch (ProductNotFoundException $e) {
+            $flash = [
+                "isSuccess" => false,
+                "message"   => $e->getMessage(),
+            ];
+        } catch (Exception $e) {
+            $flash = [
+                "isSuccess" => false,
+                "message"   => "Product fetch failed!",
+            ];
+
+            Log::error("Something went wrong", [
+                "id"      => $id,
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()
             ]);

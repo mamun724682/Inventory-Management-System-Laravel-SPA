@@ -7,7 +7,7 @@ import Button from "@/Components/Button.vue";
 import Modal from "@/Components/Modal.vue";
 import {push} from 'notivue'
 import {useForm} from '@inertiajs/vue3';
-import {nextTick, ref} from 'vue';
+import {ref} from 'vue';
 
 defineProps({
     filters: {
@@ -109,7 +109,11 @@ const showToast = () => {
                         <TableData>{{ product.supplier?.name ?? '-' }}</TableData>
                         <TableData>{{ product.quantity }}</TableData>
                         <TableData>
-                            <Button @click="editProductModal(product)">
+                            <Button
+                                :href="route('products.edit', product.id)"
+                                buttonType="link"
+                                preserveScroll
+                            >
                                 <i class="fa fa-edit"></i>
                             </Button>
                             <Button
