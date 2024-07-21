@@ -125,12 +125,12 @@ class EmployeeController extends Controller
             ->with('flash', $flash);
     }
 
-    public function edit(Employee $product): Response|RedirectResponse
+    public function edit(Employee $employee): Response|RedirectResponse
     {
         return Inertia::render(
             component: 'Employee/Edit',
             props: [
-                "product" => $product
+                "employee" => $employee
             ]
         );
     }

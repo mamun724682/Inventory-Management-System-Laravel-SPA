@@ -48,9 +48,12 @@ class EmployeeService
      */
     public function findByIdOrFail(int $id, array $expands = []): ?Employee
     {
-        $employee = $this->repository->find([
-            EmployeeFiltersEnum::ID->value => $id
-        ], $expands);
+        $employee = $this->repository->find(
+            filters: [
+                EmployeeFiltersEnum::ID->value => $id
+            ],
+            expand: $expands
+        );
 
         if (!$employee) {
             throw new EmployeeNotFoundException('Employee not found by the given id.');
@@ -65,7 +68,7 @@ class EmployeeService
      */
     public function isIdExists(int $id): bool
     {
-        return $this->repository->exists([
+        return $this->repository->exists(filters: [
             EmployeeFieldsEnum::ID->value => $id
         ]);
     }
@@ -81,7 +84,7 @@ class EmployeeService
             EmployeeFieldsEnum::NAME->value => $payload[EmployeeFieldsEnum::NAME->value],
         ];
 
-        return $this->repository->create($processPayload);
+        return $this->repository->create(payload: $processPayload);
     }
 
     /**
@@ -93,13 +96,16 @@ class EmployeeService
      */
     public function update(int $id, array $payload): Employee
     {
-        $employee = $this->findByIdOrFail($id);
+        $employee = $this->findByIdOrFail(id: $id);
 
         $processPayload = [
             EmployeeFieldsEnum::NAME->value => $payload[EmployeeFieldsEnum::NAME->value],
         ];
 
-        return $this->repository->update($employee, $processPayload);
+        return $this->repository->update(
+            employee: $employee,
+            changes: $processPayload
+        );
     }
 
     /**
@@ -109,7 +115,7 @@ class EmployeeService
      */
     public function delete(int $id): ?bool
     {
-        $employee = $this->findByIdOrFail($id);
-        return $this->repository->delete($employee);
+        $employee = $this->findByIdOrFail(id: $id);
+        return $this->repository->delete(employee: $employee);
     }
 }
