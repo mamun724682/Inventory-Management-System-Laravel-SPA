@@ -2,17 +2,15 @@
 
 namespace App\Repositories;
 
-use App\Enums\Category\CategoryFieldsEnum;
-use App\Enums\Category\CategoryFiltersEnum;
+use App\Enums\Expense\ExpenseFieldsEnum;
+use App\Enums\Expense\ExpenseFiltersEnum;
 use App\Exceptions\DBCommitException;
-use App\Models\Category;
+use App\Models\Expense;
 use Exception;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\HigherOrderWhenProxy;
 
-class CategoryRepository
+class ExpenseRepository
 {
     const MAX_RETRY = 5;
 
@@ -62,9 +60,9 @@ class CategoryRepository
     /**
      * @param array $filters
      * @param array $expand
-     * @return Category|null
+     * @return Expense|null
      */
-    public function find(array $filters = [], array $expand = []): ?Category
+    public function find(array $filters = [], array $expand = []): ?Expense
     {
         return $this->getQuery($filters)
             ->with($expand)
@@ -80,9 +78,9 @@ class CategoryRepository
     {
         try {
             DB::beginTransaction();
-            $category = Category::create($payload);
+            $expense = Expense::create($payload);
             DB::commit();
-            return $category;
+            return $expense;
         } catch (Exception $exception) {
             DB::rollBack();
             throw new DBCommitException($exception);
@@ -90,50 +88,52 @@ class CategoryRepository
     }
 
     /**
-     * @param Category $category
+     * @param Expense $expense
      * @param array $changes
-     * @return Category
+     * @return Expense
      * @throws Exception
      */
-    public function update(Category $category, array $changes): Category
+    public function update(Expense $expense, array $changes): Expense
     {
         $attempt = 1;
         do {
-            $updated = $category->update($changes);
+            $updated = $expense->update($changes);
             $attempt++;
         } while (!$updated && $attempt <= self::MAX_RETRY);
 
         if (!$updated && $attempt > self::MAX_RETRY) {
-            throw new Exception("Max retry exceeded during category update");
+            throw new Exception("Max retry exceeded during expense update");
         }
 
-        return $category->refresh();
+        return $expense->refresh();
     }
 
     /**
-     * @param Category $category
+     * @param Expense $expense
      * @return bool|null
      */
-    public function delete(Category $category): ?bool
+    public function delete(Expense $expense): ?bool
     {
-        return $category->delete();
+        return $expense->delete();
     }
 
-    /**
-     * @param array $filters
-     * @return Builder|HigherOrderWhenProxy
-     */
-    private function getQuery(array $filters): Builder|HigherOrderWhenProxy
+    private function getQuery(array $filters)
     {
-        return Category::query()
-            ->when(isset($filters[CategoryFiltersEnum::ID->value]), function ($query) use ($filters) {
-                $query->where(CategoryFieldsEnum::ID->value, $filters[CategoryFiltersEnum::ID->value]);
+        return Expense::query()
+            ->when(isset($filters[ExpenseFiltersEnum::ID->value]), function ($query) use ($filters) {
+                $query->where(ExpenseFieldsEnum::ID->value, $filters[ExpenseFiltersEnum::ID->value]);
             })
-            ->when(isset($filters[CategoryFiltersEnum::NAME->value]), function ($query) use ($filters) {
-                $query->where(CategoryFieldsEnum::NAME->value, "like", "%" . $filters[CategoryFiltersEnum::NAME->value] . "%");
+            ->when(isset($filters[ExpenseFiltersEnum::NAME->value]), function ($query) use ($filters) {
+                $query->where(ExpenseFieldsEnum::NAME->value, "like", "%" . $filters[ExpenseFiltersEnum::NAME->value] . "%");
             })
-            ->when(isset($filters[CategoryFiltersEnum::CREATED_AT->value]), function ($query) use ($filters) {
-                $query->whereBetween(CategoryFieldsEnum::CREATED_AT->value, $filters[CategoryFiltersEnum::CREATED_AT->value]);
+            ->when(isset($filters[ExpenseFiltersEnum::AMOUNT->value]), function ($query) use ($filters) {
+                $query->whereBetween(ExpenseFieldsEnum::AMOUNT->value, $filters[ExpenseFiltersEnum::AMOUNT->value]);
+            })
+            ->when(isset($filters[ExpenseFiltersEnum::EXPENSE_DATE->value]), function ($query) use ($filters) {
+                $query->whereBetween(ExpenseFieldsEnum::EXPENSE_DATE->value, $filters[ExpenseFiltersEnum::EXPENSE_DATE->value]);
+            })
+            ->when(isset($filters[ExpenseFiltersEnum::CREATED_AT->value]), function ($query) use ($filters) {
+                $query->whereBetween(ExpenseFieldsEnum::CREATED_AT->value, $filters[ExpenseFiltersEnum::CREATED_AT->value]);
             });
     }
 }
