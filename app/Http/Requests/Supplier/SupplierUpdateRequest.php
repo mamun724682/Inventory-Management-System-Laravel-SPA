@@ -23,7 +23,7 @@ class SupplierUpdateRequest extends FormRequest
     {
         return [
             "name"      => ["required", "string", "max:255"],
-            "email"     => ["required", "string", "max:255"],
+            "email"     => ["required", "email", "max:255"],
             "phone"     => ["required", "string", "max:255"],
             "address"   => ["nullable", "string"],
             "photo"     => ["nullable", "file", "mimes:jpg,jpeg,png,gif,svg", "max:1024"],

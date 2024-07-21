@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
@@ -46,6 +47,9 @@ Route::middleware('auth')->group(function () {
 
     // Expense
     Route::apiResource('expenses', ExpenseController::class);
+
+    // Employee
+    Route::apiResource('employees', EmployeeController::class);
 });
 
 require __DIR__.'/auth.php';
