@@ -111,6 +111,12 @@
                     />
 
                     <SidebarItem
+                        name="Customer"
+                        routeName="customers.index"
+                        icon="fas fa-users"
+                    />
+
+                    <SidebarItem
                         name="Expenses"
                         routeName="expenses.index"
                         icon="fas fa-dolly"

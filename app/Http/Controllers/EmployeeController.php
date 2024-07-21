@@ -11,7 +11,6 @@ use App\Helpers\BaseHelper;
 use App\Http\Requests\Employee\EmployeeCreateRequest;
 use App\Http\Requests\Employee\EmployeeIndexRequest;
 use App\Http\Requests\Employee\EmployeeUpdateRequest;
-use App\Models\Employee;
 use App\Services\EmployeeService;
 use Exception;
 use Illuminate\Http\RedirectResponse;
@@ -92,13 +91,6 @@ class EmployeeController extends Controller
             ]);
     }
 
-    public function create(): Response
-    {
-        return Inertia::render(
-            component: 'Employee/Create'
-        );
-    }
-
     public function store(EmployeeCreateRequest $request): RedirectResponse
     {
         try {
@@ -123,16 +115,6 @@ class EmployeeController extends Controller
         return redirect()
             ->route('employees.index')
             ->with('flash', $flash);
-    }
-
-    public function edit(Employee $employee): Response|RedirectResponse
-    {
-        return Inertia::render(
-            component: 'Employee/Edit',
-            props: [
-                "employee" => $employee
-            ]
-        );
     }
 
     public function update(EmployeeUpdateRequest $request, $id): RedirectResponse
