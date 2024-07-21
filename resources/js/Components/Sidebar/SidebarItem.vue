@@ -32,7 +32,7 @@ defineProps({
         type: String,
     },
     routeName: {
-        type: String,
+        type: [String, Array],
     },
     icon: {
         type: String,

@@ -82,7 +82,10 @@ class ExpenseService
     public function create(array $payload): mixed
     {
         $processPayload = [
-            ExpenseFieldsEnum::NAME->value => $payload[ExpenseFieldsEnum::NAME->value],
+            ExpenseFieldsEnum::NAME->value         => $payload[ExpenseFieldsEnum::NAME->value],
+            ExpenseFieldsEnum::DESCRIPTION->value  => $payload[ExpenseFieldsEnum::DESCRIPTION->value],
+            ExpenseFieldsEnum::AMOUNT->value       => $payload[ExpenseFieldsEnum::AMOUNT->value],
+            ExpenseFieldsEnum::EXPENSE_DATE->value => $payload[ExpenseFieldsEnum::EXPENSE_DATE->value],
         ];
 
         return $this->repository->create(payload: $processPayload);
@@ -100,7 +103,10 @@ class ExpenseService
         $expense = $this->findByIdOrFail(id: $id);
 
         $processPayload = [
-            ExpenseFieldsEnum::NAME->value => $payload[ExpenseFieldsEnum::NAME->value],
+            ExpenseFieldsEnum::NAME->value         => $payload[ExpenseFieldsEnum::NAME->value] ?? $expense->name,
+            ExpenseFieldsEnum::DESCRIPTION->value  => $payload[ExpenseFieldsEnum::DESCRIPTION->value] ?? $expense->description,
+            ExpenseFieldsEnum::AMOUNT->value       => $payload[ExpenseFieldsEnum::AMOUNT->value] ?? $expense->amount,
+            ExpenseFieldsEnum::EXPENSE_DATE->value => $payload[ExpenseFieldsEnum::EXPENSE_DATE->value] ?? $expense->expense_date,
         ];
 
         return $this->repository->update(

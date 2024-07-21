@@ -105,6 +105,12 @@
                     />
 
                     <SidebarItem
+                        name="Expenses"
+                        routeName="expenses.index"
+                        icon="fas fa-dolly"
+                    />
+
+                    <SidebarItem
                         name="Settings"
                         routeName="profile.edit"
                         icon="fas fa-tools"
