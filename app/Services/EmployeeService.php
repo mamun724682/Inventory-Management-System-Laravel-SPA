@@ -16,7 +16,10 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class EmployeeService
 {
-    public function __construct(private readonly EmployeeRepository $repository)
+    public function __construct(
+        private readonly EmployeeRepository $repository,
+        private readonly FileManagerService $fileManagerService
+    )
     {
     }
 
@@ -63,25 +66,29 @@ class EmployeeService
     }
 
     /**
-     * @param int $id
-     * @return bool
-     */
-    public function isIdExists(int $id): bool
-    {
-        return $this->repository->exists(filters: [
-            EmployeeFieldsEnum::ID->value => $id
-        ]);
-    }
-
-    /**
      * @param array $payload
      * @return mixed
      * @throws DBCommitException
      */
     public function create(array $payload): mixed
     {
+        $photo = null;
+        if (isset($payload['photo'])) {
+            $photo = $this->fileManagerService->uploadFile(
+                file: $payload['photo'],
+                uploadPath: Employee::PHOTO_PATH
+            );
+        }
+
         $processPayload = [
-            EmployeeFieldsEnum::NAME->value => $payload[EmployeeFieldsEnum::NAME->value],
+            EmployeeFieldsEnum::NAME->value         => $payload[EmployeeFieldsEnum::NAME->value],
+            EmployeeFieldsEnum::EMAIL->value        => $payload[EmployeeFieldsEnum::EMAIL->value],
+            EmployeeFieldsEnum::PHONE->value        => $payload[EmployeeFieldsEnum::PHONE->value],
+            EmployeeFieldsEnum::SALARY->value       => $payload[EmployeeFieldsEnum::SALARY->value],
+            EmployeeFieldsEnum::ADDRESS->value      => $payload[EmployeeFieldsEnum::ADDRESS->value],
+            EmployeeFieldsEnum::NID->value          => $payload[EmployeeFieldsEnum::NID->value],
+            EmployeeFieldsEnum::JOINING_DATE->value => $payload[EmployeeFieldsEnum::JOINING_DATE->value],
+            EmployeeFieldsEnum::PHOTO->value        => $photo,
         ];
 
         return $this->repository->create(payload: $processPayload);
@@ -98,8 +105,24 @@ class EmployeeService
     {
         $employee = $this->findByIdOrFail(id: $id);
 
+        $photo = $employee->getRawOriginal(EmployeeFieldsEnum::PHOTO->value);
+        if (isset($payload['photo'])) {
+            $photo = $this->fileManagerService->uploadFile(
+                file: $payload['photo'],
+                uploadPath: Employee::PHOTO_PATH,
+                deleteFileName: $photo
+            );
+        }
+
         $processPayload = [
-            EmployeeFieldsEnum::NAME->value => $payload[EmployeeFieldsEnum::NAME->value],
+            EmployeeFieldsEnum::NAME->value         => $payload[EmployeeFieldsEnum::NAME->value] ?? $employee->name,
+            EmployeeFieldsEnum::EMAIL->value        => $payload[EmployeeFieldsEnum::EMAIL->value] ?? $employee->email,
+            EmployeeFieldsEnum::PHONE->value        => $payload[EmployeeFieldsEnum::PHONE->value] ?? $employee->phone,
+            EmployeeFieldsEnum::SALARY->value       => $payload[EmployeeFieldsEnum::SALARY->value] ?? $employee->salary,
+            EmployeeFieldsEnum::ADDRESS->value      => $payload[EmployeeFieldsEnum::ADDRESS->value] ?? $employee->address,
+            EmployeeFieldsEnum::NID->value          => $payload[EmployeeFieldsEnum::NID->value] ?? $employee->nid,
+            EmployeeFieldsEnum::JOINING_DATE->value => $payload[EmployeeFieldsEnum::JOINING_DATE->value] ?? $employee->joining_date,
+            EmployeeFieldsEnum::PHOTO->value        => $photo,
         ];
 
         return $this->repository->update(
@@ -116,6 +139,14 @@ class EmployeeService
     public function delete(int $id): ?bool
     {
         $employee = $this->findByIdOrFail(id: $id);
+        $photo = $employee->getRawOriginal(EmployeeFieldsEnum::PHOTO->value);
+        if ($photo) {
+            $this->fileManagerService->delete(
+                fileName: $photo,
+                path: Employee::PHOTO_PATH,
+            );
+        }
+
         return $this->repository->delete(employee: $employee);
     }
 }

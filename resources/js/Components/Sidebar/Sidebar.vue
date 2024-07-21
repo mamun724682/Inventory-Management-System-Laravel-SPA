@@ -105,6 +105,12 @@
                     />
 
                     <SidebarItem
+                        name="Employee"
+                        routeName="employees.index"
+                        icon="fas fa-house-user"
+                    />
+
+                    <SidebarItem
                         name="Expenses"
                         routeName="expenses.index"
                         icon="fas fa-dolly"
