@@ -6,6 +6,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -41,8 +42,9 @@ Route::middleware('auth')->group(function () {
     Route::apiResource('suppliers', SupplierController::class);
     Route::resource('products', ProductController::class);
     Route::apiResource('expenses', ExpenseController::class);
-    Route::apiResource('employees', EmployeeController::class);
     Route::apiResource('customers', CustomerController::class);
+    Route::apiResource('employees', EmployeeController::class);
+    Route::apiResource('salaries', SalaryController::class);
 });
 
 require __DIR__.'/auth.php';
