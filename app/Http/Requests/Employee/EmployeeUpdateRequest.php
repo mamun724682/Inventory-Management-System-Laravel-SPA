@@ -32,6 +32,7 @@ class EmployeeUpdateRequest extends FormRequest
                 Rule::unique((new Employee())->getTable())->ignore($this->employee)
             ],
             EmployeeFieldsEnum::PHONE->value        => ["required", "string", "max:255"],
+            EmployeeFieldsEnum::DESIGNATION->value  => ["nullable", "string", "max:255"],
             EmployeeFieldsEnum::ADDRESS->value      => ["required", "string"],
             EmployeeFieldsEnum::SALARY->value       => ["required", "numeric"],
             EmployeeFieldsEnum::PHOTO->value        => ["nullable", "file", "mimes:jpg,jpeg,png,gif,svg", "max:1024"],

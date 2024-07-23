@@ -31,7 +31,6 @@ class SalaryCreateRequest extends FormRequest
                 "integer",
                 Rule::exists((new Employee())->getTable(), 'id'),
             ],
-            SalaryFieldsEnum::AMOUNT->value      => ["required", "numeric"],
             SalaryFieldsEnum::SALARY_DATE->value => ["required", "date"],
         ];
     }

@@ -30,6 +30,7 @@ class EmployeeIndexRequest extends BaseIndexRequest
             EmployeeFiltersEnum::NAME->value                => ["nullable", "max:255"],
             EmployeeFiltersEnum::EMAIL->value               => ["nullable", "max:100"],
             EmployeeFiltersEnum::PHONE->value               => ["nullable", "max:255"],
+            EmployeeFiltersEnum::DESIGNATION->value         => ["nullable", "max:255"],
             EmployeeFiltersEnum::NID->value                 => ["nullable", "max:100"],
             EmployeeFiltersEnum::SALARY->value              => ["nullable", "array", "min:2", "max:2"],
             EmployeeFiltersEnum::SALARY->value . '.*'       => ["required", "numeric"],

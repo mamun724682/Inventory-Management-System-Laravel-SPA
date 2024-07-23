@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string(EmployeeFieldsEnum::NAME->value)->index();
             $table->string(EmployeeFieldsEnum::EMAIL->value)->unique();
             $table->string(EmployeeFieldsEnum::PHONE->value);
+            $table->string(EmployeeFieldsEnum::DESIGNATION->value);
             $table->string(EmployeeFieldsEnum::ADDRESS->value);
             $table->decimal(EmployeeFieldsEnum::SALARY->value, 20, 8);
             $table->string(EmployeeFieldsEnum::PHOTO->value)->nullable();

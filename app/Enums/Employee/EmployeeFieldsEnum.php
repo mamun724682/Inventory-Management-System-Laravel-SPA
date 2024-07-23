@@ -13,6 +13,7 @@ enum EmployeeFieldsEnum: string implements BaseEnumInterface
     case NAME         = 'name';
     case EMAIL        = 'email';
     case PHONE        = 'phone';
+    case DESIGNATION  = 'designation';
     case ADDRESS      = 'address';
     case SALARY       = 'salary';
     case PHOTO        = 'photo'; // nullable
@@ -27,6 +28,7 @@ enum EmployeeFieldsEnum: string implements BaseEnumInterface
             self::NAME->value         => "Name",
             self::EMAIL->value        => "Email",
             self::PHONE->value        => "Phone",
+            self::DESIGNATION->value  => "Designation",
             self::ADDRESS->value      => "Address",
             self::SALARY->value       => "Salary",
             self::PHOTO->value        => "Photo",

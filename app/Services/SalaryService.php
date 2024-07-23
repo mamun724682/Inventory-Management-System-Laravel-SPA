@@ -6,6 +6,8 @@ use App\Enums\Core\SortOrderEnum;
 use App\Enums\Salary\SalaryFieldsEnum;
 use App\Enums\Salary\SalaryFiltersEnum;
 use App\Exceptions\DBCommitException;
+use App\Exceptions\EmployeeNotFoundException;
+use App\Exceptions\SalaryAlreadyPaidException;
 use App\Exceptions\SalaryNotFoundException;
 use App\Helpers\ArrayHelper;
 use App\Helpers\BaseHelper;
@@ -16,7 +18,10 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class SalaryService
 {
-    public function __construct(private readonly SalaryRepository $repository)
+    public function __construct(
+        private readonly SalaryRepository $repository,
+        private readonly EmployeeService  $employeeService
+    )
     {
     }
 
@@ -66,12 +71,28 @@ class SalaryService
      * @param array $payload
      * @return mixed
      * @throws DBCommitException
+     * @throws EmployeeNotFoundException
+     * @throws SalaryAlreadyPaidException
      */
     public function create(array $payload): mixed
     {
+        $employee = $this->employeeService->findByIdOrFail(id: $payload["employee_id"]);
+
+        // Check salary paid for current month
+        $salary = $this->repository->exists(
+            filters: [
+                SalaryFiltersEnum::EMPLOYEE_ID->value => $payload["employee_id"],
+                SalaryFiltersEnum::SALARY_DATE->value => $payload["salary_date"],
+            ]
+        );
+
+        if ($salary) {
+            throw new SalaryAlreadyPaidException('Salary already paid for the current month.');
+        }
+
         $processPayload = [
             SalaryFieldsEnum::EMPLOYEE_ID->value => $payload[SalaryFieldsEnum::EMPLOYEE_ID->value],
-            SalaryFieldsEnum::AMOUNT->value      => $payload[SalaryFieldsEnum::AMOUNT->value],
+            SalaryFieldsEnum::AMOUNT->value      => $employee->salary,
             SalaryFieldsEnum::SALARY_DATE->value => $payload[SalaryFieldsEnum::SALARY_DATE->value],
         ];
 

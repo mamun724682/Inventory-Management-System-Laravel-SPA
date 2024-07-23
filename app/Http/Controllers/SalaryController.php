@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Enums\Core\FilterFieldTypeEnum;
 use App\Enums\Core\SortOrderEnum;
+use App\Enums\Salary\SalaryExpandEnum;
 use App\Enums\Salary\SalaryFiltersEnum;
 use App\Enums\Salary\SalarySortFieldsEnum;
+use App\Exceptions\EmployeeNotFoundException;
+use App\Exceptions\SalaryAlreadyPaidException;
 use App\Exceptions\SalaryNotFoundException;
 use App\Helpers\BaseHelper;
 use App\Http\Requests\Salary\SalaryCreateRequest;
@@ -26,10 +29,16 @@ class SalaryController extends Controller
 
     public function index(SalaryIndexRequest $request): Response
     {
+        $params = $request->validated();
+        $params['expand'] = [
+            ...$params['expand'] ?? [],
+            SalaryExpandEnum::EMPLOYEE->value,
+        ];
+
         return Inertia::render(
             component: 'Salary/Index',
             props: [
-                'salaries' => $this->service->getAll($request->validated()),
+                'salaries' => $this->service->getAll($params),
                 'filters'  => [
                     SalaryFiltersEnum::EMPLOYEE_ID->value => [
                         'label'       => SalaryFiltersEnum::EMPLOYEE_ID->label(),
@@ -81,6 +90,11 @@ class SalaryController extends Controller
             );
             $flash = [
                 "message" => 'Salary created successfully.'
+            ];
+        } catch (EmployeeNotFoundException|SalaryAlreadyPaidException $e) {
+            $flash = [
+                "isSuccess" => false,
+                "message"   => $e->getMessage(),
             ];
         } catch (Exception $e) {
             $flash = [

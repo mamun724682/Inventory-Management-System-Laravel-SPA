@@ -111,6 +111,12 @@
                     />
 
                     <SidebarItem
+                        name="Salary"
+                        routeName="salaries.index"
+                        icon="fas fa-money-bill"
+                    />
+
+                    <SidebarItem
                         name="Customer"
                         routeName="customers.index"
                         icon="fas fa-users"
@@ -128,7 +134,7 @@
                         icon="fas fa-tools"
                     />
                 </ul>
-
+<!--<i class="fas fa-mon"></i>-->
                 <!-- Divider -->
                 <hr class="my-4 md:min-w-full"/>
                 <!-- Heading -->

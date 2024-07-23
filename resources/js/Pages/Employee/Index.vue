@@ -25,12 +25,13 @@ const showCreateModal = ref(false);
 const showEditModal = ref(false);
 const showDeleteModal = ref(false);
 const nameInput = ref(null);
-const tableHeads = ref(['#', "Name", "Email", "Phone", "Salary", "Joining Date", "Action"]);
+const tableHeads = ref(['#', "Name", "Designation", "Email", "Phone", "Salary", "Joining Date", "Action"]);
 
 const form = useForm({
     name: null,
     email: null,
     phone: null,
+    designation: null,
     address: null,
     salary: null,
     nid: null,
@@ -50,6 +51,7 @@ const editEmployeeModal = (employee) => {
     form.name = employee.name;
     form.email = employee.email;
     form.phone = employee.phone;
+    form.designation = employee.designation;
     form.address = employee.address;
     form.salary = employee.salary;
     form.nid = employee.nid;
@@ -153,6 +155,7 @@ const showToast = () => {
                             />
                             <span class="ml-3 font-bold text-blueGray-600">{{ employee.name }}</span>
                         </TableData>
+                        <TableData>{{ employee.designation }}</TableData>
                         <TableData>{{ employee.email }}</TableData>
                         <TableData>{{ employee.phone }}</TableData>
                         <TableData>{{ employee.salary }}</TableData>
@@ -215,6 +218,28 @@ const showToast = () => {
                 </div>
                 <div class="flex flex-col">
                     <DashboardInputGroup
+                        label="NID"
+                        name="nid"
+                        v-model="form.nid"
+                        placeholder="Enter nid"
+                        :errorMessage="form.errors.nid"
+                        @keyupEnter="createEmployee"
+                    />
+                </div>
+            </div>
+            <div class="my-3 grid gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3">
+                <div class="flex flex-col">
+                    <DashboardInputGroup
+                        label="Designation"
+                        name="designation"
+                        v-model="form.designation"
+                        placeholder="Enter designation"
+                        :errorMessage="form.errors.designation"
+                        @keyupEnter="createEmployee"
+                    />
+                </div>
+                <div class="flex flex-col">
+                    <DashboardInputGroup
                         label="Salary"
                         name="salary"
                         v-model="form.salary"
@@ -222,16 +247,6 @@ const showToast = () => {
                         :errorMessage="form.errors.salary"
                         @keyupEnter="createEmployee"
                         type="number"
-                    />
-                </div>
-                <div class="flex flex-col">
-                    <DashboardInputGroup
-                        label="NID"
-                        name="nid"
-                        v-model="form.nid"
-                        placeholder="Enter nid"
-                        :errorMessage="form.errors.nid"
-                        @keyupEnter="createEmployee"
                     />
                 </div>
                 <div class="flex flex-col">
@@ -245,6 +260,8 @@ const showToast = () => {
                         type="date"
                     />
                 </div>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                 <div class="flex flex-col">
                     <label
                         class="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-emerald-600">
@@ -322,6 +339,28 @@ const showToast = () => {
                 </div>
                 <div class="flex flex-col">
                     <DashboardInputGroup
+                        label="NID"
+                        name="nid"
+                        v-model="form.nid"
+                        placeholder="Enter nid"
+                        :errorMessage="form.errors.nid"
+                        @keyupEnter="createEmployee"
+                    />
+                </div>
+            </div>
+            <div class="my-3 grid gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3">
+                <div class="flex flex-col">
+                    <DashboardInputGroup
+                        label="Designation"
+                        name="designation"
+                        v-model="form.designation"
+                        placeholder="Enter designation"
+                        :errorMessage="form.errors.designation"
+                        @keyupEnter="createEmployee"
+                    />
+                </div>
+                <div class="flex flex-col">
+                    <DashboardInputGroup
                         label="Salary"
                         name="salary"
                         v-model="form.salary"
@@ -329,16 +368,6 @@ const showToast = () => {
                         :errorMessage="form.errors.salary"
                         @keyupEnter="createEmployee"
                         type="number"
-                    />
-                </div>
-                <div class="flex flex-col">
-                    <DashboardInputGroup
-                        label="NID"
-                        name="nid"
-                        v-model="form.nid"
-                        placeholder="Enter nid"
-                        :errorMessage="form.errors.nid"
-                        @keyupEnter="createEmployee"
                     />
                 </div>
                 <div class="flex flex-col">
@@ -352,6 +381,8 @@ const showToast = () => {
                         type="date"
                     />
                 </div>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                 <div class="flex flex-col">
                     <label
                         class="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-emerald-600">

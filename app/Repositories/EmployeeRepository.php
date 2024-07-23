@@ -138,6 +138,9 @@ class EmployeeRepository
             ->when(isset($filters[EmployeeFiltersEnum::PHONE->value]), function ($query) use ($filters) {
                 $query->where(EmployeeFieldsEnum::PHONE->value, $filters[EmployeeFiltersEnum::PHONE->value]);
             })
+            ->when(isset($filters[EmployeeFiltersEnum::DESIGNATION->value]), function ($query) use ($filters) {
+                $query->where(EmployeeFieldsEnum::DESIGNATION->value, "like", "%" . $filters[EmployeeFiltersEnum::DESIGNATION->value] . "%");
+            })
             ->when(isset($filters[EmployeeFiltersEnum::NID->value]), function ($query) use ($filters) {
                 $query->where(EmployeeFieldsEnum::NID->value, $filters[EmployeeFiltersEnum::NID->value]);
             })
