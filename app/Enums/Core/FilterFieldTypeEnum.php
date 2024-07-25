@@ -17,6 +17,7 @@ enum FilterFieldTypeEnum: string implements BaseEnumInterface
     case MULTI_SELECT        = 'multiselect';
     case MULTI_SELECT_STATIC = 'multiselect_static';
     case DATE                = 'date';
+    case MONTH               = 'month';
     case DATE_RANGE          = 'date_range';
     case DATETIME            = 'datetime';
     case BOOLEAN             = 'boolean';

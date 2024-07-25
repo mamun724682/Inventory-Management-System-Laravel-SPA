@@ -55,7 +55,7 @@ class SalaryController extends Controller
                     SalaryFiltersEnum::SALARY_DATE->value => [
                         'label'       => SalaryFiltersEnum::SALARY_DATE->label(),
                         'placeholder' => 'Enter salary month.',
-                        'type'        => FilterFieldTypeEnum::DATE->value,
+                        'type'        => FilterFieldTypeEnum::MONTH->value,
                         'value'       => $request->validated()[SalaryFiltersEnum::SALARY_DATE->value] ?? "",
                     ],
                     "sort_by"                             => [

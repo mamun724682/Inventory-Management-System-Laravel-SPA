@@ -125,7 +125,7 @@ const showToast = () => {
                         <TableData>
                             {{ (salaries.current_page * salaries.per_page) - (salaries.per_page - (index + 1)) }}
                         </TableData>
-                        <TableData>{{ salary.employee.name }}</TableData>
+                        <TableData>{{ salary.employee.name }} ({{ salary.employee.designation }})</TableData>
                         <TableData>{{ salary.amount }}</TableData>
                         <TableData>{{ salary.salary_date }}</TableData>
                         <TableData>

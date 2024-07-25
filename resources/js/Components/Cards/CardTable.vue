@@ -20,6 +20,22 @@
                                 type="text"
                                 class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                             />
+                            <input
+                                v-if="filter.type === 'date'"
+                                :id="key"
+                                :placeholder="filter.placeholder"
+                                v-model="form[key]"
+                                type="date"
+                                class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
+                            />
+                            <input
+                                v-if="filter.type === 'month'"
+                                :id="key"
+                                :placeholder="filter.placeholder"
+                                v-model="form[key]"
+                                type="month"
+                                class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
+                            />
                             <select
                                 v-else-if="filter.type === 'select_static'"
                                 :id="key"
