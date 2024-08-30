@@ -51,6 +51,8 @@
                                     {{ option.label }}
                                 </option>
                             </select>
+
+                            <AsyncVueSelect v-model="form[key]" class="mt-2" v-if="filter.type === 'select'"/>
                         </div>
 
                         <div class="flex flex-col justify-end">
@@ -108,9 +110,11 @@ import Button from "@/Components/Button.vue";
 import emptyData from "@/assets/img/emptyData.png"
 import {usePage} from "@inertiajs/vue3";
 import {push} from "notivue";
+import AsyncVueSelect from "@/Components/AsyncVueSelect.vue";
 
 export default {
     components: {
+        AsyncVueSelect,
         Button,
         TableData,
         TableHead,

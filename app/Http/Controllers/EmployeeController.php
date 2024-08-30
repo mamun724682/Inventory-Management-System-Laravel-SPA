@@ -24,8 +24,12 @@ class EmployeeController extends Controller
     {
     }
 
-    public function index(EmployeeIndexRequest $request): Response
+    public function index(EmployeeIndexRequest $request)
     {
+        if ($request->inertia == "disabled"){
+            return $this->service->getAll($request->validated());
+        }
+
         return Inertia::render(
             component: 'Employee/Index',
             props: [

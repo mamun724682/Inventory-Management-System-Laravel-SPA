@@ -45,6 +45,7 @@ class SalaryController extends Controller
                         'placeholder' => 'Select employee.',
                         'type'        => FilterFieldTypeEnum::SELECT->value,
                         'value'       => $request->validated()[SalaryFiltersEnum::EMPLOYEE_ID->value] ?? "",
+                        "resource"    => "employees",
                     ],
                     SalaryFiltersEnum::AMOUNT->value      => [
                         'label'       => SalaryFiltersEnum::AMOUNT->label(),
