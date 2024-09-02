@@ -18,14 +18,15 @@ enum ProductFiltersEnum: string implements BaseEnumInterface
     case SELLING_PRICE = 'selling_price';
     case BUYING_DATE   = 'buying_date'; // nullable
     case QUANTITY      = 'quantity';
+    case QUANTITIES    = 'quantities';
     case CREATED_AT    = 'created_at';
 
     public static function labels(): array
     {
         return [
             self::ID->value            => "Id",
-            self::CATEGORY_ID->value   => "Category ID",
-            self::SUPPLIER_ID->value   => "Supplier ID",
+            self::CATEGORY_ID->value   => "Category",
+            self::SUPPLIER_ID->value   => "Supplier",
             self::NAME->value          => "Name",
             self::PRODUCT_CODE->value  => "Product Code",
             self::BUYING_PRICE->value  => "Buying Price",

@@ -52,7 +52,45 @@
                                 </option>
                             </select>
 
-                            <AsyncVueSelect v-model="form[key]" class="mt-2" v-if="filter.type === 'select'"/>
+                            <AsyncVueSelect
+                                v-if="filter.type === 'select'"
+                                v-model="form[key]"
+                                class="mt-2"
+                                :resource="filter.resource"
+                                :placeholder="filter.placeholder"
+                            />
+
+                            <input
+                                v-if="filter.type === 'number_range'"
+                                :id="key"
+                                placeholder="Sample range: 10-100"
+                                v-model="form[key]"
+                                @input="form[key] = $event.target.value.replace(/[^0-9-]/g, '')"
+                                type="text"
+                                class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
+                            />
+
+                            <Datepicker
+                                v-if="filter.type === 'date_range'"
+                                v-model="form[key]"
+                                model-type="yyyy-MM-dd"
+                                format="yyyy-MM-dd"
+                                range
+                                auto-apply
+                                :enable-time-picker="false"
+                                class="mt-2"
+                                :placeholder="filter.placeholder"
+                            />
+
+                            <Datepicker
+                                v-if="filter.type === 'datetime_range'"
+                                v-model="form[key]"
+                                model-type="yyyy-MM-dd HH:mm:ss"
+                                range
+                                auto-apply
+                                class="mt-2"
+                                :placeholder="filter.placeholder"
+                            />
                         </div>
 
                         <div class="flex flex-col justify-end">
@@ -111,6 +149,8 @@ import emptyData from "@/assets/img/emptyData.png"
 import {usePage} from "@inertiajs/vue3";
 import {push} from "notivue";
 import AsyncVueSelect from "@/Components/AsyncVueSelect.vue";
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 
 export default {
     components: {
@@ -120,6 +160,7 @@ export default {
         TableHead,
         Pagination,
         TableDropdown,
+        Datepicker,
     },
     props: {
         indexRoute: String,
@@ -151,8 +192,8 @@ export default {
                     this.$inertia.get(route(this.indexRoute), pickBy(this.form), {
                         preserveState: true,
                         onError: (e) => {
-                            console.log(e)
-                            this.showToast()
+                            console.log(Object.values(e)[0])
+                            this.showErrorToast(Object.values(e)[0])
                         }
                     });
                 }
@@ -178,6 +219,16 @@ export default {
                 push.error(usePage().props.flash.message)
             }
         },
+        showErrorToast(message) {
+            push.error(message)
+        },
     }
 }
 </script>
+
+<style>
+:root {
+    --dp-input-padding: 10px 30px 6px 12px !important;
+    --dp-border-radius: 6px !important;
+}
+</style>

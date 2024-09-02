@@ -27,7 +27,9 @@ class EmployeeController extends Controller
     public function index(EmployeeIndexRequest $request)
     {
         if ($request->inertia == "disabled"){
-            return $this->service->getAll($request->validated());
+            $query = $request->validated();
+            $query["sort_by"] = EmployeeSortFieldsEnum::NAME->value;
+            return $this->service->getAll($query);
         }
 
         return Inertia::render(
@@ -88,7 +90,7 @@ class EmployeeController extends Controller
                     EmployeeFiltersEnum::CREATED_AT->value   => [
                         'label'       => EmployeeFiltersEnum::CREATED_AT->label(),
                         'placeholder' => 'Enter created at.',
-                        'type'        => FilterFieldTypeEnum::DATE_RANGE->value,
+                        'type'        => FilterFieldTypeEnum::DATETIME_RANGE->value,
                         'value'       => $request->validated()[EmployeeFiltersEnum::CREATED_AT->value] ?? "",
                     ],
                 ],

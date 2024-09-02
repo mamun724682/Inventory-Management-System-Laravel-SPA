@@ -19,7 +19,7 @@ enum SalaryFiltersEnum: string implements BaseEnumInterface
     {
         return [
             self::ID->value          => "Id",
-            self::EMPLOYEE_ID->value => "Employee Id",
+            self::EMPLOYEE_ID->value => "Employee",
             self::AMOUNT->value      => "Amount",
             self::SALARY_DATE->value => "Salary Date",
         ];

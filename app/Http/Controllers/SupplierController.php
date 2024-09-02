@@ -12,6 +12,7 @@ use App\Http\Requests\Supplier\SupplierIndexRequest;
 use App\Http\Requests\Supplier\SupplierUpdateRequest;
 use App\Services\SupplierService;
 use Exception;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -23,8 +24,14 @@ class SupplierController extends Controller
     {
     }
 
-    public function index(SupplierIndexRequest $request): Response
+    public function index(SupplierIndexRequest $request): LengthAwarePaginator|Response
     {
+        if ($request->inertia == "disabled"){
+            $query = $request->validated();
+            $query["sort_by"] = SupplierSortFieldsEnum::NAME->value;
+            return $this->service->getAll($query);
+        }
+
         return Inertia::render(
             component: 'Supplier/Index',
             props: [

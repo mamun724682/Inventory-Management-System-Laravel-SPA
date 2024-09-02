@@ -47,4 +47,24 @@ class EmployeeIndexRequest extends BaseIndexRequest
             "per_page"     => ["nullable", "integer", "min:1"],
         ];
     }
+
+    protected function prepareForValidation()
+    {
+        parent::prepareForValidation();
+
+        $values = [];
+        if ($this->has(EmployeeFiltersEnum::SALARY->value) && $this->filled(EmployeeFiltersEnum::SALARY->value)) {
+            $amounts = explode("-", $this->get(EmployeeFiltersEnum::SALARY->value));
+            if (count($amounts) === 1 || (count($amounts) === 2 && $amounts[1] == "")) {
+                $values[EmployeeFiltersEnum::SALARY->value] = [
+                    $amounts[0],
+                    $amounts[0]
+                ];
+            } else {
+                $values[EmployeeFiltersEnum::SALARY->value] = $amounts;
+            }
+        }
+
+        $this->merge($values);
+    }
 }

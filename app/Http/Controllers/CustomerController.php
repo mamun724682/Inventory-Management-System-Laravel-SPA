@@ -66,7 +66,7 @@ class CustomerController extends Controller
                     CustomerFiltersEnum::CREATED_AT->value => [
                         'label'       => CustomerFiltersEnum::CREATED_AT->label(),
                         'placeholder' => 'Enter created at.',
-                        'type'        => FilterFieldTypeEnum::DATE_RANGE->value,
+                        'type'        => FilterFieldTypeEnum::DATETIME_RANGE->value,
                         'value'       => $request->validated()[CustomerFiltersEnum::CREATED_AT->value] ?? "",
                     ],
                 ],

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Core\FilterFieldTypeEnum;
+use App\Enums\Core\FilterResourceEnum;
 use App\Enums\Core\SortOrderEnum;
 use App\Enums\Product\ProductExpandEnum;
 use App\Enums\Product\ProductFiltersEnum;
@@ -56,12 +57,14 @@ class ProductController extends Controller
                         'placeholder' => 'Select category.',
                         'type'        => FilterFieldTypeEnum::SELECT->value,
                         'value'       => $request->validated()[ProductFiltersEnum::CATEGORY_ID->value] ?? "",
+                        'resource' => FilterResourceEnum::CATEGORIES->value,
                     ],
                     ProductFiltersEnum::SUPPLIER_ID->value   => [
                         'label'       => ProductFiltersEnum::SUPPLIER_ID->label(),
                         'placeholder' => 'Select supplier.',
                         'type'        => FilterFieldTypeEnum::SELECT->value,
                         'value'       => $request->validated()[ProductFiltersEnum::SUPPLIER_ID->value] ?? "",
+                        'resource' => FilterResourceEnum::SUPPLIERS->value,
                     ],
                     ProductFiltersEnum::BUYING_PRICE->value  => [
                         'label'       => ProductFiltersEnum::BUYING_PRICE->label(),
@@ -81,11 +84,11 @@ class ProductController extends Controller
                         'type'        => FilterFieldTypeEnum::DATE_RANGE->value,
                         'value'       => $request->validated()[ProductFiltersEnum::BUYING_DATE->value] ?? "",
                     ],
-                    ProductFiltersEnum::QUANTITY->value      => [
-                        'label'       => ProductFiltersEnum::QUANTITY->label(),
-                        'placeholder' => 'Enter quantity.',
+                    ProductFiltersEnum::QUANTITIES->value      => [
+                        'label'       => ProductFiltersEnum::QUANTITIES->label(),
+                        'placeholder' => 'Enter range like: 10-100.',
                         'type'        => FilterFieldTypeEnum::NUMBER_RANGE->value,
-                        'value'       => $request->validated()[ProductFiltersEnum::QUANTITY->value] ?? "",
+                        'value'       => $request->validated()[ProductFiltersEnum::QUANTITIES->value] ?? "",
                     ],
                     "sort_by"                                => [
                         'label'       => 'Sort By',
@@ -104,7 +107,7 @@ class ProductController extends Controller
                     ProductFiltersEnum::CREATED_AT->value    => [
                         'label'       => ProductFiltersEnum::CREATED_AT->label(),
                         'placeholder' => 'Enter created at.',
-                        'type'        => FilterFieldTypeEnum::DATE_RANGE->value,
+                        'type'        => FilterFieldTypeEnum::DATETIME_RANGE->value,
                         'value'       => $request->validated()[ProductFiltersEnum::CREATED_AT->value] ?? "",
                     ],
                 ],

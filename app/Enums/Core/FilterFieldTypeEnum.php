@@ -19,6 +19,7 @@ enum FilterFieldTypeEnum: string implements BaseEnumInterface
     case DATE                = 'date';
     case MONTH               = 'month';
     case DATE_RANGE          = 'date_range';
+    case DATETIME_RANGE      = 'datetime_range';
     case DATETIME            = 'datetime';
     case BOOLEAN             = 'boolean';
 

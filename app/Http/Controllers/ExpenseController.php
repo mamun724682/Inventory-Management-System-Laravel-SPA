@@ -66,7 +66,7 @@ class ExpenseController extends Controller
                     ExpenseFiltersEnum::CREATED_AT->value   => [
                         'label'       => ExpenseFiltersEnum::CREATED_AT->label(),
                         'placeholder' => 'Enter created at.',
-                        'type'        => FilterFieldTypeEnum::DATE_RANGE->value,
+                        'type'        => FilterFieldTypeEnum::DATETIME_RANGE->value,
                         'value'       => $request->validated()[ExpenseFiltersEnum::CREATED_AT->value] ?? "",
                     ],
                 ],

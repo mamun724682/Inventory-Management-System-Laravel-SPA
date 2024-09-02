@@ -8,6 +8,10 @@ export default {
     components: {
         vSelect
     },
+    props: {
+        resource: String,
+        placeholder: String,
+    },
     data: () => ({
         observer: null,
         page: 1,
@@ -30,11 +34,10 @@ export default {
                 page: this.page,
                 name: this.search,
                 inertia: "disabled",
-                sort_by: "name",
                 sort_order: "asc"
             };
 
-            axios.get(route("employees.index", pickBy(queries))).then(({data}) => {
+            axios.get(route(this.resource, pickBy(queries))).then(({data}) => {
                 this.paginatedData = data;
                 if (this.page === 1) {
                     this.options = data.data;
@@ -87,6 +90,7 @@ export default {
         @search="(query) => (search = query)"
         :reduce="option => option.id"
         label="name"
+        :placeholder="this.placeholder"
     >
         <template #list-footer>
             <li v-show="hasNextPage" ref="load" class="loader">

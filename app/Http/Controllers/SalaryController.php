@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Core\FilterFieldTypeEnum;
+use App\Enums\Core\FilterResourceEnum;
 use App\Enums\Core\SortOrderEnum;
 use App\Enums\Salary\SalaryExpandEnum;
 use App\Enums\Salary\SalaryFiltersEnum;
@@ -45,7 +46,7 @@ class SalaryController extends Controller
                         'placeholder' => 'Select employee.',
                         'type'        => FilterFieldTypeEnum::SELECT->value,
                         'value'       => $request->validated()[SalaryFiltersEnum::EMPLOYEE_ID->value] ?? "",
-                        "resource"    => "employees",
+                        "resource"    => FilterResourceEnum::EMPLOYEES->value,
                     ],
                     SalaryFiltersEnum::AMOUNT->value      => [
                         'label'       => SalaryFiltersEnum::AMOUNT->label(),
@@ -76,7 +77,7 @@ class SalaryController extends Controller
                     SalaryFiltersEnum::CREATED_AT->value  => [
                         'label'       => SalaryFiltersEnum::CREATED_AT->label(),
                         'placeholder' => 'Enter created at.',
-                        'type'        => FilterFieldTypeEnum::DATE_RANGE->value,
+                        'type'        => FilterFieldTypeEnum::DATETIME_RANGE->value,
                         'value'       => $request->validated()[SalaryFiltersEnum::CREATED_AT->value] ?? "",
                     ],
                 ],

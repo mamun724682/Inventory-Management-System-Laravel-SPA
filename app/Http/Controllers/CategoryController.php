@@ -23,8 +23,14 @@ class CategoryController extends Controller
     {
     }
 
-    public function index(CategoryIndexRequest $request): Response
+    public function index(CategoryIndexRequest $request)
     {
+        if ($request->inertia == "disabled"){
+            $query = $request->validated();
+            $query["sort_by"] = CategorySortFieldsEnum::NAME->value;
+            return $this->service->getAll($query);
+        }
+
         return Inertia::render(
             component: 'Category/Index',
             props: [
