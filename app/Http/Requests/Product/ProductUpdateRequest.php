@@ -45,7 +45,7 @@ class ProductUpdateRequest extends FormRequest
             ProductFieldsEnum::BUYING_PRICE->value  => ["nullable", "numeric"],
             ProductFieldsEnum::SELLING_PRICE->value => ["required", "numeric", "gt:0"],
             ProductFieldsEnum::BUYING_DATE->value   => ["nullable", "date"],
-            ProductFieldsEnum::QUANTITY->value      => ["required", "integer", "gt:0"],
+            ProductFieldsEnum::QUANTITY->value      => ["required", "integer", "gte:0"],
             ProductFieldsEnum::PHOTO->value         => ["nullable", "file", "mimes:jpg,jpeg,png,gif,svg", "max:1024"],
         ];
     }

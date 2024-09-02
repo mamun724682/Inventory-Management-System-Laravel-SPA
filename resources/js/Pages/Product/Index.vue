@@ -107,7 +107,11 @@ const showToast = () => {
                         <TableData>{{ product.product_code }}</TableData>
                         <TableData>{{ product.category.name }}</TableData>
                         <TableData>{{ product.supplier?.name ?? '-' }}</TableData>
-                        <TableData>{{ product.quantity }}</TableData>
+                        <TableData>
+                            {{ product.quantity }}
+                            <span v-if="product.quantity > 0 && product.quantity < 10" class="text-xs font-semibold inline-block py-1 px-2 rounded text-amber-600 bg-amber-200">Low Stock</span>
+                            <span v-if="product.quantity < 1" class="text-xs font-semibold inline-block py-1 px-2 rounded text-red-600 bg-red-200">Stock Out</span>
+                        </TableData>
                         <TableData>
                             <Button
                                 :href="route('products.edit', product.id)"
