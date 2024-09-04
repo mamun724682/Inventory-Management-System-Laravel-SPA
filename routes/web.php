@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SalaryController;
@@ -45,6 +46,9 @@ Route::middleware('auth')->group(function () {
     Route::apiResource('customers', CustomerController::class);
     Route::apiResource('employees', EmployeeController::class);
     Route::apiResource('salaries', SalaryController::class);
+
+    // POS
+    Route::get('pos', [OrderController::class, 'index'])->name('order.index');
 });
 
 require __DIR__.'/auth.php';

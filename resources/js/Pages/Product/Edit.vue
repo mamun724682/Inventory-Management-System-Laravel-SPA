@@ -25,6 +25,7 @@ onMounted(() => {
     form.buying_price = props.product.buying_price;
     form.selling_price = props.product.selling_price;
     form.quantity = props.product.quantity;
+    form.status = props.product.status;
 });
 
 const nameInput = ref(null);
@@ -41,6 +42,7 @@ const form = useForm({
     selling_price: null,
     quantity: null,
     photo: null,
+    status: null,
 });
 
 const updateProduct = () => {
@@ -206,6 +208,18 @@ const showToast = () => {
                                     class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
                                 />
                                 <InputError :message="form.errors.quantity"/>
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="status" class="text-stone-600 text-sm font-medium">Status</label>
+                                <select
+                                    id="status"
+                                    v-model="form.status"
+                                    class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
+                                >
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                                <InputError :message="form.errors.status"/>
                             </div>
                             <div class="flex flex-col overflow-auto">
                                 <label

@@ -13,6 +13,7 @@ use App\Models\Product;
 use App\Repositories\ProductRepository;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 
 class ProductService
 {
@@ -75,17 +76,19 @@ class ProductService
         );
 
         $processPayload = [
-            ProductFieldsEnum::CATEGORY_ID->value   => $payload[ProductFieldsEnum::CATEGORY_ID->value],
-            ProductFieldsEnum::SUPPLIER_ID->value   => $payload[ProductFieldsEnum::SUPPLIER_ID->value],
-            ProductFieldsEnum::NAME->value          => $payload[ProductFieldsEnum::NAME->value],
-            ProductFieldsEnum::DESCRIPTION->value   => $payload[ProductFieldsEnum::DESCRIPTION->value],
-            ProductFieldsEnum::PRODUCT_CODE->value  => $payload[ProductFieldsEnum::PRODUCT_CODE->value],
-            ProductFieldsEnum::ROOT->value          => $payload[ProductFieldsEnum::ROOT->value],
-            ProductFieldsEnum::BUYING_PRICE->value  => $payload[ProductFieldsEnum::BUYING_PRICE->value],
-            ProductFieldsEnum::SELLING_PRICE->value => $payload[ProductFieldsEnum::SELLING_PRICE->value],
-            ProductFieldsEnum::BUYING_DATE->value   => $payload[ProductFieldsEnum::BUYING_DATE->value],
-            ProductFieldsEnum::QUANTITY->value      => $payload[ProductFieldsEnum::QUANTITY->value],
-            ProductFieldsEnum::PHOTO->value         => $photo,
+            ProductFieldsEnum::CATEGORY_ID->value    => $payload[ProductFieldsEnum::CATEGORY_ID->value],
+            ProductFieldsEnum::SUPPLIER_ID->value    => $payload[ProductFieldsEnum::SUPPLIER_ID->value],
+            ProductFieldsEnum::NAME->value           => $payload[ProductFieldsEnum::NAME->value],
+            ProductFieldsEnum::DESCRIPTION->value    => $payload[ProductFieldsEnum::DESCRIPTION->value],
+            ProductFieldsEnum::PRODUCT_NUMBER->value => 'P-' . Str::random(5),
+            ProductFieldsEnum::PRODUCT_CODE->value   => $payload[ProductFieldsEnum::PRODUCT_CODE->value],
+            ProductFieldsEnum::ROOT->value           => $payload[ProductFieldsEnum::ROOT->value],
+            ProductFieldsEnum::BUYING_PRICE->value   => $payload[ProductFieldsEnum::BUYING_PRICE->value],
+            ProductFieldsEnum::SELLING_PRICE->value  => $payload[ProductFieldsEnum::SELLING_PRICE->value],
+            ProductFieldsEnum::BUYING_DATE->value    => $payload[ProductFieldsEnum::BUYING_DATE->value],
+            ProductFieldsEnum::QUANTITY->value       => $payload[ProductFieldsEnum::QUANTITY->value],
+            ProductFieldsEnum::PHOTO->value          => $photo,
+            ProductFieldsEnum::STATUS->value         => $payload[ProductFieldsEnum::STATUS->value],
         ];
 
         return $this->repository->create($processPayload);
@@ -123,6 +126,7 @@ class ProductService
             ProductFieldsEnum::BUYING_DATE->value   => $payload[ProductFieldsEnum::BUYING_DATE->value] ?? $product->buying_date,
             ProductFieldsEnum::QUANTITY->value      => $payload[ProductFieldsEnum::QUANTITY->value] ?? $product->quantity,
             ProductFieldsEnum::PHOTO->value         => $photo,
+            ProductFieldsEnum::STATUS->value        => $payload[ProductFieldsEnum::STATUS->value] ?? $product->status,
         ];
 
         return $this->repository->update($product, $processPayload);

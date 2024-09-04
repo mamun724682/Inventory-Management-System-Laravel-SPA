@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Product;
 
 use App\Enums\Product\ProductFieldsEnum;
+use App\Enums\Product\ProductStatusEnum;
 use App\Models\Category;
 use App\Models\Supplier;
 use Illuminate\Foundation\Http\FormRequest;
@@ -47,6 +48,7 @@ class ProductUpdateRequest extends FormRequest
             ProductFieldsEnum::BUYING_DATE->value   => ["nullable", "date"],
             ProductFieldsEnum::QUANTITY->value      => ["required", "integer", "gte:0"],
             ProductFieldsEnum::PHOTO->value         => ["nullable", "file", "mimes:jpg,jpeg,png,gif,svg", "max:1024"],
+            ProductFieldsEnum::STATUS->value        => ["required", "string", Rule::in(ProductStatusEnum::values())],
         ];
     }
 }

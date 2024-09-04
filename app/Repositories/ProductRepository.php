@@ -139,6 +139,9 @@ class ProductRepository
             ->when(isset($filters[ProductFiltersEnum::NAME->value]), function ($query) use ($filters) {
                 $query->where(ProductFieldsEnum::NAME->value, "like", "%" . $filters[ProductFiltersEnum::NAME->value] . "%");
             })
+            ->when(isset($filters[ProductFiltersEnum::PRODUCT_NUMBER->value]), function ($query) use ($filters) {
+                $query->where(ProductFieldsEnum::PRODUCT_NUMBER->value, $filters[ProductFiltersEnum::PRODUCT_NUMBER->value]);
+            })
             ->when(isset($filters[ProductFiltersEnum::PRODUCT_CODE->value]), function ($query) use ($filters) {
                 $query->where(ProductFieldsEnum::PRODUCT_CODE->value, $filters[ProductFiltersEnum::PRODUCT_CODE->value]);
             })
@@ -153,6 +156,9 @@ class ProductRepository
             })
             ->when(isset($filters[ProductFiltersEnum::SELLING_PRICE->value]), function ($query) use ($filters) {
                 $query->whereBetween(ProductFieldsEnum::SELLING_PRICE->value, $filters[ProductFiltersEnum::SELLING_PRICE->value]);
+            })
+            ->when(isset($filters[ProductFiltersEnum::STATUS->value]), function ($query) use ($filters) {
+                $query->where(ProductFieldsEnum::STATUS->value, $filters[ProductFiltersEnum::STATUS->value]);
             })
             ->when(isset($filters[ProductFiltersEnum::CREATED_AT->value]), function ($query) use ($filters) {
                 $query->whereBetween(ProductFieldsEnum::CREATED_AT->value, [

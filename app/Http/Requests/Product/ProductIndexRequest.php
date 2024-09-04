@@ -7,6 +7,7 @@ use App\Enums\Product\ProductExpandEnum;
 use App\Enums\Product\ProductFieldsEnum;
 use App\Enums\Product\ProductFiltersEnum;
 use App\Enums\Product\ProductSortFieldsEnum;
+use App\Enums\Product\ProductStatusEnum;
 use App\Http\Requests\BaseIndexRequest;
 use Illuminate\Validation\Rule;
 
@@ -31,6 +32,7 @@ class ProductIndexRequest extends BaseIndexRequest
             ProductFiltersEnum::CATEGORY_ID->value          => ["nullable", "integer"],
             ProductFiltersEnum::SUPPLIER_ID->value          => ["nullable", "integer"],
             ProductFiltersEnum::NAME->value                 => ["nullable", "max:255"],
+            ProductFiltersEnum::PRODUCT_NUMBER->value       => ["nullable", "max:255"],
             ProductFiltersEnum::PRODUCT_CODE->value         => ["nullable", "max:255"],
             ProductFiltersEnum::BUYING_PRICE->value         => ["nullable", "array", "min:2", "max:2"],
             ProductFiltersEnum::BUYING_PRICE->value . ".*"  => ["required", "decimal", "min:0"],
@@ -38,8 +40,9 @@ class ProductIndexRequest extends BaseIndexRequest
             ProductFiltersEnum::SELLING_PRICE->value . ".*" => ["required", "decimal", "min:0"],
             ProductFiltersEnum::BUYING_DATE->value          => ["nullable", "array", "min:2", "max:2"],
             ProductFiltersEnum::BUYING_DATE->value . ".*"   => ["required", "date"],
-            ProductFiltersEnum::QUANTITIES->value             => ["nullable", "array", "min:2", "max:2"],
-            ProductFiltersEnum::QUANTITIES->value . ".*"      => ["required", "integer"],
+            ProductFiltersEnum::QUANTITIES->value           => ["nullable", "array", "min:2", "max:2"],
+            ProductFiltersEnum::QUANTITIES->value . ".*"    => ["required", "integer"],
+            ProductFiltersEnum::STATUS->value               => ["nullable", "string", Rule::in(ProductStatusEnum::values())],
 
             "created_at"   => ["nullable", "array", "min:2", "max:2"],
             "created_at.*" => ["nullable", "date_format:Y-m-d H:i:s"],

@@ -25,6 +25,7 @@ return new class extends Migration {
                 ->nullOnDelete();
 
             $table->string(ProductFieldsEnum::NAME->value);
+            $table->string(ProductFieldsEnum::NAME->value);
             $table->text(ProductFieldsEnum::DESCRIPTION->value)->nullable();
             $table->string(ProductFieldsEnum::PRODUCT_CODE->value)->nullable();
             $table->string(ProductFieldsEnum::ROOT->value)->nullable();
@@ -33,6 +34,7 @@ return new class extends Migration {
             $table->timestamp(ProductFieldsEnum::BUYING_DATE->value)->nullable();
             $table->integer(ProductFieldsEnum::QUANTITY->value);
             $table->string(ProductFieldsEnum::PHOTO->value);
+            $table->string(ProductFieldsEnum::STATUS->value);
             $table->timestamps();
         });
     }
