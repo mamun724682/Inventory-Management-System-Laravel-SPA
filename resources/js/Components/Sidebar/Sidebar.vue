@@ -87,6 +87,12 @@
                     />
 
                     <SidebarItem
+                        name="POS"
+                        routeName="order.index"
+                        icon="fas fa-shopping-cart"
+                    />
+
+                    <SidebarItem
                         name="Categories"
                         routeName="categories.index"
                         icon="fas fa-list"

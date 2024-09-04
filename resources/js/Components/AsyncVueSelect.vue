@@ -15,6 +15,7 @@ export default {
     data: () => ({
         observer: null,
         page: 1,
+        per_page: 100,
         search: '',
         paginatedData: {},
         options: [],
@@ -32,6 +33,7 @@ export default {
         apiCall() {
             let queries = {
                 page: this.page,
+                per_page: this.per_page,
                 name: this.search,
                 inertia: "disabled",
                 sort_order: "asc"

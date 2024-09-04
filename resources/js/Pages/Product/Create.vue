@@ -7,6 +7,7 @@ import {useForm} from '@inertiajs/vue3';
 import {ref} from 'vue';
 import Button from "@/Components/Button.vue";
 import SubmitButton from "@/Components/SubmitButton.vue";
+import AsyncVueSelect from "@/Components/AsyncVueSelect.vue";
 
 defineProps({
     filters: {
@@ -79,27 +80,22 @@ const showToast = () => {
                     <div class="block w-full overflow-x-auto px-8 py-4">
                         <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                             <div class="flex flex-col">
-                                <label for="name" class="text-stone-600 text-sm font-medium">Select Category</label>
-                                <input
-                                    id="name"
+                                <label for="category" class="text-stone-600 text-sm font-medium">Select Category</label>
+                                <AsyncVueSelect
                                     v-model="form.category_id"
-                                    @keyup.enter="createProduct"
-                                    type="text"
-                                    placeholder="Enter name"
-                                    class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
+                                    resource="categories.index"
+                                    placeholder="Select category"
+                                    class="mt-2"
                                 />
                                 <InputError :message="form.errors.category_id"/>
                             </div>
                             <div class="flex flex-col">
-                                <label for="name" class="text-stone-600 text-sm font-medium">Select Supplier</label>
-                                <input
-                                    id="name"
-                                    ref="nameInput"
+                                <label for="supplier" class="text-stone-600 text-sm font-medium">Select Supplier</label>
+                                <AsyncVueSelect
                                     v-model="form.supplier_id"
-                                    @keyup.enter="createProduct"
-                                    type="text"
-                                    placeholder="Enter name"
-                                    class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
+                                    resource="suppliers.index"
+                                    placeholder="Select supplier"
+                                    class="mt-2"
                                 />
                                 <InputError :message="form.errors.supplier_id"/>
                             </div>

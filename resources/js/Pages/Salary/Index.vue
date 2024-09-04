@@ -20,6 +20,7 @@ defineProps({
 import {useForm} from '@inertiajs/vue3';
 import {nextTick, ref} from 'vue';
 import DashboardInputGroup from "@/Components/DashboardInputGroup.vue";
+import AsyncVueSelect from "@/Components/AsyncVueSelect.vue";
 
 const selectedSalary = ref(null);
 const showCreateModal = ref(false);
@@ -152,16 +153,16 @@ const showToast = () => {
             @close="closeModal"
             @submitAction="createSalary"
         >
-            <div class="mt-2 grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-                <div class="flex flex-col overflow-auto">
-                    <DashboardInputGroup
-                        label="Employee"
-                        name="employee_id"
+            <div class="mt-2 grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 min-h-32">
+                <div class="flex flex-col">
+                    <label for="employee" class="text-stone-600 text-sm font-medium">Select Employee</label>
+                    <AsyncVueSelect
                         v-model="form.employee_id"
+                        resource="employees.index"
                         placeholder="Select employee"
-                        :errorMessage="form.errors.employee_id"
-                        @keyupEnter="createSalary"
+                        class="mt-2"
                     />
+                    <InputError :message="form.errors.employee_id"/>
                 </div>
                 <div class="flex flex-col overflow-auto">
                     <DashboardInputGroup
