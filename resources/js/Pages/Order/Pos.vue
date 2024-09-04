@@ -11,11 +11,9 @@ import {ref} from 'vue';
 import Datepicker from "@vuepic/vue-datepicker";
 import TableHead from "@/Components/TableHead.vue";
 import AsyncVueSelect from "@/Components/AsyncVueSelect.vue";
+import {truncateString} from "../../Utils/Helper.js";
 
 defineProps({
-    filters: {
-        type: Object
-    },
     products: {
         type: Object
     },
@@ -100,13 +98,24 @@ const showToast = () => {
                             <!-- products -->
                             <div class="grid grid-cols-3 gap-4 px-5 mt-5 overflow-y-auto h-4/6">
 
-                                <div role="button" class="select-none cursor-pointer transition-shadow rounded-md bg-white shadow hover:shadow-lg border border-gray-200 flex flex-col justify-between max-h-56" title="Beef Burger">
+                                <div
+                                    v-for="(product, index) in products.data" :key="product.id"
+                                    role="button"
+                                    class="select-none cursor-pointer transition-shadow rounded-md bg-white shadow hover:shadow-lg border border-gray-200 flex flex-col justify-between max-h-56"
+                                    :title="product.name"
+                                >
                                     <div class="flex justify-center items-center md:p-3">
-                                        <img src="https://inventory.abdullahalmamun.xyz/backend/product/1724787613.jpeg" class="max-h-48 object-cover rounded-md" alt="Beef Burger">
+                                        <img :src="product.photo" class="max-h-40 object-cover rounded-md" :alt="product.name">
                                     </div>
                                     <div class="flex pb-3 px-3 text-sm">
-                                        <p class="flex-grow truncate mr-1">Beef Burger</p>
-                                        <p class="nowrap font-semibold">$45</p>
+                                        <p class="flex-grow truncate mr-1">
+                                            <span v-if="product.quantity > 0" class="text-xs font-semibold inline-block py-1 px-2 rounded text-emerald-600 bg-emerald-200">{{ product.quantity }}</span>
+                                            <span v-if="product.quantity < 1" class="text-xs font-semibold inline-block py-1 px-2 rounded text-red-600 bg-red-200">0</span>
+                                            {{ truncateString(product.name, 11) }}
+                                        </p>
+                                        <p class="nowrap font-semibold">
+                                            {{ product.selling_price }}
+                                        </p>
                                     </div>
                                 </div>
 
@@ -114,6 +123,7 @@ const showToast = () => {
                             <!-- end products -->
                         </div>
                         <!-- end left section -->
+
                         <!-- right section -->
                         <div class="lg:w-2/5">
                             <!-- header -->
@@ -864,7 +874,7 @@ const showToast = () => {
                             </div>
                             <!-- end order list -->
                             <!-- totalItems -->
-                            <div class="px-5 mt-5">
+                            <div class="px-5 mt-1">
                                 <div class="py-4 rounded-md shadow-lg">
                                     <div class=" px-4 flex justify-between ">
                                         <span class="font-semibold text-sm">Subtotal</span>
@@ -886,13 +896,13 @@ const showToast = () => {
                             </div>
                             <!-- end total -->
                             <!-- cash -->
-                            <div class="px-5 mt-5">
+                            <div class="px-5 mt-3">
                                 <div class="rounded-md shadow-lg px-4 py-4">
                                     <div class="flex flex-row justify-between items-center">
                                         <div class="flex flex-col">
                                             <span class="uppercase text-xs font-semibold">cashless credit</span>
-                                            <span class="text-xl font-bold text-yellow-500">$32.50</span>
-                                            <span class=" text-xs text-gray-400 ">Available</span>
+                                            <span class="text-xl font-bold text-emerald-500">$32.50</span>
+                                            <span class=" text-xs text-gray-400">Available</span>
                                         </div>
                                         <div class="px-4 py-3 bg-gray-300 text-gray-800 rounded-md font-bold"> Cancel
                                         </div>
@@ -901,9 +911,9 @@ const showToast = () => {
                             </div>
                             <!-- end cash -->
                             <!-- button pay-->
-                            <div class="px-5 mt-5">
+                            <div class="px-5 mt-3">
                                 <div
-                                    class="px-4 py-4 rounded-md shadow-lg text-center bg-yellow-500 text-white font-semibold">
+                                    class="px-4 py-4 rounded-md shadow-lg text-center bg-emerald-500 text-white font-semibold">
                                     Pay With Cashless Credit
                                 </div>
                             </div>
