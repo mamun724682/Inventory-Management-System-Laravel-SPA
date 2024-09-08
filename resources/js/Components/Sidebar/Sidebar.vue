@@ -88,7 +88,7 @@
 
                     <SidebarItem
                         name="POS"
-                        routeName="order.index"
+                        routeName="carts.index"
                         icon="fas fa-shopping-cart"
                     />
 
