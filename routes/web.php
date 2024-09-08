@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
@@ -47,8 +48,14 @@ Route::middleware('auth')->group(function () {
     Route::apiResource('employees', EmployeeController::class);
     Route::apiResource('salaries', SalaryController::class);
 
-    // POS
-    Route::get('pos', [OrderController::class, 'index'])->name('order.index');
+    // Carts
+    Route::get('pos', [CartController::class, 'index'])->name('carts.index');
+    Route::post('carts', [CartController::class, 'addToCart'])->name('carts.store');
+    Route::put('carts/{cart}', [CartController::class, 'updateQuantity'])->name('carts.update');
+    Route::put('carts/{cart}/increment', [CartController::class, 'incrementQuantity'])->name('carts.increment');
+    Route::put('carts/{cart}/decrement', [CartController::class, 'decrementQuantity'])->name('carts.decrement');
+
+    // Order
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

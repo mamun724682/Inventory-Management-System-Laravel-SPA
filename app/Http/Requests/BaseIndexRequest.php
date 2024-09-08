@@ -45,8 +45,6 @@ class BaseIndexRequest extends FormRequest
             $values["expand"] = explode(",", $this->get("expand"));
         }
 
-        info($this->get("created_at"));
-
         $this->merge($values);
     }
 }
