@@ -84,6 +84,20 @@ class CartService
     }
 
     /**
+     * @param int $productId
+     * @param int $userId
+     * @param array $expands
+     * @return Cart|null
+     */
+    public function findByProductAndUser(int $productId, int $userId, array $expands = []): ?Cart
+    {
+        return $this->repository->find([
+            CartFiltersEnum::PRODUCT_ID->value => $productId,
+            CartFiltersEnum::USER_ID->value    => $userId
+        ], $expands);
+    }
+
+    /**
      * @param Product $product
      * @param int $userId
      * @return Cart
@@ -93,7 +107,7 @@ class CartService
      */
     public function createOrUpdateForUser(Product $product, int $userId): Cart
     {
-        $cart = $this->findOrFailByProductAndUser(
+        $cart = $this->findByProductAndUser(
             productId: $product->id,
             userId: $userId
         );

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Cart\CartExpandEnum;
 use App\Enums\Cart\CartFiltersEnum;
 use App\Enums\Product\ProductFiltersEnum;
 use App\Enums\Product\ProductStatusEnum;
@@ -34,13 +35,50 @@ class CartController extends Controller
         // Get cart items
         $cartParams = [
             CartFiltersEnum::USER_ID->value => auth()->id(),
+            "expand"                        => [CartExpandEnum::PRODUCT->value],
+            "per_page"                      => 1000
         ];
+        $carts = $this->cartService->getAll($cartParams);
+
+        // Calculate cart subtotal
+        $cartSubtotal = 0;
+        foreach ($carts as $cart) {
+            $cartSubtotal += $cart->product->selling_price * $cart->quantity;
+        }
+
+        // Calculate total discount
+        $discount = 5;
+        $discountType = "percentage";
+        if ($discountType == "percentage") {
+            $totalDiscount = $cartSubtotal * ($discount / 100);
+        } else {
+            $totalDiscount = $discount;
+        }
+
+        // Calculate total tax
+        $tax = 2;
+        $totalTax = $cartSubtotal * ($tax / 100);
+
+        // Calculate total
+        $total = (double) number_format(
+            num: $cartSubtotal - $totalDiscount + $totalTax,
+            decimals: 2,
+            thousands_separator: ''
+        );
 
         return Inertia::render(
-            component: 'Order/Pos',
+            component: 'Cart/Pos',
             props: [
-                'products' => $this->productService->getAll($productParams),
-                'carts'    => $this->cartService->getAll($cartParams),
+                'products'      => $this->productService->getAll($productParams),
+                'carts'         => $carts,
+                'cartSubtotal'  => $cartSubtotal,
+                'currency'      => '$',
+                'discountType'  => $discountType,
+                'discount'      => $discount,
+                'totalDiscount' => $totalDiscount,
+                'tax'           => $tax,
+                'totalTax'      => $totalTax,
+                'total'         => $total,
             ]
         );
     }

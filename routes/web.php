@@ -50,7 +50,7 @@ Route::middleware('auth')->group(function () {
 
     // Carts
     Route::get('pos', [CartController::class, 'index'])->name('carts.index');
-    Route::post('carts', [CartController::class, 'addToCart'])->name('carts.store');
+    Route::post('carts/{productId}', [CartController::class, 'addToCart'])->name('carts.store');
     Route::put('carts/{cart}', [CartController::class, 'updateQuantity'])->name('carts.update');
     Route::put('carts/{cart}/increment', [CartController::class, 'incrementQuantity'])->name('carts.increment');
     Route::put('carts/{cart}/decrement', [CartController::class, 'decrementQuantity'])->name('carts.decrement');
