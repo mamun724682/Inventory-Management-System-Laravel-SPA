@@ -50,4 +50,69 @@ class BaseHelper
             return asset("assets/img/default-image.jpg");
         }
     }
+
+    /**
+     * @param float|int $amount
+     * @param float|int $percentage
+     * @return float|int
+     */
+    public static function calculatePercentage(float|int $amount, float|int $percentage): float|int
+    {
+        return self::numberFormat($amount * ($percentage / 100));
+    }
+
+    /**
+     * @param float|int $number
+     * @return float|int
+     */
+    public static function numberFormat(float|int $number): float|int
+    {
+        return (double) number_format(
+            num: $number,
+            decimals: 4,
+            thousands_separator: ''
+        );
+    }
+
+    /**
+     * @param float|int $amount
+     * @return array
+     */
+    public static function calculateDiscount(float|int $amount): array
+    {
+        $discount = 5;
+        $discountType = "percentage";
+        if ($discountType == "percentage") {
+            $totalDiscount = self::calculatePercentage(
+                amount: $amount,
+                percentage: $discount
+            );
+        } else {
+            $totalDiscount = $discount;
+        }
+
+        return [
+            "discount"      => $discount,
+            "discountType"  => $discountType,
+            "totalDiscount" => $totalDiscount
+        ];
+    }
+
+    /**
+     * @param float|int $amount
+     * @return array
+     */
+    public static function calculateTax(float|int $amount): array
+    {
+        $tax = 2;
+        $totalTax = self::calculatePercentage(
+            amount: $amount,
+            percentage: $tax
+        );
+
+        return [
+            "tax"      => $tax,
+            "totalTax" => $totalTax
+        ];
+    }
 }

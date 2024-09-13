@@ -8,6 +8,7 @@ use App\Enums\Product\ProductFiltersEnum;
 use App\Enums\Product\ProductStatusEnum;
 use App\Exceptions\CartException;
 use App\Exceptions\CartNotFoundException;
+use App\Helpers\BaseHelper;
 use App\Http\Requests\Cart\CartQuantityUpdateRequest;
 use App\Http\Requests\Product\ProductIndexRequest;
 use App\Services\CartService;
@@ -34,12 +35,11 @@ class CartController extends Controller
         $productParams[ProductFiltersEnum::STATUS->value] = ProductStatusEnum::ACTIVE;
 
         // Get cart items
-        $cartParams = [
+        $carts = $this->cartService->getAll([
             CartFiltersEnum::USER_ID->value => auth()->id(),
             "expand"                        => [CartExpandEnum::PRODUCT->value],
             "per_page"                      => 1000
-        ];
-        $carts = $this->cartService->getAll($cartParams);
+        ]);
 
         // Calculate cart subtotal
         $cartSubtotal = 0;
@@ -48,31 +48,14 @@ class CartController extends Controller
         }
 
         // Calculate total discount
-        $discount = 5;
-        $discountType = "percentage";
-        if ($discountType == "percentage") {
-            $totalDiscount = (double) number_format(
-                num: $cartSubtotal * ($discount / 100),
-                decimals: 4,
-                thousands_separator: ''
-            );
-        } else {
-            $totalDiscount = $discount;
-        }
+        $discountData = BaseHelper::calculateDiscount(amount: $cartSubtotal);
 
         // Calculate total tax
-        $tax = 2;
-        $totalTax = (double) number_format(
-            num: $cartSubtotal * ($tax / 100),
-            decimals: 4,
-            thousands_separator: ''
-        );
+        $taxData = BaseHelper::calculateTax(amount: $cartSubtotal);
 
         // Calculate total
-        $total = (double) number_format(
-            num: $cartSubtotal - $totalDiscount + $totalTax,
-            decimals: 4,
-            thousands_separator: ''
+        $total = BaseHelper::numberFormat(
+            number: $cartSubtotal - $discountData["totalDiscount"] + $taxData["totalTax"]
         );
 
         return Inertia::render(
@@ -82,11 +65,11 @@ class CartController extends Controller
                 'carts'         => $carts,
                 'cartSubtotal'  => $cartSubtotal,
                 'currency'      => '$',
-                'discountType'  => $discountType,
-                'discount'      => $discount,
-                'totalDiscount' => $totalDiscount,
-                'tax'           => $tax,
-                'totalTax'      => $totalTax,
+                'discountType'  => $discountData["discountType"],
+                'discount'      => $discountData["discount"],
+                'totalDiscount' => $discountData["totalDiscount"],
+                'tax'           => $taxData["tax"],
+                'totalTax'      => $taxData["totalTax"],
                 'total'         => $total,
             ]
         );
