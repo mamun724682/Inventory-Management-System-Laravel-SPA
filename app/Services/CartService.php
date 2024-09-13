@@ -63,17 +63,17 @@ class CartService
     }
 
     /**
-     * @param int $productId
+     * @param int $id
      * @param int $userId
      * @param array $expands
      * @return Cart|null
      * @throws CartNotFoundException
      */
-    public function findOrFailByProductAndUser(int $productId, int $userId, array $expands = []): ?Cart
+    public function findByIdForUserOrFail(int $id, int $userId, array $expands = []): ?Cart
     {
         $cart = $this->repository->find([
-            CartFiltersEnum::PRODUCT_ID->value => $productId,
-            CartFiltersEnum::USER_ID->value    => $userId
+            CartFiltersEnum::ID->value      => $id,
+            CartFiltersEnum::USER_ID->value => $userId
         ], $expands);
 
         if (!$cart) {
@@ -102,7 +102,6 @@ class CartService
      * @param int $userId
      * @return Cart
      * @throws CartException
-     * @throws CartNotFoundException
      * @throws DBCommitException
      */
     public function createOrUpdateForUser(Product $product, int $userId): Cart
@@ -153,7 +152,7 @@ class CartService
         }
 
         $processPayload = [
-            CartFieldsEnum::QUANTITY->value   => $payload[CartFieldsEnum::QUANTITY->value],
+            CartFieldsEnum::QUANTITY->value => $payload[CartFieldsEnum::QUANTITY->value],
         ];
 
         return $this->repository->update(
@@ -174,7 +173,7 @@ class CartService
         }
 
         $processPayload = [
-            CartFieldsEnum::QUANTITY->value   => $cart->product->quantity + 1,
+            CartFieldsEnum::QUANTITY->value => $cart->quantity + 1,
         ];
 
         return $this->repository->update(
@@ -210,7 +209,7 @@ class CartService
         }
 
         $processPayload = [
-            CartFieldsEnum::QUANTITY->value   => $cart->product->quantity + 1,
+            CartFieldsEnum::QUANTITY->value => $cart->quantity - 1,
         ];
 
         return $this->repository->update(
@@ -226,5 +225,19 @@ class CartService
     public function delete(Cart $cart): ?bool
     {
         return $this->repository->delete(cart: $cart);
+    }
+
+    /**
+     * @param int $userId
+     * @return void
+     */
+    public function deleteForUser(int $userId): void
+    {
+        $carts = $this->getAll([
+            CartFiltersEnum::USER_ID->value => $userId,
+            "per_page" => 1000
+        ]);
+
+        Cart::destroy($carts->pluck('id')->toArray());
     }
 }

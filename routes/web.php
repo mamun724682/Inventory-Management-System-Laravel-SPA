@@ -52,6 +52,8 @@ Route::middleware('auth')->group(function () {
     Route::get('pos', [CartController::class, 'index'])->name('carts.index');
     Route::post('carts/{productId}', [CartController::class, 'addToCart'])->name('carts.store');
     Route::put('carts/{cart}', [CartController::class, 'updateQuantity'])->name('carts.update');
+    Route::delete('carts/{cart}', [CartController::class, 'delete'])->name('carts.delete');
+    Route::delete('carts/delete/all', [CartController::class, 'deleteForUser'])->name('carts.delete.all');
     Route::put('carts/{cart}/increment', [CartController::class, 'incrementQuantity'])->name('carts.increment');
     Route::put('carts/{cart}/decrement', [CartController::class, 'decrementQuantity'])->name('carts.decrement');
 

@@ -51,6 +51,56 @@ const addToCart = (product) => {
     });
 };
 
+const incrementCartQuantity = (cart) => {
+    router.put(route('carts.increment', cart.id), {
+        preserveScroll: true,
+    }, {
+        onSuccess: () => {
+            showToast();
+        }
+    });
+};
+
+const decrementCartQuantity = (cart) => {
+    router.put(route('carts.decrement', cart.id), {
+        preserveScroll: true,
+    }, {
+        onSuccess: () => {
+            showToast();
+        }
+    });
+};
+
+const insertCartQuantity = (cart, quantity) => {
+    if (cart.quantity == quantity) {
+        return;
+    }
+    router.put(route('carts.update', cart.id), {
+        quantity: quantity,
+        preserveScroll: true,
+    }, {
+        onSuccess: () => {
+            showToast();
+        }
+    });
+};
+
+const deleteCart = (cart) => {
+    router.delete(route('carts.delete', cart.id), {
+        onSuccess: () => {
+            showToast();
+        }
+    });
+};
+
+const deleteCartAllItems = () => {
+    router.delete(route('carts.delete.all'), {
+        onSuccess: () => {
+            showToast();
+        }
+    });
+};
+
 const showToast = () => {
     if (usePage().props.flash.isSuccess) {
         push.success(usePage().props.flash.message)
@@ -126,7 +176,11 @@ const showToast = () => {
                             <div class="flex flex-row items-center justify-between px-5 mt-5">
                                 <div class="font-bold text-xl">Cart</div>
                                 <div class="font-semibold">
-                                    <span class="px-4 py-2 rounded-md bg-red-100 text-red-500">Clear({{ carts.total }})</span>
+                                    <span
+                                        @click="carts.total > 0 ? deleteCartAllItems() : null"
+                                        :role="carts.total > 0 ? 'button' : null"
+                                        class="px-4 py-2 rounded-md bg-red-100 text-red-500"
+                                    >Clear({{ carts.total }})</span>
                                 </div>
                             </div>
                             <!-- end header -->
@@ -137,6 +191,7 @@ const showToast = () => {
                                     v-for="cart in carts.data"
                                     :key="cart.id"
                                     class="flex flex-row justify-between items-center mb-4"
+                                    :class="cart.quantity > cart.product.quantity ? 'bg-red-200' : ''"
                                 >
                                     <div class="flex flex-row items-center w-2/5" :title="cart.product.name">
                                         <img :src="cart.product.photo"
@@ -148,18 +203,31 @@ const showToast = () => {
                                         </span>
                                     </div>
                                     <div class="flex justify-between">
-                                        <span class="px-3 py-1 rounded-l-md bg-gray-300 ">-</span>
+                                        <span
+                                            role="button"
+                                            @click="decrementCartQuantity(cart)"
+                                            class="px-3 py-1 rounded-l-md bg-gray-300 "
+                                        >-</span>
                                         <input
+                                            @keyup.enter="insertCartQuantity(cart, $event.target.value)"
                                             type="number"
                                             class="font-semibold border-gray-300 px-0.5 py-1 w-10 text-center"
                                             :value="cart.quantity"
                                         >
-                                        <span class="px-3 py-1 rounded-r-md bg-gray-300 ">+</span>
+                                        <span
+                                            @click="incrementCartQuantity(cart)"
+                                            role="button"
+                                            class="px-3 py-1 rounded-r-md bg-gray-300 "
+                                        >+</span>
                                     </div>
                                     <div class="font-semibold text-lg w-16 text-center">
                                         {{ currency }}{{ cart.quantity * cart.product.selling_price }}
                                     </div>
-                                    <i class="fa fa-trash-alt text-red-500"></i>
+                                    <i
+                                        @click="deleteCart(cart)"
+                                        role="button"
+                                        class="fa fa-trash-alt text-red-500"
+                                    ></i>
                                 </div>
 
                             </div>

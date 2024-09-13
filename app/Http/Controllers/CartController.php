@@ -7,6 +7,7 @@ use App\Enums\Cart\CartFiltersEnum;
 use App\Enums\Product\ProductFiltersEnum;
 use App\Enums\Product\ProductStatusEnum;
 use App\Exceptions\CartException;
+use App\Exceptions\CartNotFoundException;
 use App\Http\Requests\Cart\CartQuantityUpdateRequest;
 use App\Http\Requests\Product\ProductIndexRequest;
 use App\Services\CartService;
@@ -50,19 +51,27 @@ class CartController extends Controller
         $discount = 5;
         $discountType = "percentage";
         if ($discountType == "percentage") {
-            $totalDiscount = $cartSubtotal * ($discount / 100);
+            $totalDiscount = (double) number_format(
+                num: $cartSubtotal * ($discount / 100),
+                decimals: 4,
+                thousands_separator: ''
+            );
         } else {
             $totalDiscount = $discount;
         }
 
         // Calculate total tax
         $tax = 2;
-        $totalTax = $cartSubtotal * ($tax / 100);
+        $totalTax = (double) number_format(
+            num: $cartSubtotal * ($tax / 100),
+            decimals: 4,
+            thousands_separator: ''
+        );
 
         // Calculate total
         $total = (double) number_format(
             num: $cartSubtotal - $totalDiscount + $totalTax,
-            decimals: 2,
+            decimals: 4,
             thousands_separator: ''
         );
 
@@ -222,6 +231,73 @@ class CartController extends Controller
 
             Log::error("Failed to decrement quantity!", [
                 "cart_id" => $cartId,
+                "message" => $e->getMessage(),
+                "traces"  => $e->getTrace()
+            ]);
+        }
+
+        return redirect()
+            ->route('carts.index')
+            ->with('flash', $flash);
+    }
+
+    /**
+     * @param int $cartId
+     * @return RedirectResponse
+     */
+    public function delete(int $cartId): RedirectResponse
+    {
+        try {
+            $cart = $this->cartService->findByIdForUserOrFail(
+                id: $cartId,
+                userId: auth()->id()
+            );
+            $this->cartService->delete(cart: $cart);
+
+            $flash = [
+                "message" => 'Item deleted from cart.'
+            ];
+        } catch (CartNotFoundException $e) {
+            $flash = [
+                "isSuccess" => false,
+                "message"   => $e->getMessage(),
+            ];
+        } catch (Exception $e) {
+            $flash = [
+                "isSuccess" => false,
+                "message"   => "Failed to delete cart item!",
+            ];
+
+            Log::error("Failed to delete cart item!", [
+                "cart_id" => $cartId,
+                "message" => $e->getMessage(),
+                "traces"  => $e->getTrace()
+            ]);
+        }
+
+        return redirect()
+            ->route('carts.index')
+            ->with('flash', $flash);
+    }
+
+    /**
+     * @return RedirectResponse
+     */
+    public function deleteForUser(): RedirectResponse
+    {
+        try {
+            $this->cartService->deleteForUser(auth()->id());
+
+            $flash = [
+                "message" => 'All items are deleted from cart.'
+            ];
+        } catch (Exception $e) {
+            $flash = [
+                "isSuccess" => false,
+                "message"   => "Failed to delete cart all items!",
+            ];
+
+            Log::error("Failed to delete cart all items!", [
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()
             ]);
