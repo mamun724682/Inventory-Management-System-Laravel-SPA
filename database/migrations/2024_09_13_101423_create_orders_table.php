@@ -19,7 +19,7 @@ return new class extends Migration {
                 ->nullable()
                 ->constrained((new Customer())->getTable())
                 ->nullOnDelete();
-            $table->string(OrderFieldsEnum::SUB_TOTAL->value)->unique();
+            $table->string(OrderFieldsEnum::ORDER_NUMBER->value)->unique();
             $table->decimal(OrderFieldsEnum::SUB_TOTAL->value, 20, 8);
             $table->decimal(OrderFieldsEnum::TAX_TOTAL->value, 20, 8)->nullable();
             $table->decimal(OrderFieldsEnum::DISCOUNT_TOTAL->value, 20, 8)->nullable();

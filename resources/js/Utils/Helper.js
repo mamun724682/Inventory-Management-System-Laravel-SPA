@@ -4,3 +4,7 @@ export function truncateString(str, maxLength = 10) {
     }
     return str.slice(0, maxLength) + '...';
 }
+
+export function numberFormat(number, decimals = 4) {
+    return number.toFixed(decimals);
+}

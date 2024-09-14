@@ -13,6 +13,7 @@ use App\Http\Requests\Customer\CustomerIndexRequest;
 use App\Http\Requests\Customer\CustomerUpdateRequest;
 use App\Services\CustomerService;
 use Exception;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -24,8 +25,14 @@ class CustomerController extends Controller
     {
     }
 
-    public function index(CustomerIndexRequest $request): Response
+    public function index(CustomerIndexRequest $request): LengthAwarePaginator|Response
     {
+        if ($request->inertia == "disabled"){
+            $query = $request->validated();
+            $query["sort_by"] = CustomerSortFieldsEnum::NAME->value;
+            return $this->service->getAll($query);
+        }
+
         return Inertia::render(
             component: 'Customer/Index',
             props: [

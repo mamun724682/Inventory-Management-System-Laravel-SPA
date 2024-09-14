@@ -7,9 +7,10 @@ use App\Enums\Core\FilterResourceEnum;
 use App\Enums\Core\SortOrderEnum;
 use App\Enums\Order\OrderExpandEnum;
 use App\Enums\Order\OrderFiltersEnum;
-use App\Enums\Order\OrderPayByEnum;
+use App\Enums\Order\OrderPaidByEnum;
 use App\Enums\Order\OrderSortFieldsEnum;
 use App\Enums\Order\OrderStatusEnum;
+use App\Exceptions\OrderCreateException;
 use App\Exceptions\OrderNotFoundException;
 use App\Helpers\BaseHelper;
 use App\Http\Requests\Order\OrderCreateRequest;
@@ -38,80 +39,80 @@ class OrderController extends Controller
         return Inertia::render(
             component: 'Order/Index',
             props: [
-                'orders' => $this->service->getAll($params),
-                'filters'  => [
+                'orders'  => $this->service->getAll($params),
+                'filters' => [
                     OrderFiltersEnum::ORDER_NUMBER->value => [
                         'label'       => OrderFiltersEnum::ORDER_NUMBER->label(),
                         'placeholder' => 'Enter order number.',
                         'type'        => FilterFieldTypeEnum::STRING->value,
                         'value'       => $request->validated()[OrderFiltersEnum::ORDER_NUMBER->value] ?? "",
                     ],
-                    OrderFiltersEnum::CUSTOMER_ID->value    => [
+                    OrderFiltersEnum::CUSTOMER_ID->value  => [
                         'label'       => OrderFiltersEnum::CUSTOMER_ID->label(),
                         'placeholder' => 'Select customer.',
                         'type'        => FilterFieldTypeEnum::SELECT->value,
                         'value'       => $request->validated()[OrderFiltersEnum::CUSTOMER_ID->value] ?? "",
                         'resource'    => FilterResourceEnum::CUSTOMERS->value,
                     ],
-                    OrderFiltersEnum::SUB_TOTAL->value   => [
+                    OrderFiltersEnum::SUB_TOTAL->value    => [
                         'label'       => OrderFiltersEnum::SUB_TOTAL->label(),
                         'placeholder' => 'Enter sub total.',
                         'type'        => FilterFieldTypeEnum::NUMBER_RANGE->value,
                         'value'       => $request->validated()[OrderFiltersEnum::SUB_TOTAL->value] ?? "",
                     ],
-                    OrderFiltersEnum::TOTAL->value   => [
+                    OrderFiltersEnum::TOTAL->value        => [
                         'label'       => OrderFiltersEnum::TOTAL->label(),
                         'placeholder' => 'Enter sub total.',
                         'type'        => FilterFieldTypeEnum::NUMBER_RANGE->value,
                         'value'       => $request->validated()[OrderFiltersEnum::TOTAL->value] ?? "",
                     ],
-                    OrderFiltersEnum::DUE->value   => [
+                    OrderFiltersEnum::DUE->value          => [
                         'label'       => OrderFiltersEnum::DUE->label(),
                         'placeholder' => 'Enter due.',
                         'type'        => FilterFieldTypeEnum::NUMBER_RANGE->value,
                         'value'       => $request->validated()[OrderFiltersEnum::DUE->value] ?? "",
                     ],
-                    OrderFiltersEnum::PAY_BY->value         => [
+                    OrderFiltersEnum::PAY_BY->value       => [
                         'label'       => OrderFiltersEnum::PAY_BY->label(),
                         'placeholder' => 'Select pay by.',
                         'type'        => FilterFieldTypeEnum::SELECT_STATIC->value,
                         'value'       => $request->validated()[OrderFiltersEnum::PAY_BY->value] ?? "",
-                        'options'     => BaseHelper::convertKeyValueToLabelValueArray(OrderPayByEnum::choices()),
+                        'options'     => BaseHelper::convertKeyValueToLabelValueArray(OrderPaidByEnum::choices()),
                     ],
-                    OrderFiltersEnum::PROFIT->value  => [
+                    OrderFiltersEnum::PROFIT->value       => [
                         'label'       => OrderFiltersEnum::PROFIT->label(),
                         'placeholder' => 'Enter profit.',
                         'type'        => FilterFieldTypeEnum::NUMBER_RANGE->value,
                         'value'       => $request->validated()[OrderFiltersEnum::PROFIT->value] ?? "",
                     ],
-                    OrderFiltersEnum::LOSS->value  => [
+                    OrderFiltersEnum::LOSS->value         => [
                         'label'       => OrderFiltersEnum::LOSS->label(),
                         'placeholder' => 'Enter loss.',
                         'type'        => FilterFieldTypeEnum::NUMBER_RANGE->value,
                         'value'       => $request->validated()[OrderFiltersEnum::LOSS->value] ?? "",
                     ],
-                    OrderFiltersEnum::STATUS->value         => [
+                    OrderFiltersEnum::STATUS->value       => [
                         'label'       => OrderFiltersEnum::STATUS->label(),
                         'placeholder' => 'Select status.',
                         'type'        => FilterFieldTypeEnum::SELECT_STATIC->value,
                         'value'       => $request->validated()[OrderFiltersEnum::STATUS->value] ?? "",
                         'options'     => BaseHelper::convertKeyValueToLabelValueArray(OrderStatusEnum::choices()),
                     ],
-                    "sort_by"                                 => [
+                    "sort_by"                             => [
                         'label'       => 'Sort By',
                         'placeholder' => 'Select a sort field',
                         'type'        => FilterFieldTypeEnum::SELECT_STATIC->value,
                         'value'       => $request->validated()['sort_by'] ?? "",
                         'options'     => BaseHelper::convertKeyValueToLabelValueArray(OrderSortFieldsEnum::choices()),
                     ],
-                    "sort_order"                              => [
+                    "sort_order"                          => [
                         'label'       => 'Sort order',
                         'placeholder' => 'Select a sort order',
                         'type'        => FilterFieldTypeEnum::SELECT_STATIC->value,
                         'value'       => $request->validated()['sort_order'] ?? "",
                         'options'     => BaseHelper::convertKeyValueToLabelValueArray(SortOrderEnum::choices()),
                     ],
-                    OrderFiltersEnum::CREATED_AT->value     => [
+                    OrderFiltersEnum::CREATED_AT->value   => [
                         'label'       => OrderFiltersEnum::CREATED_AT->label(),
                         'placeholder' => 'Enter created at.',
                         'type'        => FilterFieldTypeEnum::DATETIME_RANGE->value,
@@ -131,7 +132,13 @@ class OrderController extends Controller
             $flash = [
                 "message" => 'Order placed successfully.'
             ];
+        } catch (OrderCreateException $e) {
+            $flash = [
+                "isSuccess" => false,
+                "message"   => $e->getMessage(),
+            ];
         } catch (Exception $e) {
+            dd($e);
             $flash = [
                 "isSuccess" => false,
                 "message"   => "Failed to place order.!",

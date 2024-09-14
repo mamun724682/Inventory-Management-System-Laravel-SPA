@@ -5,7 +5,7 @@ namespace App\Enums\Order;
 use App\Enums\BaseEnumInterface;
 use App\Enums\BaseEnumTrait;
 
-enum OrderPayByEnum: string implements BaseEnumInterface
+enum OrderPaidByEnum: string implements BaseEnumInterface
 {
     use BaseEnumTrait;
 

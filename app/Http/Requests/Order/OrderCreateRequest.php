@@ -4,7 +4,7 @@ namespace App\Http\Requests\Order;
 
 use App\Enums\Core\AmountTypeEnum;
 use App\Enums\Order\OrderFieldsEnum;
-use App\Enums\Order\OrderPayByEnum;
+use App\Enums\Order\OrderPaidByEnum;
 use App\Models\Customer;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -29,12 +29,12 @@ class OrderCreateRequest extends FormRequest
         return [
             OrderFieldsEnum::CUSTOMER_ID->value => [
                 "bail",
-                "required",
+                "nullable",
                 "integer",
                 Rule::exists((new Customer())->getTable(), 'id')
             ],
             OrderFieldsEnum::PAID->value        => ["nullable", "numeric"],
-            OrderFieldsEnum::PAID_BY->value     => ["required", "string", Rule::in(OrderPayByEnum::values())],
+            OrderFieldsEnum::PAID_BY->value     => ["required", "string", Rule::in(OrderPaidByEnum::values())],
             "custom_discount"                   => ["nullable", "array"],
             "custom_discount.discount"          => ["required_with:custom_discount", "numeric", "gte:0"],
             "custom_discount.discount_type"     => ["required_with:custom_discount", "string", Rule::in(AmountTypeEnum::values())],

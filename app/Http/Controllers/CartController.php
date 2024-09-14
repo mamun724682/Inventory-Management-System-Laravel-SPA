@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\Cart\CartExpandEnum;
 use App\Enums\Cart\CartFiltersEnum;
+use App\Enums\Order\OrderPaidByEnum;
 use App\Enums\Product\ProductFiltersEnum;
 use App\Enums\Product\ProductStatusEnum;
 use App\Exceptions\CartException;
@@ -61,16 +62,17 @@ class CartController extends Controller
         return Inertia::render(
             component: 'Cart/Pos',
             props: [
-                'products'      => $this->productService->getAll($productParams),
-                'carts'         => $carts,
-                'cartSubtotal'  => $cartSubtotal,
-                'currency'      => '$',
-                'discountType'  => $discountData["discountType"],
-                'discount'      => $discountData["discount"],
-                'totalDiscount' => $discountData["totalDiscount"],
-                'tax'           => $taxData["tax"],
-                'totalTax'      => $taxData["totalTax"],
-                'total'         => $total,
+                'products'         => $this->productService->getAll($productParams),
+                'carts'            => $carts,
+                'cartSubtotal'     => $cartSubtotal,
+                'currency'         => '$',
+                'discountType'     => $discountData["discountType"],
+                'discount'         => $discountData["discount"],
+                'totalDiscount'    => $discountData["totalDiscount"],
+                'tax'              => $taxData["tax"],
+                'totalTax'         => $taxData["totalTax"],
+                'total'            => $total,
+                'orderPaidByTypes' => BaseHelper::convertKeyValueToLabelValueArray(OrderPaidByEnum::choices()),
             ]
         );
     }

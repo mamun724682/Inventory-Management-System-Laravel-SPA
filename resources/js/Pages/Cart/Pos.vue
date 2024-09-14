@@ -1,19 +1,14 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Head, router, usePage} from '@inertiajs/vue3';
-import CardTable from "@/Components/Cards/CardTable.vue";
-import TableData from "@/Components/TableData.vue";
-import Button from "@/Components/Button.vue";
-import Modal from "@/Components/Modal.vue";
 import {push} from 'notivue'
 import {useForm} from '@inertiajs/vue3';
-import {ref} from 'vue';
-import Datepicker from "@vuepic/vue-datepicker";
-import TableHead from "@/Components/TableHead.vue";
+import {ref, watch} from 'vue';
 import AsyncVueSelect from "@/Components/AsyncVueSelect.vue";
-import {truncateString} from "../../Utils/Helper.js";
+import {numberFormat, truncateString} from "@/Utils/Helper.js";
+import InputError from "@/Components/InputError.vue";
 
-defineProps({
+const props = defineProps({
     products: Object,
     carts: Object,
     cartSubtotal: Number,
@@ -24,22 +19,30 @@ defineProps({
     tax: Number,
     totalTax: Number,
     total: Number,
+    orderPaidByTypes: Object,
 });
-
-const selectedProduct = ref(null);
-const showCreateModal = ref(false);
-const showEditModal = ref(false);
-const showDeleteModal = ref(false);
-const tableHeads = ref(['#', "Name", "Product Code", "Category", "Supplier", "Quantity", "Action"]);
 
 const form = useForm({
-    name: null,
-    email: null,
-    phone: null,
-    shop_name: null,
-    address: null,
-    photo: null,
+    customer_id: null,
+    total: props.total ?? null,
+    paid: props.total ?? null,
+    paid_by: "cash",
+    custom_discount: {
+        discount: 0,
+        discount_type: "fixed"
+    },
 });
+
+// watch works directly on a ref
+watch(form.custom_discount, async (custom_discount, oldDiscount) => {
+    if (custom_discount.discount_type === "fixed") {
+        form.total = form.paid - custom_discount.discount;
+        form.paid = form.paid - custom_discount.discount;
+    } else {
+        form.total = numberFormat(props.total - (props.cartSubtotal * (custom_discount.discount / 100)));
+        form.paid = numberFormat(props.total - (props.cartSubtotal * (custom_discount.discount / 100)));
+    }
+})
 
 const addToCart = (product) => {
     router.post(route('carts.store', product.id), {
@@ -98,6 +101,15 @@ const deleteCartAllItems = () => {
         onSuccess: () => {
             showToast();
         }
+    });
+};
+
+const createOrder = () => {
+    form.post(route('orders.store'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            showToast();
+        },
     });
 };
 
@@ -185,7 +197,7 @@ const showToast = () => {
                             </div>
                             <!-- end header -->
                             <!-- order list -->
-                            <div class="px-5 py-4 mt-5 overflow-y-auto h-64">
+                            <div class="px-5 py-2 overflow-y-auto h-64">
 
                                 <div
                                     v-for="cart in carts.data"
@@ -234,47 +246,98 @@ const showToast = () => {
                             <!-- end order list -->
                             <!-- totalItems -->
                             <div class="px-5 mt-1">
-                                <div class="py-4 rounded-md shadow-lg">
+                                <div class="pt-2 rounded-md shadow-lg">
                                     <div class=" px-4 flex justify-between ">
                                         <span class="font-semibold text-sm">Subtotal</span>
                                         <span class="font-bold">{{ currency }}{{ cartSubtotal }}</span>
+                                    </div>
+                                    <div class=" px-4 flex justify-between ">
+                                        <span class="font-semibold text-sm">Sales Tax({{ tax }}%)</span>
+                                        <span class="font-bold">{{ currency }}{{ totalTax }}</span>
                                     </div>
                                     <div class=" px-4 flex justify-between ">
                                         <span v-if="discountType === 'fixed'" class="font-semibold text-sm">Discount({{ currency}}{{ discount }})</span>
                                         <span v-else class="font-semibold text-sm">Discount({{ discount }}%)</span>
                                         <span class="font-bold">- {{ currency }}{{ totalDiscount }}</span>
                                     </div>
-                                    <div class=" px-4 flex justify-between ">
-                                        <span class="font-semibold text-sm">Sales Tax({{ tax }}%)</span>
-                                        <span class="font-bold">{{ currency }}{{ totalTax }}</span>
+                                    <div class=" px-4 flex justify-between items-center">
+                                        <div class="text-sm flex items-center flex-wrap">
+                                            <span class="font-semibold text-sm mr-1">Custom Discount - </span>
+                                            <div class="flex">
+                                                <select
+                                                    v-model="form.custom_discount.discount_type"
+                                                    class="px-3 py-1 w-14 rounded-l-md bg-gray-300 border-none"
+                                                >
+                                                    <option value="fixed">=</option>
+                                                    <option value="percentage">%</option>
+                                                </select>
+                                                <input
+                                                    v-model="form.custom_discount.discount"
+                                                    type="number"
+                                                    class="font-semibold border-gray-300 px-0.5 py-1 w-10 text-center"
+                                                >
+                                            </div>
+                                        </div>
+                                        <span v-if="form.custom_discount.discount_type === 'fixed'" class="font-bold">- {{ currency }}{{ form.custom_discount.discount }}</span>
+                                        <span v-else class="font-bold">- {{ currency }}{{ numberFormat(cartSubtotal * (form.custom_discount.discount / 100)) }}</span>
                                     </div>
                                     <div class="border-t-2 mt-3 py-2 px-4 flex items-center justify-between">
                                         <span class="font-semibold text-2xl">Total</span>
-                                        <span class="font-bold text-2xl">{{ currency }}{{ total }}</span>
+                                        <span class="font-bold text-2xl">{{ currency }}{{ form.total }}</span>
                                     </div>
                                 </div>
                             </div>
                             <!-- end total -->
                             <!-- cash -->
-                            <div class="px-5 mt-3">
+                            <div class="px-5 mt-1">
                                 <div class="rounded-md shadow-lg px-4 py-4">
-                                    <div class="flex flex-row justify-between items-center">
-                                        <div class="flex flex-col">
-                                            <span class="uppercase text-xs font-semibold">cashless credit</span>
-                                            <span class="text-xl font-bold text-emerald-500">$32.50</span>
-                                            <span class=" text-xs text-gray-400">Available</span>
+                                    <div>
+                                        <label for="customer" class="text-stone-600 text-sm font-medium">Customer</label>
+                                        <AsyncVueSelect
+                                            v-model="form.customer_id"
+                                            class="my-1"
+                                            resource="customers.index"
+                                            placeholder="Select Customer"
+                                        />
+                                        <InputError :message="form.errors.customer_id"/>
+                                    </div>
+
+                                    <div>
+                                        <label for="paid" class="text-stone-600 text-sm font-medium">Pay</label>
+                                        <div class="flex mt-1">
+                                            <select
+                                                id="paid_by"
+                                                v-model="form.paid_by"
+                                                class="w-1/2 rounded-l-md bg-gray-300 border-none px-2 py-2 outline-none focus:outline-none"
+                                            >
+                                                <option
+                                                    v-for="(orderPaidByType, index) in orderPaidByTypes"
+                                                    :key="index"
+                                                    :value="orderPaidByType.value"
+                                                >
+                                                    {{ orderPaidByType.label }}
+                                                </option>
+                                            </select>
+                                            <input
+                                                id="paid"
+                                                placeholder="Enter paid amount"
+                                                v-model="form.paid"
+                                                type="text"
+                                                class="w-full rounded-r-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
+                                            />
                                         </div>
-                                        <div class="px-4 py-3 bg-gray-300 text-gray-800 rounded-md font-bold"> Cancel
-                                        </div>
+                                        <InputError :message="form.errors.paid"/>
                                     </div>
                                 </div>
                             </div>
                             <!-- end cash -->
                             <!-- button pay-->
-                            <div class="px-5 mt-3">
+                            <div class="px-5 mt-3 mb-4">
                                 <div
+                                    role="button"
+                                    @click="createOrder"
                                     class="px-4 py-4 rounded-md shadow-lg text-center bg-emerald-500 text-white font-semibold">
-                                    Pay With Cashless Credit
+                                    Pay & Print
                                 </div>
                             </div>
                             <!-- end button pay -->

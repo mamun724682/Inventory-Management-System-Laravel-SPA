@@ -9,7 +9,9 @@ use App\Enums\Order\OrderFieldsEnum;
 use App\Enums\Order\OrderFiltersEnum;
 use App\Enums\Order\OrderStatusEnum;
 use App\Enums\OrderItem\OrderItemFieldsEnum;
+use App\Enums\Product\ProductStatusEnum;
 use App\Exceptions\DBCommitException;
+use App\Exceptions\OrderCreateException;
 use App\Exceptions\OrderNotFoundException;
 use App\Helpers\ArrayHelper;
 use App\Helpers\BaseHelper;
@@ -74,6 +76,7 @@ class OrderService
      * @param int $userId
      * @return Order
      * @throws DBCommitException
+     * @throws OrderCreateException
      */
     public function createForUser(array $payload, int $userId): Order
     {
@@ -91,6 +94,16 @@ class OrderService
             $productBuyingSubtotal = 0;
             $processOrderItemPayloads = [];
             foreach ($carts as $cart) {
+                // Check cart product is active
+                if ($cart->product->status == ProductStatusEnum::INACTIVE->value) {
+                    throw new OrderCreateException("Product id {$cart->product_id} is not active now.");
+                }
+
+                // Check product quantity is available
+                if ($cart->quantity > $cart->product->quantity) {
+                    throw new OrderCreateException("Product quantity not available for id {$cart->product_id}.");
+                }
+
                 $cartSubtotal += $cart->product->selling_price * $cart->quantity;
                 $productBuyingSubtotal += $cart->product->buying_price * $cart->quantity;
 
@@ -139,11 +152,11 @@ class OrderService
 
             // Decide status
             if ($paid == 0){
-                $status = OrderStatusEnum::UNPAID;
+                $status = OrderStatusEnum::UNPAID->value;
             } elseif ($paid == $totalWithTax) {
-                $status = OrderStatusEnum::PAID;
+                $status = OrderStatusEnum::PAID->value;
             } else {
-                $status = OrderStatusEnum::PARTIAL_PAID;
+                $status = OrderStatusEnum::PARTIAL_PAID->value;
             }
 
             $processPayload = [
