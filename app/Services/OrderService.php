@@ -110,7 +110,7 @@ class OrderService
 
             // Calculate discount_total with custom discount
             $discountDefaultData = BaseHelper::calculateDefaultDiscount(amount: $cartSubtotal);
-            $customDiscount = $payload['custom_discount'];
+            $customDiscount = $payload['custom_discount'] ?? [];
             $discountTotal = $discountDefaultData['totalDiscount'];
             if ($customDiscount){
                 $customDiscountData = BaseHelper::calculateCustomDiscount(
@@ -126,7 +126,7 @@ class OrderService
             $totalWithTax = $cartSubtotal - $discountTotal + $taxTotal;
 
             // Calculate due
-            $paid = $payload[OrderFieldsEnum::PAID->value];
+            $paid = $payload[OrderFieldsEnum::PAID->value] ?? 0;
             $due = $total - $paid;
             $dueWithTax = $totalWithTax - $paid;
 
@@ -155,7 +155,7 @@ class OrderService
                 OrderFieldsEnum::TOTAL->value          => $totalWithTax,
                 OrderFieldsEnum::PAID->value           => $paid,
                 OrderFieldsEnum::DUE->value            => $dueWithTax,
-                OrderFieldsEnum::PAY_BY->value         => $payload[OrderFieldsEnum::PAY_BY->value],
+                OrderFieldsEnum::PAID_BY->value        => $payload[OrderFieldsEnum::PAID_BY->value],
                 OrderFieldsEnum::PROFIT->value         => $profit,
                 OrderFieldsEnum::LOSS->value           => $loss,
                 OrderFieldsEnum::STATUS->value         => $status,

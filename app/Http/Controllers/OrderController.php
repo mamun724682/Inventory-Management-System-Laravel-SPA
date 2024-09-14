@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Enums\Core\FilterFieldTypeEnum;
 use App\Enums\Core\FilterResourceEnum;
 use App\Enums\Core\SortOrderEnum;
+use App\Enums\Order\OrderExpandEnum;
 use App\Enums\Order\OrderFiltersEnum;
 use App\Enums\Order\OrderPayByEnum;
 use App\Enums\Order\OrderSortFieldsEnum;
 use App\Enums\Order\OrderStatusEnum;
 use App\Exceptions\OrderNotFoundException;
 use App\Helpers\BaseHelper;
+use App\Http\Requests\Order\OrderCreateRequest;
+use App\Http\Requests\Order\OrderIndexRequest;
 use App\Services\OrderService;
 use Exception;
 use Illuminate\Http\RedirectResponse;
@@ -28,8 +31,8 @@ class OrderController extends Controller
     {
         $params = $request->validated();
         $params['expand'] = array_unique(array_merge($params['expand'] ?? [], [
-            ProductExpandEnum::CATEGORY->value,
-            ProductExpandEnum::SUPPLIER->value,
+            OrderExpandEnum::CUSTOMER->value,
+            OrderExpandEnum::ORDER_ITEMS->value,
         ]));
 
         return Inertia::render(

@@ -17,8 +17,8 @@ enum OrderFieldsEnum: string implements BaseEnumInterface
     case DISCOUNT_TOTAL = 'discount_total';
     case TOTAL          = 'total';
     case PAID           = 'paid';
+    case PAID_BY        = 'paid_by';
     case DUE            = 'due';
-    case PAY_BY         = 'paid_by';
     case PROFIT         = 'profit';
     case LOSS           = 'loss';
     case STATUS         = 'status';
@@ -36,7 +36,7 @@ enum OrderFieldsEnum: string implements BaseEnumInterface
             self::TOTAL->value          => "Total",
             self::PAID->value           => "Paid",
             self::DUE->value            => "Due",
-            self::PAY_BY->value         => "Pay By",
+            self::PAID_BY->value        => "Pay By",
             self::PROFIT->value         => "Profit",
             self::LOSS->value           => "Loss",
             self::STATUS->value         => "Status",

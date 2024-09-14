@@ -160,6 +160,12 @@ class ProductRepository
             ->when(isset($filters[ProductFiltersEnum::STATUS->value]), function ($query) use ($filters) {
                 $query->where(ProductFieldsEnum::STATUS->value, $filters[ProductFiltersEnum::STATUS->value]);
             })
+            ->when(isset($filters[ProductFiltersEnum::BUYING_DATE->value]), function ($query) use ($filters) {
+                $query->whereBetween(ProductFieldsEnum::BUYING_DATE->value, [
+                    $filters[ProductFiltersEnum::BUYING_DATE->value][0],
+                    $filters[ProductFiltersEnum::BUYING_DATE->value][1] ?? Carbon::parse($filters[ProductFiltersEnum::BUYING_DATE->value][0])->endOfDay()->format("Y-m-d H:i:s")
+                ]);
+            })
             ->when(isset($filters[ProductFiltersEnum::CREATED_AT->value]), function ($query) use ($filters) {
                 $query->whereBetween(ProductFieldsEnum::CREATED_AT->value, [
                     $filters[ProductFiltersEnum::CREATED_AT->value][0],

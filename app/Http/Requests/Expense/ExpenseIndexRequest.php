@@ -44,25 +44,10 @@ class ExpenseIndexRequest extends BaseIndexRequest
         ];
     }
 
-    protected function prepareForValidation()
+    protected function rangeFilters(): array
     {
-        parent::prepareForValidation();
-
-        $values = [];
-
-        // Amount
-        if ($this->has(ExpenseFiltersEnum::AMOUNT->value) && $this->filled(ExpenseFiltersEnum::AMOUNT->value)) {
-            $amounts = explode("-", $this->get(ExpenseFiltersEnum::AMOUNT->value));
-            if (count($amounts) === 1 || (count($amounts) === 2 && $amounts[1] == "")) {
-                $values[ExpenseFiltersEnum::AMOUNT->value] = [
-                    $amounts[0],
-                    $amounts[0]
-                ];
-            } else {
-                $values[ExpenseFiltersEnum::AMOUNT->value] = $amounts;
-            }
-        }
-
-        $this->merge($values);
+        return [
+            ExpenseFiltersEnum::AMOUNT->value
+        ];
     }
 }

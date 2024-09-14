@@ -35,9 +35,9 @@ class ProductIndexRequest extends BaseIndexRequest
             ProductFiltersEnum::PRODUCT_NUMBER->value       => ["nullable", "max:255"],
             ProductFiltersEnum::PRODUCT_CODE->value         => ["nullable", "max:255"],
             ProductFiltersEnum::BUYING_PRICE->value         => ["nullable", "array", "min:2", "max:2"],
-            ProductFiltersEnum::BUYING_PRICE->value . ".*"  => ["required", "decimal", "min:0"],
+            ProductFiltersEnum::BUYING_PRICE->value . ".*"  => ["required", "numeric", "min:0"],
             ProductFiltersEnum::SELLING_PRICE->value        => ["nullable", "array", "min:2", "max:2"],
-            ProductFiltersEnum::SELLING_PRICE->value . ".*" => ["required", "decimal", "min:0"],
+            ProductFiltersEnum::SELLING_PRICE->value . ".*" => ["required", "numeric", "min:0"],
             ProductFiltersEnum::BUYING_DATE->value          => ["nullable", "array", "min:2", "max:2"],
             ProductFiltersEnum::BUYING_DATE->value . ".*"   => ["required", "date"],
             ProductFiltersEnum::QUANTITIES->value           => ["nullable", "array", "min:2", "max:2"],
@@ -57,51 +57,12 @@ class ProductIndexRequest extends BaseIndexRequest
         ];
     }
 
-    protected function prepareForValidation()
+    protected function rangeFilters(): array
     {
-        parent::prepareForValidation();
-
-        $values = [];
-
-        // Buying price
-        if ($this->has(ProductFiltersEnum::BUYING_PRICE->value) && $this->filled(ProductFiltersEnum::BUYING_PRICE->value)) {
-            $buyingPrices = explode("-", $this->get(ProductFiltersEnum::BUYING_PRICE->value));
-            if (count($buyingPrices) === 1 || (count($buyingPrices) === 2 && $buyingPrices[1] == "")) {
-                $values[ProductFiltersEnum::BUYING_PRICE->value] = [
-                    $buyingPrices[0],
-                    $buyingPrices[0]
-                ];
-            } else {
-                $values[ProductFiltersEnum::BUYING_PRICE->value] = $buyingPrices;
-            }
-        }
-
-        // Selling price
-        if ($this->has(ProductFiltersEnum::SELLING_PRICE->value) && $this->filled(ProductFiltersEnum::SELLING_PRICE->value)) {
-            $sellingPrices = explode("-", $this->get(ProductFiltersEnum::SELLING_PRICE->value));
-            if (count($sellingPrices) === 1 || (count($sellingPrices) === 2 && $sellingPrices[1] == "")) {
-                $values[ProductFiltersEnum::SELLING_PRICE->value] = [
-                    $sellingPrices[0],
-                    $sellingPrices[0]
-                ];
-            } else {
-                $values[ProductFiltersEnum::SELLING_PRICE->value] = $sellingPrices;
-            }
-        }
-
-        // Quantity
-        if ($this->has(ProductFiltersEnum::QUANTITIES->value) && $this->filled(ProductFiltersEnum::QUANTITIES->value)) {
-            $quantities = explode("-", $this->get(ProductFiltersEnum::QUANTITIES->value));
-            if (count($quantities) === 1 || (count($quantities) === 2 && $quantities[1] == "")) {
-                $values[ProductFiltersEnum::QUANTITIES->value] = [
-                    $quantities[0],
-                    $quantities[0]
-                ];
-            } else {
-                $values[ProductFiltersEnum::QUANTITIES->value] = $quantities;
-            }
-        }
-
-        $this->merge($values);
+        return [
+            ProductFiltersEnum::BUYING_PRICE->value,
+            ProductFiltersEnum::SELLING_PRICE->value,
+            ProductFiltersEnum::QUANTITIES->value,
+        ];
     }
 }

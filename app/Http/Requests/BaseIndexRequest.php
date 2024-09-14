@@ -45,6 +45,23 @@ class BaseIndexRequest extends FormRequest
             $values["expand"] = explode(",", $this->get("expand"));
         }
 
+        if (method_exists($this, 'rangeFilters')) {
+            $rangeFilters = $this->rangeFilters();
+            foreach ($rangeFilters as $rangeFilter) {
+                if ($this->has($rangeFilter) && $this->filled($rangeFilter)) {
+                    $ranges = explode("-", $this->get($rangeFilter));
+                    if (count($ranges) === 1 || (count($ranges) === 2 && $ranges[1] == "")) {
+                        $values[$rangeFilter] = [
+                            $ranges[0],
+                            $ranges[0]
+                        ];
+                    } else {
+                        $values[$rangeFilter] = $ranges;
+                    }
+                }
+            }
+        }
+
         $this->merge($values);
     }
 }

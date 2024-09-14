@@ -43,23 +43,10 @@ class SalaryIndexRequest extends BaseIndexRequest
         ];
     }
 
-    protected function prepareForValidation()
+    protected function rangeFilters(): array
     {
-        parent::prepareForValidation();
-
-        $values = [];
-        if ($this->has(SalaryFiltersEnum::AMOUNT->value) && $this->filled(SalaryFiltersEnum::AMOUNT->value)) {
-            $amounts = explode("-", $this->get(SalaryFiltersEnum::AMOUNT->value));
-            if (count($amounts) === 1 || (count($amounts) === 2 && $amounts[1] == "")) {
-                $values[SalaryFiltersEnum::AMOUNT->value] = [
-                    $amounts[0],
-                    $amounts[0]
-                ];
-            } else {
-                $values[SalaryFiltersEnum::AMOUNT->value] = $amounts;
-            }
-        }
-
-        $this->merge($values);
+        return [
+            SalaryFiltersEnum::AMOUNT->value
+        ];
     }
 }

@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::apiResource('customers', CustomerController::class);
     Route::apiResource('employees', EmployeeController::class);
     Route::apiResource('salaries', SalaryController::class);
+    Route::apiResource('orders', OrderController::class);
 
     // Carts
     Route::get('pos', [CartController::class, 'index'])->name('carts.index');
@@ -56,8 +57,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('carts/delete/all', [CartController::class, 'deleteForUser'])->name('carts.delete.all');
     Route::put('carts/{cart}/increment', [CartController::class, 'incrementQuantity'])->name('carts.increment');
     Route::put('carts/{cart}/decrement', [CartController::class, 'decrementQuantity'])->name('carts.decrement');
-
-    // Order
 });
 
 require __DIR__ . '/auth.php';
