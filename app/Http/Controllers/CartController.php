@@ -38,7 +38,7 @@ class CartController extends Controller
         $carts = $this->cartService->getAll([
             CartFiltersEnum::USER_ID->value => auth()->id(),
             "expand"                        => [CartExpandEnum::PRODUCT->value],
-            "per_page"                      => 1000
+            "per_page"                      => 500
         ]);
 
         // Calculate cart subtotal
@@ -48,7 +48,7 @@ class CartController extends Controller
         }
 
         // Calculate total discount
-        $discountData = BaseHelper::calculateDiscount(amount: $cartSubtotal);
+        $discountData = BaseHelper::calculateDefaultDiscount(amount: $cartSubtotal);
 
         // Calculate total tax
         $taxData = BaseHelper::calculateTax(amount: $cartSubtotal);

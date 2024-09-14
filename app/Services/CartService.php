@@ -235,7 +235,7 @@ class CartService
     {
         $carts = $this->getAll([
             CartFiltersEnum::USER_ID->value => $userId,
-            "per_page" => 1000
+            "per_page" => 500
         ]);
 
         Cart::destroy($carts->pluck('id')->toArray());

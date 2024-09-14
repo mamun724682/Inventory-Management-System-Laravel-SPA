@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Enums\Core\AmountTypeEnum;
 use Illuminate\Support\Facades\Storage;
 
 class BaseHelper
@@ -78,11 +79,35 @@ class BaseHelper
      * @param float|int $amount
      * @return array
      */
-    public static function calculateDiscount(float|int $amount): array
+    public static function calculateDefaultDiscount(float|int $amount): array
     {
         $discount = 5;
         $discountType = "percentage";
-        if ($discountType == "percentage") {
+        if ($discountType == AmountTypeEnum::PERCENTAGE) {
+            $totalDiscount = self::calculatePercentage(
+                amount: $amount,
+                percentage: $discount
+            );
+        } else {
+            $totalDiscount = $discount;
+        }
+
+        return [
+            "discount"      => $discount,
+            "discountType"  => $discountType,
+            "totalDiscount" => $totalDiscount
+        ];
+    }
+
+    /**
+     * @param float|int $amount
+     * @param float|int $discount
+     * @param string $discountType
+     * @return array
+     */
+    public static function calculateCustomDiscount(float|int $amount, float|int $discount, string $discountType): array
+    {
+        if ($discountType == AmountTypeEnum::PERCENTAGE) {
             $totalDiscount = self::calculatePercentage(
                 amount: $amount,
                 percentage: $discount
