@@ -6,5 +6,5 @@ export function truncateString(str, maxLength = 10) {
 }
 
 export function numberFormat(number, decimals = 4) {
-    return number.toFixed(decimals);
+    return parseFloat(number.toFixed(decimals));
 }

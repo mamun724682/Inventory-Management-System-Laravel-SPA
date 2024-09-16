@@ -83,7 +83,7 @@ class BaseHelper
     {
         $discount = 5;
         $discountType = "percentage";
-        if ($discountType == AmountTypeEnum::PERCENTAGE) {
+        if ($discountType == AmountTypeEnum::PERCENTAGE->value) {
             $totalDiscount = self::calculatePercentage(
                 amount: $amount,
                 percentage: $discount
@@ -107,7 +107,7 @@ class BaseHelper
      */
     public static function calculateCustomDiscount(float|int $amount, float|int $discount, string $discountType): array
     {
-        if ($discountType == AmountTypeEnum::PERCENTAGE) {
+        if ($discountType == AmountTypeEnum::PERCENTAGE->value) {
             $totalDiscount = self::calculatePercentage(
                 amount: $amount,
                 percentage: $discount
@@ -129,7 +129,7 @@ class BaseHelper
      */
     public static function calculateTax(float|int $amount): array
     {
-        $tax = 2;
+        $tax = 5;
         $totalTax = self::calculatePercentage(
             amount: $amount,
             percentage: $tax

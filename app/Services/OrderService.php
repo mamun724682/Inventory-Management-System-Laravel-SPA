@@ -9,6 +9,7 @@ use App\Enums\Order\OrderFieldsEnum;
 use App\Enums\Order\OrderFiltersEnum;
 use App\Enums\Order\OrderStatusEnum;
 use App\Enums\OrderItem\OrderItemFieldsEnum;
+use App\Enums\Product\ProductFieldsEnum;
 use App\Enums\Product\ProductStatusEnum;
 use App\Exceptions\DBCommitException;
 use App\Exceptions\OrderCreateException;
@@ -28,6 +29,7 @@ class OrderService
         private readonly OrderRepository  $repository,
         private readonly OrderItemService $orderItemService,
         private readonly CartService      $cartService,
+        private readonly ProductService   $productService,
     )
     {
     }
@@ -113,6 +115,14 @@ class OrderService
                     OrderItemFieldsEnum::QUANTITY->value     => $cart->quantity,
                 ];
 
+                // Decrement product quantity
+                $this->productService->update(
+                    id: $cart->product_id,
+                    payload: [
+                        ProductFieldsEnum::QUANTITY->value => $cart->product->quantity - $cart->quantity,
+                    ]
+                );
+
                 // Delete cart
                 $cart->delete();
             }
@@ -125,7 +135,7 @@ class OrderService
             $discountDefaultData = BaseHelper::calculateDefaultDiscount(amount: $cartSubtotal);
             $customDiscount = $payload['custom_discount'] ?? [];
             $discountTotal = $discountDefaultData['totalDiscount'];
-            if ($customDiscount){
+            if ($customDiscount) {
                 $customDiscountData = BaseHelper::calculateCustomDiscount(
                     amount: $cartSubtotal,
                     discount: $customDiscount['discount'],
@@ -151,7 +161,7 @@ class OrderService
             $loss = $profit < 0 ? abs($profit) : 0;
 
             // Decide status
-            if ($paid == 0){
+            if ($paid == 0) {
                 $status = OrderStatusEnum::UNPAID->value;
             } elseif ($paid == $totalWithTax) {
                 $status = OrderStatusEnum::PAID->value;

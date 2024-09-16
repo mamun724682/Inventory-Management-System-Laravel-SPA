@@ -7,6 +7,7 @@ import {ref, watch} from 'vue';
 import AsyncVueSelect from "@/Components/AsyncVueSelect.vue";
 import {numberFormat, truncateString} from "@/Utils/Helper.js";
 import InputError from "@/Components/InputError.vue";
+import SubmitButton from "@/Components/SubmitButton.vue";
 
 const props = defineProps({
     products: Object,
@@ -24,8 +25,8 @@ const props = defineProps({
 
 const form = useForm({
     customer_id: null,
-    total: props.total ?? null,
-    paid: props.total ?? null,
+    total: null,
+    paid: null,
     paid_by: "cash",
     custom_discount: {
         discount: 0,
@@ -33,21 +34,34 @@ const form = useForm({
     },
 });
 
-// watch works directly on a ref
-watch(form.custom_discount, async (custom_discount, oldDiscount) => {
-    if (custom_discount.discount_type === "fixed") {
-        form.total = form.paid - custom_discount.discount;
-        form.paid = form.paid - custom_discount.discount;
+// Watch props and update the form fields reactively
+watch(props, (newProps) => {
+    if (form.custom_discount.discount_type === "fixed") {
+        form.total = newProps.total - form.custom_discount.discount;
+        form.paid = newProps.total - form.custom_discount.discount;
     } else {
-        form.total = numberFormat(props.total - (props.cartSubtotal * (custom_discount.discount / 100)));
-        form.paid = numberFormat(props.total - (props.cartSubtotal * (custom_discount.discount / 100)));
+        form.total = numberFormat(newProps.total - (newProps.cartSubtotal * (form.custom_discount.discount / 100)));
+        form.paid = numberFormat(newProps.total - (newProps.cartSubtotal * (form.custom_discount.discount / 100)));
     }
+}, { immediate: true });
+
+// watch form
+watch(form, async (newForm, oldForm) => {
+    if (form.custom_discount.discount_type === "fixed") {
+        form.total = props.total - form.custom_discount.discount;
+        form.paid = props.total - form.custom_discount.discount;
+    } else {
+        form.total = numberFormat(props.total - (props.cartSubtotal * (form.custom_discount.discount / 100)));
+        form.paid = numberFormat(props.total - (props.cartSubtotal * (form.custom_discount.discount / 100)));
+    }
+}, {
+    immediate: true,
+    deep: true
 })
 
 const addToCart = (product) => {
-    router.post(route('carts.store', product.id), {
+    router.post(route('carts.store', product.id), {}, {
         preserveScroll: true,
-    }, {
         onSuccess: () => {
             showToast();
         }
@@ -55,9 +69,8 @@ const addToCart = (product) => {
 };
 
 const incrementCartQuantity = (cart) => {
-    router.put(route('carts.increment', cart.id), {
+    router.put(route('carts.increment', cart.id), {}, {
         preserveScroll: true,
-    }, {
         onSuccess: () => {
             showToast();
         }
@@ -65,9 +78,8 @@ const incrementCartQuantity = (cart) => {
 };
 
 const decrementCartQuantity = (cart) => {
-    router.put(route('carts.decrement', cart.id), {
+    router.put(route('carts.decrement', cart.id), {}, {
         preserveScroll: true,
-    }, {
         onSuccess: () => {
             showToast();
         }
@@ -80,8 +92,8 @@ const insertCartQuantity = (cart, quantity) => {
     }
     router.put(route('carts.update', cart.id), {
         quantity: quantity,
-        preserveScroll: true,
     }, {
+        preserveScroll: true,
         onSuccess: () => {
             showToast();
         }
@@ -90,6 +102,7 @@ const insertCartQuantity = (cart, quantity) => {
 
 const deleteCart = (cart) => {
     router.delete(route('carts.delete', cart.id), {
+        preserveScroll: true,
         onSuccess: () => {
             showToast();
         }
@@ -105,10 +118,14 @@ const deleteCartAllItems = () => {
 };
 
 const createOrder = () => {
+    if (!props.carts.total) {
+        return;
+    }
     form.post(route('orders.store'), {
         preserveScroll: true,
         onSuccess: () => {
             showToast();
+            form.reset()
         },
     });
 };
@@ -333,12 +350,12 @@ const showToast = () => {
                             <!-- end cash -->
                             <!-- button pay-->
                             <div class="px-5 mt-3 mb-4">
-                                <div
-                                    role="button"
+                                <SubmitButton
                                     @click="createOrder"
-                                    class="px-4 py-4 rounded-md shadow-lg text-center bg-emerald-500 text-white font-semibold">
-                                    Pay & Print
-                                </div>
+                                    :processing="form.processing"
+                                    class="w-full px-4 py-4 rounded-md shadow-lg text-center bg-emerald-500 text-white font-semibold focus:outline-none"
+                                    :class="!carts.total ? 'cursor-not-allowed' : ''"
+                                >Pay & Print</SubmitButton>
                             </div>
                             <!-- end button pay -->
                         </div>
