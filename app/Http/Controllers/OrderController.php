@@ -138,7 +138,6 @@ class OrderController extends Controller
                 "message"   => $e->getMessage(),
             ];
         } catch (Exception $e) {
-            dd($e);
             $flash = [
                 "isSuccess" => false,
                 "message"   => "Failed to place order.!",

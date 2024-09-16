@@ -8,7 +8,7 @@ import Modal from "@/Components/Modal.vue";
 import {push} from 'notivue'
 import {useForm} from '@inertiajs/vue3';
 import {ref} from 'vue';
-import {truncateString} from "../../Utils/Helper.js";
+import {truncateString} from "@/Utils/Helper.js";
 
 defineProps({
     filters: {

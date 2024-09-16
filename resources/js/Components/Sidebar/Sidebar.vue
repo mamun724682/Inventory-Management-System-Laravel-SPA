@@ -93,6 +93,12 @@
                     />
 
                     <SidebarItem
+                        name="Orders"
+                        routeName="orders.index"
+                        icon="fas fa-database"
+                    />
+
+                    <SidebarItem
                         name="Categories"
                         routeName="categories.index"
                         icon="fas fa-list"
@@ -131,7 +137,7 @@
                     <SidebarItem
                         name="Expenses"
                         routeName="expenses.index"
-                        icon="fas fa-dolly"
+                        icon="fas fa-book"
                     />
 
                     <SidebarItem

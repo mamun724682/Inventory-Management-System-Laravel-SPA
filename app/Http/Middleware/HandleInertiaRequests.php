@@ -43,6 +43,7 @@ class HandleInertiaRequests extends Middleware
                 'isSuccess' => fn () => $request->session()->get('flash')['isSuccess'] ?? true,
                 'message' => fn () => $request->session()->get('flash')['message'] ?? null,
             ],
+            'currency' => '$',
         ];
     }
 }

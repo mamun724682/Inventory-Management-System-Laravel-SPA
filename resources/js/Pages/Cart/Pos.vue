@@ -1,11 +1,10 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import {Head, router, usePage} from '@inertiajs/vue3';
-import {push} from 'notivue'
+import {Head, router} from '@inertiajs/vue3';
 import {useForm} from '@inertiajs/vue3';
-import {ref, watch} from 'vue';
+import {watch} from 'vue';
 import AsyncVueSelect from "@/Components/AsyncVueSelect.vue";
-import {numberFormat, truncateString} from "@/Utils/Helper.js";
+import {getCurrency, numberFormat, showToast, truncateString} from "@/Utils/Helper.js";
 import InputError from "@/Components/InputError.vue";
 import SubmitButton from "@/Components/SubmitButton.vue";
 
@@ -13,7 +12,6 @@ const props = defineProps({
     products: Object,
     carts: Object,
     cartSubtotal: Number,
-    currency: String,
     discountType: String,
     discount: Number,
     totalDiscount: Number,
@@ -129,14 +127,6 @@ const createOrder = () => {
         },
     });
 };
-
-const showToast = () => {
-    if (usePage().props.flash.isSuccess) {
-        push.success(usePage().props.flash.message)
-    } else {
-        push.error(usePage().props.flash.message)
-    }
-};
 </script>
 <template>
     <Head title="Product"/>
@@ -189,7 +179,7 @@ const showToast = () => {
                                             {{ truncateString(product.name, 11) }}
                                         </p>
                                         <p class="nowrap font-semibold">
-                                            {{ currency }}{{ product.selling_price }}
+                                            {{ getCurrency() }}{{ product.selling_price }}
                                         </p>
                                     </div>
                                 </div>
@@ -250,7 +240,7 @@ const showToast = () => {
                                         >+</span>
                                     </div>
                                     <div class="font-semibold text-lg w-16 text-center">
-                                        {{ currency }}{{ cart.quantity * cart.product.selling_price }}
+                                        {{ getCurrency() }}{{ cart.quantity * cart.product.selling_price }}
                                     </div>
                                     <i
                                         @click="deleteCart(cart)"
@@ -266,16 +256,16 @@ const showToast = () => {
                                 <div class="pt-2 rounded-md shadow-lg">
                                     <div class=" px-4 flex justify-between ">
                                         <span class="font-semibold text-sm">Subtotal</span>
-                                        <span class="font-bold">{{ currency }}{{ cartSubtotal }}</span>
+                                        <span class="font-bold">{{ getCurrency() }}{{ cartSubtotal }}</span>
                                     </div>
                                     <div class=" px-4 flex justify-between ">
                                         <span class="font-semibold text-sm">Sales Tax({{ tax }}%)</span>
-                                        <span class="font-bold">{{ currency }}{{ totalTax }}</span>
+                                        <span class="font-bold">{{ getCurrency() }}{{ totalTax }}</span>
                                     </div>
                                     <div class=" px-4 flex justify-between ">
-                                        <span v-if="discountType === 'fixed'" class="font-semibold text-sm">Discount({{ currency}}{{ discount }})</span>
+                                        <span v-if="discountType === 'fixed'" class="font-semibold text-sm">Discount({{ getCurrency()}}{{ discount }})</span>
                                         <span v-else class="font-semibold text-sm">Discount({{ discount }}%)</span>
-                                        <span class="font-bold">- {{ currency }}{{ totalDiscount }}</span>
+                                        <span class="font-bold">- {{ getCurrency() }}{{ totalDiscount }}</span>
                                     </div>
                                     <div class=" px-4 flex justify-between items-center">
                                         <div class="text-sm flex items-center flex-wrap">
@@ -295,12 +285,12 @@ const showToast = () => {
                                                 >
                                             </div>
                                         </div>
-                                        <span v-if="form.custom_discount.discount_type === 'fixed'" class="font-bold">- {{ currency }}{{ form.custom_discount.discount }}</span>
-                                        <span v-else class="font-bold">- {{ currency }}{{ numberFormat(cartSubtotal * (form.custom_discount.discount / 100)) }}</span>
+                                        <span v-if="form.custom_discount.discount_type === 'fixed'" class="font-bold">- {{ getCurrency() }}{{ form.custom_discount.discount }}</span>
+                                        <span v-else class="font-bold">- {{ getCurrency() }}{{ numberFormat(cartSubtotal * (form.custom_discount.discount / 100)) }}</span>
                                     </div>
                                     <div class="border-t-2 mt-3 py-2 px-4 flex items-center justify-between">
                                         <span class="font-semibold text-2xl">Total</span>
-                                        <span class="font-bold text-2xl">{{ currency }}{{ form.total }}</span>
+                                        <span class="font-bold text-2xl">{{ getCurrency() }}{{ form.total }}</span>
                                     </div>
                                 </div>
                             </div>

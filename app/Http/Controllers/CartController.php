@@ -65,7 +65,6 @@ class CartController extends Controller
                 'products'         => $this->productService->getAll($productParams),
                 'carts'            => $carts,
                 'cartSubtotal'     => $cartSubtotal,
-                'currency'         => '$',
                 'discountType'     => $discountData["discountType"],
                 'discount'         => $discountData["discount"],
                 'totalDiscount'    => $discountData["totalDiscount"],
