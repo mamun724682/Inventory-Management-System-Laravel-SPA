@@ -1,3 +1,13 @@
+## 🚀 A New Version is Cooking! Get ready—major improvements and features are coming next week. Stay tuned for the release!🚀
+
+<hr>
+
+###
+
+<div align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=mamun724682&hide_title=false&hide_rank=false&show_icons=true&include_all_commits=true&count_private=true&disable_animations=false&theme=dracula&locale=en&hide_border=false&order=1" height="150" alt="Inventory Management System"  />
+</div>
+
 ## Inventory and Sales Management System (SPA)
 An Inventory and Sales Management System using __Laravel 7 (PHP Framework)__, __Vue js__ and __RESTful API__ with support for __MySQL__ databases. It's a Single Page Application __(SPA)__
 
