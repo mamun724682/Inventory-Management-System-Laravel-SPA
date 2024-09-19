@@ -23,6 +23,10 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
+    showSubmitButton: {
+        type: Boolean,
+        default: true,
+    },
     submitButtonText: {
         type: String,
         default: "Submit",
@@ -72,6 +76,7 @@ const maxWidthClass = computed(() => {
         lg: 'sm:max-w-lg',
         xl: 'sm:max-w-xl',
         '2xl': 'sm:max-w-2xl',
+        '4xl': 'max-w-4xl',
     }[props.maxWidth];
 });
 </script>
@@ -131,6 +136,7 @@ const maxWidthClass = computed(() => {
                             <div class="mt-6 flex justify-end">
                                 <Button type="gray" @click="close">Cancel</Button>
                                 <SubmitButton
+                                    v-if="showSubmitButton"
                                     :processing="formProcessing"
                                     @click="submitAction"
                                     class="text-white bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"

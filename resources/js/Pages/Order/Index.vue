@@ -1,15 +1,15 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import {Head, usePage} from '@inertiajs/vue3';
+import {Head} from '@inertiajs/vue3';
 import CardTable from "@/Components/Cards/CardTable.vue";
 import TableData from "@/Components/TableData.vue";
 import Button from "@/Components/Button.vue";
 import InputError from "@/Components/InputError.vue";
 import Modal from "@/Components/Modal.vue";
-import { push } from 'notivue'
 import {useForm} from '@inertiajs/vue3';
 import {nextTick, ref} from 'vue';
-import {formatDatetime, getCurrency} from "@/Utils/Helper.js";
+import {formatDatetime, getCurrency, showToast, truncateString} from "@/Utils/Helper.js";
+import TableHead from "@/Components/TableHead.vue";
 
 defineProps({
     filters: {
@@ -21,9 +21,9 @@ defineProps({
 });
 
 const selectedOrder = ref(null);
-const showCreateModal = ref(false);
+const showOrderItemsModal = ref(false);
 const showEditModal = ref(false);
-const showDeleteModal = ref(false);
+const showSettleModal = ref(false);
 const nameInput = ref(null);
 const tableHeads = ref(["Order Number", "Customer", "Summary(" + getCurrency() + ")", "Paid", "Due", "Profit", "Loss", "Status", "Date", "Action"]);
 
@@ -31,10 +31,9 @@ const form = useForm({
     name: null,
 });
 
-const createOrderModal = () => {
-    showCreateModal.value = true;
-
-    nextTick(() => nameInput.value.focus());
+const viewOrderItemsModal = (order) => {
+    selectedOrder.value = order;
+    showOrderItemsModal.value = true;
 };
 
 const editOrderModal = (order) => {
@@ -44,23 +43,6 @@ const editOrderModal = (order) => {
 
     nextTick(() => nameInput.value.focus());
 };
-
-const deleteOrderModal = (order) => {
-    selectedOrder.value = order;
-    showDeleteModal.value = true;
-};
-
-const createOrder = () => {
-    form.post(route('orders.store'), {
-        preserveScroll: true,
-        onSuccess: () => {
-            closeModal();
-            showToast();
-        },
-        onError: () => nameInput.value.focus(),
-    });
-};
-
 const updateOrder = () => {
     form.put(route('orders.update', selectedOrder.value.id), {
         preserveScroll: true,
@@ -72,8 +54,12 @@ const updateOrder = () => {
     });
 };
 
-const deleteOrder = () => {
-    form.delete(route('orders.destroy', selectedOrder.value.id), {
+const settleOrderModal = (order) => {
+    selectedOrder.value = order;
+    showSettleModal.value = true;
+};
+const settleDuePayment = () => {
+    form.delete(route('orders.settle', selectedOrder.value.id), {
         preserveScroll: true,
         onSuccess: () => {
             closeModal();
@@ -83,18 +69,9 @@ const deleteOrder = () => {
 };
 
 const closeModal = () => {
-    showCreateModal.value = false;
+    showOrderItemsModal.value = false;
     showEditModal.value = false;
-    showDeleteModal.value = false;
-    form.reset();
-};
-
-const showToast = () => {
-    if (usePage().props.flash.isSuccess) {
-        push.success(usePage().props.flash.message)
-    } else {
-        push.error(usePage().props.flash.message)
-    }
+    showSettleModal.value = false;
 };
 </script>
 
@@ -117,7 +94,10 @@ const showToast = () => {
                     <template #cardHeader>
                         <div class="flex justify-between items-center">
                             <h4 class="text-2xl">Apply filters</h4>
-                            <Button @click="createOrderModal">Create Order</Button>
+                            <Button
+                                :href="route('carts.index')"
+                                buttonType="link"
+                            >Create Order</Button>
                         </div>
                     </template>
 
@@ -132,11 +112,28 @@ const showToast = () => {
                             <span>Discount: {{ order.discount_total }}</span><br>
                             <span>Total: {{ order.total }}</span><br>
                         </TableData>
+                        <TableData>{{ getCurrency() }}{{ order.paid }}</TableData>
                         <TableData>
-                            <span>{{ getCurrency() }}{{ order.paid }}</span><br>
-                            <span>by {{ order.paid_by }}</span><br>
+                            <span :class="order.due ? 'text-red-500 text-xl font-bold' : ''">{{ getCurrency() }}{{ order.due }}</span>
+                            <br>
+                            <div class="flex" v-if="order.due">
+                                <Button
+                                    @click="viewOrderItemsModal(order)"
+                                    title="Pay Due"
+                                    class="px-2"
+                                >
+                                    <i class="fa fa-money-bill-wave"></i>
+                                </Button>
+                                <Button
+                                    @click="settleOrderModal(order)"
+                                    type="red"
+                                    class="px-2"
+                                    title="Settle"
+                                >
+                                    <i class="fa fa-handshake"></i>
+                                </Button>
+                            </div>
                         </TableData>
-                        <TableData :class="order.due ? 'text-red-500 text-xl' : ''">{{ getCurrency() }}{{ order.due }}</TableData>
                         <TableData>{{ getCurrency() }}{{ order.profit }}</TableData>
                         <TableData>{{ getCurrency() }}{{ order.loss }}</TableData>
                         <TableData>
@@ -147,41 +144,80 @@ const showToast = () => {
                         </TableData>
                         <TableData>{{ formatDatetime(order.created_at) }}</TableData>
                         <TableData>
-                            <Button @click="editOrderModal(order)">
-                                <i class="fa fa-edit"></i>
+                            <Button @click="viewOrderItemsModal(order)" title="Order Items">
+                                <i class="fa fa-list"></i>
                             </Button>
-                            <Button
-                                @click="deleteOrderModal(order)"
-                                type="red"
-                            >
-                                <i class="fa fa-trash-alt"></i>
-                            </Button>
+<!--                            <Button-->
+<!--                                :href="route('orders.show', order.id)"-->
+<!--                                buttonType="link"-->
+<!--                                preserveScroll-->
+<!--                            >-->
+<!--                                <i class="fa fa-eye"></i>-->
+<!--                            </Button>-->
                         </TableData>
                     </tr>
                 </CardTable>
             </div>
         </div>
 
-        <!--Create data-->
+        <!--Show order items data-->
         <Modal
-            title="Create"
-            :show="showCreateModal"
-            :formProcessing="form.processing"
+            :title="'Order Items(' + selectedOrder?.order_items.length + ')'"
+            :show="showOrderItemsModal"
             @close="closeModal"
-            @submitAction="createOrder"
+            maxWidth="4xl"
+            :showSubmitButton="false"
         >
-            <div>
-                <label for="name">Name</label>
-                <input
-                    id="name"
-                    ref="nameInput"
-                    v-model="form.name"
-                    @keyup.enter="createOrder"
-                    type="text"
-                    placeholder="Enter name"
-                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full"
-                />
-                <InputError :message="form.errors.name"/>
+            <div class="relative flex flex-col min-w-0 break-words w-full mb-6 rounded bg-white">
+                <div class="block w-full overflow-x-auto">
+                    <!-- Projects table -->
+                    <table class="items-center w-full bg-transparent border-collapse">
+                        <thead>
+                        <tr>
+                            <TableHead>Product Name</TableHead>
+                            <TableHead>Product Number</TableHead>
+                            <TableHead>Product Code</TableHead>
+                            <TableHead>Price</TableHead>
+                            <TableHead>Quantity</TableHead>
+                            <TableHead>Action</TableHead>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr v-for="(orderItem, index) in selectedOrder.order_items" :key="orderItem.id">
+                            <TableData class="text-left flex items-center" :title="orderItem.product_json.name">
+                                <img
+                                    :src="orderItem.product_json.photo"
+                                    class="h-12 w-12 bg-white rounded-full border"
+                                    alt="Inventory management system"
+                                />
+                                <span class="ml-3 font-bold text-blueGray-600">{{ truncateString(orderItem.product_json.name, 15) }}</span>
+                            </TableData>
+                            <TableData>{{ orderItem.product_json.product_number }}</TableData>
+                            <TableData>{{ orderItem.product_json.product_code }}</TableData>
+                            <TableData>
+                                Buying: <strong>{{ getCurrency() }}{{ orderItem.product_json.buying_price }}</strong>
+                                <br>
+                                Selling: <strong>{{getCurrency() }}{{ orderItem.product_json.selling_price }}</strong>
+                            </TableData>
+                            <TableData>
+                                <strong>{{ orderItem.quantity }}</strong>
+                            </TableData>
+                            <TableData>
+                                <Button
+                                    v-if="orderItem.product_id"
+                                    :href="route('products.edit', orderItem.product_id)"
+                                    buttonType="link"
+                                    preserveScroll
+                                >
+                                    <i class="fa fa-eye"></i>
+                                </Button>
+                            </TableData>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </Modal>
 
@@ -208,17 +244,20 @@ const showToast = () => {
             </div>
         </Modal>
 
-        <!--Delete data-->
+        <!--Settle Order-->
         <Modal
-            title="Delete"
-            :show="showDeleteModal"
+            title="Due Settlement"
+            :show="showSettleModal"
             :formProcessing="form.processing"
             @close="closeModal"
-            @submitAction="deleteOrder"
-            maxWidth="sm"
-            submitButtonText="Yes, delete it!"
+            @submitAction="settleDuePayment"
+            maxWidth="md"
+            submitButtonText="Yes, settle it!"
         >
-            Are you sure you want to delete this order?
+            Are you sure you want to settle this due payment?
+            <br>
+            <br>
+            <strong>Note: </strong>The due amount will be applied as discount.
         </Modal>
     </AuthenticatedLayout>
 </template>
