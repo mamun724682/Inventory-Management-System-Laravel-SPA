@@ -12,6 +12,7 @@ enum OrderStatusEnum: string implements BaseEnumInterface
     case PAID         = 'paid';
     case UNPAID       = 'unpaid';
     case PARTIAL_PAID = 'partial_paid';
+    case OVER_PAID    = 'over_paid';
     case SETTLED      = 'settled';
 
     public static function labels(): array
@@ -20,6 +21,7 @@ enum OrderStatusEnum: string implements BaseEnumInterface
             self::PAID->value         => "Paid",
             self::UNPAID->value       => "Unpaid",
             self::PARTIAL_PAID->value => "Partial Paid",
+            self::OVER_PAID->value    => "Over Paid",
             self::SETTLED->value      => "Settled",
         ];
     }

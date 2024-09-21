@@ -47,7 +47,10 @@ Route::middleware('auth')->group(function () {
     Route::apiResource('customers', CustomerController::class);
     Route::apiResource('employees', EmployeeController::class);
     Route::apiResource('salaries', SalaryController::class);
+
+    // Order
     Route::apiResource('orders', OrderController::class);
+    Route::put('orders/{order}/settle', [OrderController::class, 'settle'])->name('orders.settle');
 
     // Carts
     Route::get('pos', [CartController::class, 'index'])->name('carts.index');

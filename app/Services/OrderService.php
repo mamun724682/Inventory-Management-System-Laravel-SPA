@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\Cart\CartExpandEnum;
 use App\Enums\Cart\CartFiltersEnum;
 use App\Enums\Core\SortOrderEnum;
+use App\Enums\Order\OrderExpandEnum;
 use App\Enums\Order\OrderFieldsEnum;
 use App\Enums\Order\OrderFiltersEnum;
 use App\Enums\Order\OrderStatusEnum;
@@ -14,6 +15,7 @@ use App\Enums\Product\ProductStatusEnum;
 use App\Exceptions\DBCommitException;
 use App\Exceptions\OrderCreateException;
 use App\Exceptions\OrderNotFoundException;
+use App\Exceptions\OrderSettleException;
 use App\Helpers\ArrayHelper;
 use App\Helpers\BaseHelper;
 use App\Models\Order;
@@ -146,25 +148,31 @@ class OrderService
 
             // Calculate total
             $total = $cartSubtotal - $discountTotal;
-            $totalWithTax = $cartSubtotal - $discountTotal + $taxTotal;
+            $totalWithTax = $total + $taxTotal;
 
             // Calculate due
             $paid = $payload[OrderFieldsEnum::PAID->value] ?? 0;
             $due = $total - $paid;
             $dueWithTax = $totalWithTax - $paid;
 
-            // Calculate profit
-            $profit = $total - $productBuyingSubtotal - $due;
-            $profit = $profit < 0 ? 0 : $profit;
-
-            // Calculate loss
-            $loss = $profit < 0 ? abs($profit) : 0;
+            // Calculate profit and loss
+            $profit = $paid - $productBuyingSubtotal - $taxTotal;
+            if ($profit < 0){
+                $loss = abs($profit);
+                $profit = 0;
+            } elseif ($profit == 0) {
+                $loss = 0;
+            } else {
+                $loss = 0;
+            }
 
             // Decide status
             if ($paid == 0) {
                 $status = OrderStatusEnum::UNPAID->value;
             } elseif ($paid == $totalWithTax) {
                 $status = OrderStatusEnum::PAID->value;
+            } elseif ($paid > $totalWithTax) {
+                $status = OrderStatusEnum::OVER_PAID->value;
             } else {
                 $status = OrderStatusEnum::PARTIAL_PAID->value;
             }
@@ -177,7 +185,7 @@ class OrderService
                 OrderFieldsEnum::DISCOUNT_TOTAL->value => $discountTotal,
                 OrderFieldsEnum::TOTAL->value          => $totalWithTax,
                 OrderFieldsEnum::PAID->value           => $paid,
-                OrderFieldsEnum::DUE->value            => $dueWithTax,
+                OrderFieldsEnum::DUE->value            => max($dueWithTax, 0),
                 OrderFieldsEnum::PAID_BY->value        => $payload[OrderFieldsEnum::PAID_BY->value],
                 OrderFieldsEnum::PROFIT->value         => $profit,
                 OrderFieldsEnum::LOSS->value           => $loss,
@@ -202,35 +210,52 @@ class OrderService
         return $order;
     }
 
-    private function decideStatus()
-    {
-
-    }
-
     /**
      * @param int $id
-     * @param array $payload
      * @return Order
      * @throws OrderNotFoundException
+     * @throws OrderSettleException
      * @throws Exception
      */
-    public function update(int $id, array $payload): Order
+    public function settle(int $id): Order
     {
-        $order = $this->findByIdOrFail($id);
+        $order = $this->findByIdOrFail(id: $id, expands: [OrderExpandEnum::ORDER_ITEMS->value]);
+
+        if ($order->due <= 0){
+            throw new OrderSettleException("No due amount left to settle.");
+        }
+
+        // +discount
+        $discountTotal = $order->discount_total + $order->due;
+
+        // Calculate total
+        $total = $order->sub_total - $discountTotal;
+        $totalWithTax = $total + $order->tax_total;
+
+        // Calculate buying sub total
+        $productBuyingSubtotal = 0;
+        foreach ($order->orderItems as $orderItem) {
+            $productBuyingSubtotal += $orderItem->product_json['buying_price'] * $orderItem->quantity;
+        }
+
+        // Calculate profit and loss
+        $profit = $order->paid - $productBuyingSubtotal - $order->tax_total;
+        if ($profit < 0){
+            $loss = abs($profit);
+            $profit = 0;
+        } elseif ($profit == 0) {
+            $loss = 0;
+        } else {
+            $loss = 0;
+        }
 
         $processPayload = [
-            OrderFieldsEnum::CATEGORY_ID->value   => $payload[OrderFieldsEnum::CATEGORY_ID->value] ?? $order->category_id,
-            OrderFieldsEnum::SUPPLIER_ID->value   => $payload[OrderFieldsEnum::SUPPLIER_ID->value] ?? $order->supplier_id,
-            OrderFieldsEnum::NAME->value          => $payload[OrderFieldsEnum::NAME->value] ?? $order->name,
-            OrderFieldsEnum::DESCRIPTION->value   => $payload[OrderFieldsEnum::DESCRIPTION->value] ?? $order->description,
-            OrderFieldsEnum::PRODUCT_CODE->value  => $payload[OrderFieldsEnum::PRODUCT_CODE->value] ?? $order->order_code,
-            OrderFieldsEnum::ROOT->value          => $payload[OrderFieldsEnum::ROOT->value] ?? $order->root,
-            OrderFieldsEnum::BUYING_PRICE->value  => $payload[OrderFieldsEnum::BUYING_PRICE->value] ?? $order->buying_price,
-            OrderFieldsEnum::SELLING_PRICE->value => $payload[OrderFieldsEnum::SELLING_PRICE->value] ?? $order->selling_price,
-            OrderFieldsEnum::BUYING_DATE->value   => $payload[OrderFieldsEnum::BUYING_DATE->value] ?? $order->buying_date,
-            OrderFieldsEnum::QUANTITY->value      => $payload[OrderFieldsEnum::QUANTITY->value] ?? $order->quantity,
-            OrderFieldsEnum::PHOTO->value         => $photo,
-            OrderFieldsEnum::STATUS->value        => $payload[OrderFieldsEnum::STATUS->value] ?? $order->status,
+            OrderFieldsEnum::DISCOUNT_TOTAL->value => $discountTotal,
+            OrderFieldsEnum::TOTAL->value          => $totalWithTax,
+            OrderFieldsEnum::DUE->value            => 0,
+            OrderFieldsEnum::PROFIT->value         => $profit,
+            OrderFieldsEnum::LOSS->value           => $loss,
+            OrderFieldsEnum::STATUS->value         => OrderStatusEnum::SETTLED->value,
         ];
 
         return $this->repository->update($order, $processPayload);

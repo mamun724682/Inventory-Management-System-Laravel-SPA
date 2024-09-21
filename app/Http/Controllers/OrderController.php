@@ -154,6 +154,39 @@ class OrderController extends Controller
             ->with('flash', $flash);
     }
 
+    /**
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function settle(int $id): RedirectResponse
+    {
+        try {
+            $this->service->settle(id: $id);
+            $flash = [
+                "message" => 'Order settled successfully.'
+            ];
+        } catch (OrderNotFoundException $e) {
+            $flash = [
+                "isSuccess" => false,
+                "message"   => $e->getMessage(),
+            ];
+        } catch (Exception $e) {
+            $flash = [
+                "isSuccess" => false,
+                "message"   => "Order settlement failed!",
+            ];
+
+            Log::error("Order settlement failed", [
+                "message" => $e->getMessage(),
+                "traces"  => $e->getTrace()
+            ]);
+        }
+
+        return redirect()
+            ->route('orders.index')
+            ->with('flash', $flash);
+    }
+
     public function update(OrderUpdateRequest $request, $id): RedirectResponse
     {
         try {

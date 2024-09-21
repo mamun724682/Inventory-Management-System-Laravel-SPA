@@ -59,7 +59,7 @@ const settleOrderModal = (order) => {
     showSettleModal.value = true;
 };
 const settleDuePayment = () => {
-    form.delete(route('orders.settle', selectedOrder.value.id), {
+    form.put(route('orders.settle', selectedOrder.value.id), {
         preserveScroll: true,
         onSuccess: () => {
             closeModal();
@@ -114,9 +114,9 @@ const closeModal = () => {
                         </TableData>
                         <TableData>{{ getCurrency() }}{{ order.paid }}</TableData>
                         <TableData>
-                            <span :class="order.due ? 'text-red-500 text-xl font-bold' : ''">{{ getCurrency() }}{{ order.due }}</span>
+                            <span :class="order.due > 0 ? 'text-red-500 text-xl font-bold' : ''">{{ getCurrency() }}{{ order.due }}</span>
                             <br>
-                            <div class="flex" v-if="order.due">
+                            <div class="flex" v-if="order.due > 0">
                                 <Button
                                     @click="viewOrderItemsModal(order)"
                                     title="Pay Due"
@@ -135,10 +135,11 @@ const closeModal = () => {
                             </div>
                         </TableData>
                         <TableData>{{ getCurrency() }}{{ order.profit }}</TableData>
-                        <TableData>{{ getCurrency() }}{{ order.loss }}</TableData>
+                        <TableData :class="order.loss > 0 ? 'text-red-500 font-bold' : ''">{{ getCurrency() }}{{ order.loss }}</TableData>
                         <TableData>
                             <span v-if="order.status === 'paid'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-emerald-600 bg-emerald-200">Paid</span>
                             <span v-else-if="order.status === 'partial_paid'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-amber-600 bg-amber-200">Partial Paid</span>
+                            <span v-else-if="order.status === 'over_paid'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-purple-600 bg-purple-200">Over Paid</span>
                             <span v-else-if="order.status === 'unpaid'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-red-600 bg-red-200">Unpaid</span>
                             <span v-else class="text-xs font-semibold inline-block py-1 px-2 rounded text-blue-600 bg-blue-200">Settled</span>
                         </TableData>

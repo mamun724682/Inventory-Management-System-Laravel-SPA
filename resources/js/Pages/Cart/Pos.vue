@@ -44,7 +44,7 @@ watch(props, (newProps) => {
 }, { immediate: true });
 
 // watch form
-watch(form, async (newForm, oldForm) => {
+watch(() => form.custom_discount, async (newForm, oldForm) => {
     if (form.custom_discount.discount_type === "fixed") {
         form.total = props.total - form.custom_discount.discount;
         form.paid = props.total - form.custom_discount.discount;
