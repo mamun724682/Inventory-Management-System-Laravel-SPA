@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Enums\Cart\CartExpandEnum;
 use App\Enums\Cart\CartFiltersEnum;
-use App\Enums\Order\OrderPaidByEnum;
 use App\Enums\Product\ProductFiltersEnum;
 use App\Enums\Product\ProductStatusEnum;
+use App\Enums\Transaction\TransactionPaidThroughEnum;
 use App\Exceptions\CartException;
 use App\Exceptions\CartNotFoundException;
 use App\Helpers\BaseHelper;
@@ -71,7 +71,7 @@ class CartController extends Controller
                 'tax'              => $taxData["tax"],
                 'totalTax'         => $taxData["totalTax"],
                 'total'            => $total,
-                'orderPaidByTypes' => BaseHelper::convertKeyValueToLabelValueArray(OrderPaidByEnum::choices()),
+                'orderPaidByTypes' => BaseHelper::convertKeyValueToLabelValueArray(TransactionPaidThroughEnum::choices()),
             ]
         );
     }

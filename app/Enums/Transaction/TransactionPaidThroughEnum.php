@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Enums\Order;
+namespace App\Enums\Transaction;
 
 use App\Enums\BaseEnumInterface;
 use App\Enums\BaseEnumTrait;
 
-enum OrderPaidByEnum: string implements BaseEnumInterface
+enum TransactionPaidThroughEnum: string implements BaseEnumInterface
 {
     use BaseEnumTrait;
 

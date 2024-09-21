@@ -12,10 +12,12 @@ use App\Enums\Order\OrderStatusEnum;
 use App\Enums\OrderItem\OrderItemFieldsEnum;
 use App\Enums\Product\ProductFieldsEnum;
 use App\Enums\Product\ProductStatusEnum;
+use App\Enums\Transaction\TransactionFieldsEnum;
 use App\Exceptions\DBCommitException;
 use App\Exceptions\OrderCreateException;
 use App\Exceptions\OrderNotFoundException;
 use App\Exceptions\OrderSettleException;
+use App\Exceptions\ProductNotFoundException;
 use App\Helpers\ArrayHelper;
 use App\Helpers\BaseHelper;
 use App\Models\Order;
@@ -28,10 +30,11 @@ use Illuminate\Support\Str;
 class OrderService
 {
     public function __construct(
-        private readonly OrderRepository  $repository,
-        private readonly OrderItemService $orderItemService,
-        private readonly CartService      $cartService,
-        private readonly ProductService   $productService,
+        private readonly OrderRepository    $repository,
+        private readonly OrderItemService   $orderItemService,
+        private readonly CartService        $cartService,
+        private readonly ProductService     $productService,
+        private readonly TransactionService $transactionService,
     )
     {
     }
@@ -81,6 +84,7 @@ class OrderService
      * @return Order
      * @throws DBCommitException
      * @throws OrderCreateException
+     * @throws ProductNotFoundException
      */
     public function createForUser(array $payload, int $userId): Order
     {
@@ -157,7 +161,7 @@ class OrderService
 
             // Calculate profit and loss
             $profit = $paid - $productBuyingSubtotal - $taxTotal;
-            if ($profit < 0){
+            if ($profit < 0) {
                 $loss = abs($profit);
                 $profit = 0;
             } elseif ($profit == 0) {
@@ -201,6 +205,13 @@ class OrderService
                 orderId: $order->id
             );
 
+            // Create transaction
+            $this->transactionService->create([
+                TransactionFieldsEnum::ORDER_ID->value     => $order->id,
+                TransactionFieldsEnum::AMOUNT->value       => $paid,
+                TransactionFieldsEnum::PAID_THROUGH->value => $payload[TransactionFieldsEnum::PAID_THROUGH->value],
+            ]);
+
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
@@ -221,7 +232,7 @@ class OrderService
     {
         $order = $this->findByIdOrFail(id: $id, expands: [OrderExpandEnum::ORDER_ITEMS->value]);
 
-        if ($order->due <= 0){
+        if ($order->due <= 0) {
             throw new OrderSettleException("No due amount left to settle.");
         }
 
@@ -240,7 +251,7 @@ class OrderService
 
         // Calculate profit and loss
         $profit = $order->paid - $productBuyingSubtotal - $order->tax_total;
-        if ($profit < 0){
+        if ($profit < 0) {
             $loss = abs($profit);
             $profit = 0;
         } elseif ($profit == 0) {

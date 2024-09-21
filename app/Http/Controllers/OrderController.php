@@ -7,7 +7,6 @@ use App\Enums\Core\FilterResourceEnum;
 use App\Enums\Core\SortOrderEnum;
 use App\Enums\Order\OrderExpandEnum;
 use App\Enums\Order\OrderFiltersEnum;
-use App\Enums\Order\OrderPaidByEnum;
 use App\Enums\Order\OrderSortFieldsEnum;
 use App\Enums\Order\OrderStatusEnum;
 use App\Exceptions\OrderCreateException;

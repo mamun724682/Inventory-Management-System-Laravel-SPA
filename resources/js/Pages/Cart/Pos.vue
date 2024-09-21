@@ -25,7 +25,7 @@ const form = useForm({
     customer_id: null,
     total: null,
     paid: null,
-    paid_by: "cash",
+    paid_through: "cash",
     custom_discount: {
         discount: 0,
         discount_type: "fixed"
@@ -313,8 +313,8 @@ const createOrder = () => {
                                         <label for="paid" class="text-stone-600 text-sm font-medium">Pay</label>
                                         <div class="flex mt-1">
                                             <select
-                                                id="paid_by"
-                                                v-model="form.paid_by"
+                                                id="paid_through"
+                                                v-model="form.paid_through"
                                                 class="w-1/2 rounded-l-md bg-gray-300 border-none px-2 py-2 outline-none focus:outline-none"
                                             >
                                                 <option
