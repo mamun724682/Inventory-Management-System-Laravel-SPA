@@ -6,7 +6,6 @@ use App\Enums\Core\SortOrderEnum;
 use App\Enums\Order\OrderExpandEnum;
 use App\Enums\Order\OrderFieldsEnum;
 use App\Enums\Order\OrderFiltersEnum;
-use App\Enums\Order\OrderPaidByEnum;
 use App\Enums\Order\OrderSortFieldsEnum;
 use App\Enums\Order\OrderStatusEnum;
 use App\Http\Requests\BaseIndexRequest;
@@ -42,7 +41,6 @@ class OrderIndexRequest extends BaseIndexRequest
             OrderFiltersEnum::PROFIT->value . ".*"    => ["required", "numeric", "min:0"],
             OrderFiltersEnum::LOSS->value             => ["nullable", "array", "min:2", "max:2"],
             OrderFiltersEnum::LOSS->value . ".*"      => ["required", "numeric", "min:0"],
-            OrderFiltersEnum::PAY_BY->value           => ["nullable", "string", Rule::in(OrderPaidByEnum::values())],
             OrderFiltersEnum::STATUS->value           => ["nullable", "string", Rule::in(OrderStatusEnum::values())],
 
             "created_at"   => ["nullable", "array", "min:2", "max:2"],

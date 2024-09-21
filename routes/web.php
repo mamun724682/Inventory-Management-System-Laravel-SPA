@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function () {
     // Order
     Route::apiResource('orders', OrderController::class);
     Route::put('orders/{order}/settle', [OrderController::class, 'settle'])->name('orders.settle');
+    Route::put('orders/{order}/pay', [OrderController::class, 'pay'])->name('orders.pay');
 
     // Carts
     Route::get('pos', [CartController::class, 'index'])->name('carts.index');

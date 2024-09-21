@@ -26,7 +26,6 @@ return new class extends Migration {
             $table->decimal(OrderFieldsEnum::TOTAL->value, 20, 8);
             $table->decimal(OrderFieldsEnum::PAID->value, 20, 8);
             $table->decimal(OrderFieldsEnum::DUE->value, 20, 8);
-            $table->string(OrderFieldsEnum::PAID_BY->value, 50);
             $table->decimal(OrderFieldsEnum::PROFIT->value, 20, 8);
             $table->decimal(OrderFieldsEnum::LOSS->value, 20, 8);
             $table->string(OrderFieldsEnum::STATUS->value, 50);

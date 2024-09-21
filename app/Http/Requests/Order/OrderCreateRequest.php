@@ -34,7 +34,7 @@ class OrderCreateRequest extends FormRequest
                 Rule::exists((new Customer())->getTable(), 'id')
             ],
             OrderFieldsEnum::PAID->value        => ["nullable", "numeric"],
-            OrderFieldsEnum::PAID_BY->value     => ["required", "string", Rule::in(OrderPaidByEnum::values())],
+            "paid_by"                           => ["required", "string", Rule::in(OrderPaidByEnum::values())],
             "custom_discount"                   => ["nullable", "array"],
             "custom_discount.discount"          => ["required_with:custom_discount", "numeric", "gte:0"],
             "custom_discount.discount_type"     => ["required_with:custom_discount", "string", Rule::in(AmountTypeEnum::values())],

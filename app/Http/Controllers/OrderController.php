@@ -72,13 +72,6 @@ class OrderController extends Controller
                         'type'        => FilterFieldTypeEnum::NUMBER_RANGE->value,
                         'value'       => $request->validated()[OrderFiltersEnum::DUE->value] ?? "",
                     ],
-                    OrderFiltersEnum::PAY_BY->value       => [
-                        'label'       => OrderFiltersEnum::PAY_BY->label(),
-                        'placeholder' => 'Select pay by.',
-                        'type'        => FilterFieldTypeEnum::SELECT_STATIC->value,
-                        'value'       => $request->validated()[OrderFiltersEnum::PAY_BY->value] ?? "",
-                        'options'     => BaseHelper::convertKeyValueToLabelValueArray(OrderPaidByEnum::choices()),
-                    ],
                     OrderFiltersEnum::PROFIT->value       => [
                         'label'       => OrderFiltersEnum::PROFIT->label(),
                         'placeholder' => 'Enter profit.',

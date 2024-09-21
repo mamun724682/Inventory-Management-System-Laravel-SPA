@@ -36,7 +36,6 @@ enum OrderFieldsEnum: string implements BaseEnumInterface
             self::TOTAL->value          => "Total",
             self::PAID->value           => "Paid",
             self::DUE->value            => "Due",
-            self::PAID_BY->value        => "Pay By",
             self::PROFIT->value         => "Profit",
             self::LOSS->value           => "Loss",
             self::STATUS->value         => "Status",

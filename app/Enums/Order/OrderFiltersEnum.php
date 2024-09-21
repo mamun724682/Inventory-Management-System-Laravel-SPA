@@ -15,7 +15,6 @@ enum OrderFiltersEnum: string implements BaseEnumInterface
     case SUB_TOTAL    = 'sub_total';
     case TOTAL        = 'total';
     case DUE          = 'due';
-    case PAY_BY       = 'paid_by';
     case PROFIT       = 'profit';
     case LOSS         = 'loss';
     case STATUS       = 'status';
@@ -30,7 +29,6 @@ enum OrderFiltersEnum: string implements BaseEnumInterface
             self::SUB_TOTAL->value    => "Sub Total",
             self::TOTAL->value        => "Total",
             self::DUE->value          => "Due",
-            self::PAY_BY->value       => "Pay By",
             self::PROFIT->value       => "Profit",
             self::LOSS->value         => "Loss",
             self::STATUS->value       => "Status",

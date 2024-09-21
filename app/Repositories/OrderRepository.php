@@ -136,9 +136,6 @@ class OrderRepository
             ->when(isset($filters[OrderFiltersEnum::DUE->value]), function ($query) use ($filters) {
                 $query->whereBetween(OrderFieldsEnum::DUE->value, $filters[OrderFiltersEnum::DUE->value]);
             })
-            ->when(isset($filters[OrderFiltersEnum::PAY_BY->value]), function ($query) use ($filters) {
-                $query->where(OrderFieldsEnum::PAID_BY->value, $filters[OrderFiltersEnum::PAY_BY->value]);
-            })
             ->when(isset($filters[OrderFiltersEnum::PROFIT->value]), function ($query) use ($filters) {
                 $query->whereBetween(OrderFieldsEnum::PROFIT->value, $filters[OrderFiltersEnum::PROFIT->value]);
             })
