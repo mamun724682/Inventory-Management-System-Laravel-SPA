@@ -9,11 +9,13 @@ use App\Enums\Order\OrderExpandEnum;
 use App\Enums\Order\OrderFiltersEnum;
 use App\Enums\Order\OrderSortFieldsEnum;
 use App\Enums\Order\OrderStatusEnum;
+use App\Enums\Transaction\TransactionPaidThroughEnum;
 use App\Exceptions\OrderCreateException;
 use App\Exceptions\OrderNotFoundException;
 use App\Helpers\BaseHelper;
 use App\Http\Requests\Order\OrderCreateRequest;
 use App\Http\Requests\Order\OrderIndexRequest;
+use App\Http\Requests\Order\OrderPaymentRequest;
 use App\Services\OrderService;
 use Exception;
 use Illuminate\Http\RedirectResponse;
@@ -38,8 +40,9 @@ class OrderController extends Controller
         return Inertia::render(
             component: 'Order/Index',
             props: [
-                'orders'  => $this->service->getAll($params),
-                'filters' => [
+                'orders'           => $this->service->getAll($params),
+                'orderPaidByTypes' => BaseHelper::convertKeyValueToLabelValueArray(TransactionPaidThroughEnum::choices()),
+                'filters'          => [
                     OrderFiltersEnum::ORDER_NUMBER->value => [
                         'label'       => OrderFiltersEnum::ORDER_NUMBER->label(),
                         'placeholder' => 'Enter order number.',
@@ -179,15 +182,20 @@ class OrderController extends Controller
             ->with('flash', $flash);
     }
 
-    public function update(OrderUpdateRequest $request, $id): RedirectResponse
+    /**
+     * @param OrderPaymentRequest $request
+     * @param $id
+     * @return RedirectResponse
+     */
+    public function pay(OrderPaymentRequest $request, $id): RedirectResponse
     {
         try {
-            $this->service->update(
+            $this->service->pay(
                 id: $id,
                 payload: $request->validated()
             );
             $flash = [
-                "message" => 'Order updated successfully.'
+                "message" => 'Payment added successfully.'
             ];
         } catch (OrderNotFoundException $e) {
             $flash = [
@@ -197,10 +205,10 @@ class OrderController extends Controller
         } catch (Exception $e) {
             $flash = [
                 "isSuccess" => false,
-                "message"   => "Order update failed!",
+                "message"   => "Order payment failed!",
             ];
 
-            Log::error("Order update failed", [
+            Log::error("Order payment failed", [
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()
             ]);

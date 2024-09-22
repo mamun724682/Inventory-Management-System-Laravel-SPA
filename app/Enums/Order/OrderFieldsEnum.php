@@ -17,7 +17,6 @@ enum OrderFieldsEnum: string implements BaseEnumInterface
     case DISCOUNT_TOTAL = 'discount_total';
     case TOTAL          = 'total';
     case PAID           = 'paid';
-    case PAID_BY        = 'paid_by';
     case DUE            = 'due';
     case PROFIT         = 'profit';
     case LOSS           = 'loss';

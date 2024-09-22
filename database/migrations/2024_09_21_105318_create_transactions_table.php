@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\Transaction\TransactionFieldsEnum;
+use App\Models\Order;
 use App\Models\Transaction;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,7 +16,7 @@ return new class extends Migration {
         Schema::create((new Transaction())->getTable(), function (Blueprint $table) {
             $table->id();
             $table->foreignId(TransactionFieldsEnum::ORDER_ID->value)
-                ->constrained((new Transaction())->getTable())
+                ->constrained((new Order())->getTable())
                 ->cascadeOnDelete();
             $table->string(TransactionFieldsEnum::TRANSACTION_NUMBER->value);
             $table->string(TransactionFieldsEnum::AMOUNT->value);

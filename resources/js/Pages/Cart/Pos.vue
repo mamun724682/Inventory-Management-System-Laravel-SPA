@@ -143,19 +143,19 @@ const createOrder = () => {
                             <!-- header -->
                             <div class="flex flex-row justify-between items-center px-5 mt-5">
                                 <div class="text-gray-800">
-                                    <div class="font-bold text-xl">Simons's BQQ Team</div>
-                                    <span class="text-xs">Location ID#SIMON123</span>
+                                    <div class="font-bold text-xl">Products</div>
+<!--                                    <span class="text-xs">Location ID#SIMON123</span>-->
                                 </div>
-                                <div class="flex items-center">
-                                    <div class="text-sm text-center mr-4">
-                                        <div class="font-light text-gray-500">last synced</div>
-                                        <span class="font-semibold">3 mins ago</span>
-                                    </div>
-                                    <div>
-                                        <span
-                                            class="px-4 py-2 bg-gray-200 text-gray-800 font-semibold rounded">Help</span>
-                                    </div>
-                                </div>
+<!--                                <div class="flex items-center">-->
+<!--                                    <div class="text-sm text-center mr-4">-->
+<!--                                        <div class="font-light text-gray-500">last synced</div>-->
+<!--                                        <span class="font-semibold">3 mins ago</span>-->
+<!--                                    </div>-->
+<!--                                    <div>-->
+<!--                                        <span-->
+<!--                                            class="px-4 py-2 bg-gray-200 text-gray-800 font-semibold rounded">Help</span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
                             </div>
                             <!-- end header -->
 

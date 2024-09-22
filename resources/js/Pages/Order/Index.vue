@@ -7,7 +7,7 @@ import Button from "@/Components/Button.vue";
 import InputError from "@/Components/InputError.vue";
 import Modal from "@/Components/Modal.vue";
 import {useForm} from '@inertiajs/vue3';
-import {nextTick, ref} from 'vue';
+import {ref} from 'vue';
 import {formatDatetime, getCurrency, showToast, truncateString} from "@/Utils/Helper.js";
 import TableHead from "@/Components/TableHead.vue";
 
@@ -18,17 +18,20 @@ defineProps({
     orders: {
         type: Object
     },
+    orderPaidByTypes: {
+        type: Object
+    },
 });
 
 const selectedOrder = ref(null);
 const showOrderItemsModal = ref(false);
-const showEditModal = ref(false);
+const showPaymentModal = ref(false);
 const showSettleModal = ref(false);
-const nameInput = ref(null);
 const tableHeads = ref(["Order Number", "Customer", "Summary(" + getCurrency() + ")", "Paid", "Due", "Profit", "Loss", "Status", "Date", "Action"]);
 
 const form = useForm({
-    name: null,
+    amount: null,
+    paid_through: 'cash',
 });
 
 const viewOrderItemsModal = (order) => {
@@ -36,21 +39,18 @@ const viewOrderItemsModal = (order) => {
     showOrderItemsModal.value = true;
 };
 
-const editOrderModal = (order) => {
+const payDueOrderModal = (order) => {
     selectedOrder.value = order;
-    form.name = order.name
-    showEditModal.value = true;
-
-    nextTick(() => nameInput.value.focus());
+    form.amount = order.due;
+    showPaymentModal.value = true;
 };
-const updateOrder = () => {
-    form.put(route('orders.update', selectedOrder.value.id), {
+const payOrderDue = () => {
+    form.put(route('orders.pay', selectedOrder.value.id), {
         preserveScroll: true,
         onSuccess: () => {
             closeModal();
             showToast();
         },
-        onError: () => nameInput.value.focus(),
     });
 };
 
@@ -70,7 +70,7 @@ const settleDuePayment = () => {
 
 const closeModal = () => {
     showOrderItemsModal.value = false;
-    showEditModal.value = false;
+    showPaymentModal.value = false;
     showSettleModal.value = false;
 };
 </script>
@@ -118,7 +118,7 @@ const closeModal = () => {
                             <br>
                             <div class="flex" v-if="order.due > 0">
                                 <Button
-                                    @click="viewOrderItemsModal(order)"
+                                    @click="payDueOrderModal(order)"
                                     title="Pay Due"
                                     class="px-2"
                                 >
@@ -134,7 +134,7 @@ const closeModal = () => {
                                 </Button>
                             </div>
                         </TableData>
-                        <TableData>{{ getCurrency() }}{{ order.profit }}</TableData>
+                        <TableData :class="order.profit > 0 ? 'text-emerald-500 font-bold' : ''">{{ getCurrency() }}{{ order.profit }}</TableData>
                         <TableData :class="order.loss > 0 ? 'text-red-500 font-bold' : ''">{{ getCurrency() }}{{ order.loss }}</TableData>
                         <TableData>
                             <span v-if="order.status === 'paid'" class="text-xs font-semibold inline-block py-1 px-2 rounded text-emerald-600 bg-emerald-200">Paid</span>
@@ -222,26 +222,40 @@ const closeModal = () => {
             </div>
         </Modal>
 
-        <!--Edit data-->
+        <!--Pay due-->
         <Modal
-            title="Edit"
-            :show="showEditModal"
+            title="Pay Due"
+            :show="showPaymentModal"
             :formProcessing="form.processing"
             @close="closeModal"
-            @submitAction="updateOrder"
+            @submitAction="payOrderDue"
+            maxWidth="sm"
         >
             <div>
-                <label for="name">Name</label>
-                <input
-                    id="name"
-                    ref="nameInput"
-                    v-model="form.name"
-                    @keyup.enter="updateOrder"
-                    type="text"
-                    placeholder="Enter name"
-                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full"
-                />
-                <InputError :message="form.errors.name"/>
+                <div class="flex mt-1">
+                    <select
+                        id="paid_through"
+                        v-model="form.paid_through"
+                        class="w-1/2 rounded-l-md bg-gray-300 border-none px-2 py-2 outline-none focus:outline-none"
+                    >
+                        <option
+                            v-for="(orderPaidByType, index) in orderPaidByTypes"
+                            :key="index"
+                            :value="orderPaidByType.value"
+                        >
+                            {{ orderPaidByType.label }}
+                        </option>
+                    </select>
+                    <input
+                        id="paid"
+                        placeholder="Enter paid amount"
+                        v-model="form.amount"
+                        @keyup.enter="payOrderDue"
+                        type="text"
+                        class="w-full rounded-r-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
+                    />
+                </div>
+                <InputError :message="form.errors.amount"/>
             </div>
         </Modal>
 

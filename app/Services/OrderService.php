@@ -160,26 +160,17 @@ class OrderService
             $dueWithTax = $totalWithTax - $paid;
 
             // Calculate profit and loss
-            $profit = $paid - $productBuyingSubtotal - $taxTotal;
-            if ($profit < 0) {
-                $loss = abs($profit);
-                $profit = 0;
-            } elseif ($profit == 0) {
-                $loss = 0;
-            } else {
-                $loss = 0;
-            }
+            [$profit, $loss] = $this->decideProfitLoss(
+                paid: $paid,
+                taxTotal: $taxTotal,
+                productBuyingSubtotal: $productBuyingSubtotal,
+            );
 
             // Decide status
-            if ($paid == 0) {
-                $status = OrderStatusEnum::UNPAID->value;
-            } elseif ($paid == $totalWithTax) {
-                $status = OrderStatusEnum::PAID->value;
-            } elseif ($paid > $totalWithTax) {
-                $status = OrderStatusEnum::OVER_PAID->value;
-            } else {
-                $status = OrderStatusEnum::PARTIAL_PAID->value;
-            }
+            $status = $this->decideStatus(
+                paid: $paid,
+                total: $totalWithTax
+            );
 
             $processPayload = [
                 OrderFieldsEnum::CUSTOMER_ID->value    => $payload[OrderFieldsEnum::CUSTOMER_ID->value] ?? null,
@@ -190,7 +181,6 @@ class OrderService
                 OrderFieldsEnum::TOTAL->value          => $totalWithTax,
                 OrderFieldsEnum::PAID->value           => $paid,
                 OrderFieldsEnum::DUE->value            => max($dueWithTax, 0),
-                OrderFieldsEnum::PAID_BY->value        => $payload[OrderFieldsEnum::PAID_BY->value],
                 OrderFieldsEnum::PROFIT->value         => $profit,
                 OrderFieldsEnum::LOSS->value           => $loss,
                 OrderFieldsEnum::STATUS->value         => $status,
@@ -243,22 +233,12 @@ class OrderService
         $total = $order->sub_total - $discountTotal;
         $totalWithTax = $total + $order->tax_total;
 
-        // Calculate buying sub total
-        $productBuyingSubtotal = 0;
-        foreach ($order->orderItems as $orderItem) {
-            $productBuyingSubtotal += $orderItem->product_json['buying_price'] * $orderItem->quantity;
-        }
-
         // Calculate profit and loss
-        $profit = $order->paid - $productBuyingSubtotal - $order->tax_total;
-        if ($profit < 0) {
-            $loss = abs($profit);
-            $profit = 0;
-        } elseif ($profit == 0) {
-            $loss = 0;
-        } else {
-            $loss = 0;
-        }
+        [$profit, $loss] = $this->decideProfitLoss(
+            paid: $order->paid,
+            taxTotal: $order->tax_total,
+            order: $order,
+        );
 
         $processPayload = [
             OrderFieldsEnum::DISCOUNT_TOTAL->value => $discountTotal,
@@ -274,6 +254,62 @@ class OrderService
 
     /**
      * @param int $id
+     * @param array $payload
+     * @return Order
+     * @throws DBCommitException
+     * @throws OrderNotFoundException
+     */
+    public function pay(int $id, array $payload): Order
+    {
+        $order = $this->findByIdOrFail(id: $id, expands: [OrderExpandEnum::ORDER_ITEMS->value]);
+
+        $paid = $order->paid + $payload[TransactionFieldsEnum::AMOUNT->value];
+        $due = max($order->total - $paid, 0);
+
+        // Calculate profit and loss
+        [$profit, $loss] = $this->decideProfitLoss(
+            paid: $paid,
+            taxTotal: $order->tax_total,
+            order: $order,
+        );
+
+        // Decide status
+        $status = $this->decideStatus(
+            paid: $paid,
+            total: $order->total
+        );
+
+        $processPayload = [
+            OrderFieldsEnum::PAID->value   => $paid,
+            OrderFieldsEnum::DUE->value    => $due,
+            OrderFieldsEnum::PROFIT->value => $profit,
+            OrderFieldsEnum::LOSS->value   => $loss,
+            OrderFieldsEnum::STATUS->value => $status,
+        ];
+
+        try {
+            DB::beginTransaction();
+
+            // Update order
+            $order = $this->repository->update($order, $processPayload);
+
+            // Create transaction
+            $this->transactionService->create([
+                TransactionFieldsEnum::ORDER_ID->value     => $order->id,
+                TransactionFieldsEnum::AMOUNT->value       => $payload[TransactionFieldsEnum::AMOUNT->value],
+                TransactionFieldsEnum::PAID_THROUGH->value => $payload[TransactionFieldsEnum::PAID_THROUGH->value],
+            ]);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
+        return $order;
+    }
+
+    /**
+     * @param int $id
      * @return bool|null
      * @throws OrderNotFoundException
      */
@@ -281,5 +317,53 @@ class OrderService
     {
         $order = $this->findByIdOrFail($id);
         return $this->repository->delete($order);
+    }
+
+    /**
+     * @param int|float $paid
+     * @param int|float $taxTotal
+     * @param int|float $productBuyingSubtotal
+     * @param Order|null $order
+     * @return array
+     */
+    private function decideProfitLoss(int|float $paid, int|float $taxTotal, int|float $productBuyingSubtotal = 0, Order $order = null): array
+    {
+        if ($order) {
+            $productBuyingSubtotal = 0;
+            foreach ($order->orderItems as $orderItem) {
+                $productBuyingSubtotal += $orderItem->product_json['buying_price'] * $orderItem->quantity;
+            }
+        }
+
+        $profit = $paid - $productBuyingSubtotal - $taxTotal;
+        if ($profit < 0) {
+            $loss = abs($profit);
+            $profit = 0;
+        } elseif ($profit == 0) {
+            $loss = 0;
+        } else {
+            $loss = 0;
+        }
+
+        return [$profit, $loss];
+    }
+
+    /**
+     * @param int|float $paid
+     * @param int|float $total
+     * @return string
+     */
+    private function decideStatus(int|float $paid, int|float $total): string
+    {
+        if ($paid == 0) {
+            $status = OrderStatusEnum::UNPAID->value;
+        } elseif ($paid == $total) {
+            $status = OrderStatusEnum::PAID->value;
+        } elseif ($paid > $total) {
+            $status = OrderStatusEnum::OVER_PAID->value;
+        } else {
+            $status = OrderStatusEnum::PARTIAL_PAID->value;
+        }
+        return $status;
     }
 }
