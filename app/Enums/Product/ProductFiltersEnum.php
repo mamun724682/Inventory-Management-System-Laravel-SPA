@@ -9,6 +9,7 @@ enum ProductFiltersEnum: string implements BaseEnumInterface
 {
     use BaseEnumTrait;
 
+    case KEYWORD        = 'keyword';
     case ID             = 'id';
     case CATEGORY_ID    = 'category_id';
     case SUPPLIER_ID    = 'supplier_id'; // nullable
@@ -26,6 +27,7 @@ enum ProductFiltersEnum: string implements BaseEnumInterface
     public static function labels(): array
     {
         return [
+            self::KEYWORD->value        => "Keyword",
             self::ID->value             => "Id",
             self::CATEGORY_ID->value    => "Category",
             self::SUPPLIER_ID->value    => "Supplier",

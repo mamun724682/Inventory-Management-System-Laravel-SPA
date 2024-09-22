@@ -41,6 +41,12 @@ class ProductController extends Controller
             props: [
                 'products' => $this->service->getAll($params),
                 'filters'  => [
+                    ProductFiltersEnum::KEYWORD->value           => [
+                        'label'       => ProductFiltersEnum::KEYWORD->label(),
+                        'placeholder' => 'Enter keyword.',
+                        'type'        => FilterFieldTypeEnum::STRING->value,
+                        'value'       => $request->validated()[ProductFiltersEnum::KEYWORD->value] ?? "",
+                    ],
                     ProductFiltersEnum::NAME->value           => [
                         'label'       => ProductFiltersEnum::NAME->label(),
                         'placeholder' => 'Enter name.',

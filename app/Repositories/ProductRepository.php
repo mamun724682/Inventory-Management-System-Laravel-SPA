@@ -127,6 +127,12 @@ class ProductRepository
     private function getQuery(array $filters): Builder|HigherOrderWhenProxy
     {
         return Product::query()
+            ->when(isset($filters[ProductFiltersEnum::KEYWORD->value]), function ($query) use ($filters) {
+                $query->where(ProductFieldsEnum::ID->value, $filters[ProductFiltersEnum::KEYWORD->value])
+                ->orWhere(ProductFieldsEnum::NAME->value, "like", "%" . $filters[ProductFiltersEnum::KEYWORD->value] . "%")
+                ->orWhere(ProductFieldsEnum::PRODUCT_NUMBER->value, $filters[ProductFiltersEnum::KEYWORD->value])
+                ->orWhere(ProductFieldsEnum::PRODUCT_CODE->value, $filters[ProductFiltersEnum::KEYWORD->value]);
+            })
             ->when(isset($filters[ProductFiltersEnum::ID->value]), function ($query) use ($filters) {
                 $query->where(ProductFieldsEnum::ID->value, $filters[ProductFiltersEnum::ID->value]);
             })

@@ -29,6 +29,7 @@ class ProductIndexRequest extends BaseIndexRequest
     public function rules()
     {
         return [
+            "keyword"                                       => ["nullable", "string"],
             ProductFiltersEnum::CATEGORY_ID->value          => ["nullable", "integer"],
             ProductFiltersEnum::SUPPLIER_ID->value          => ["nullable", "integer"],
             ProductFiltersEnum::NAME->value                 => ["nullable", "max:255"],
