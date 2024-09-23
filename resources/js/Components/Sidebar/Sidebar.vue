@@ -99,6 +99,12 @@
                     />
 
                     <SidebarItem
+                        name="Transactions"
+                        routeName="transactions.index"
+                        icon="fas fa-dollar-sign"
+                    />
+
+                    <SidebarItem
                         name="Categories"
                         routeName="categories.index"
                         icon="fas fa-list"

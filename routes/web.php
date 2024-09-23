@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -52,6 +53,9 @@ Route::middleware('auth')->group(function () {
     Route::apiResource('orders', OrderController::class);
     Route::put('orders/{order}/settle', [OrderController::class, 'settle'])->name('orders.settle');
     Route::put('orders/{order}/pay', [OrderController::class, 'pay'])->name('orders.pay');
+
+    // Transaction
+    Route::get('transactions', [TransactionController::class, 'index'])->name('transactions.index');
 
     // Carts
     Route::get('pos', [CartController::class, 'index'])->name('carts.index');
