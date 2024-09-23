@@ -1,13 +1,13 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import {Head, usePage} from '@inertiajs/vue3';
+import {Head} from '@inertiajs/vue3';
 import InputError from "@/Components/InputError.vue";
-import {push} from 'notivue'
 import {useForm} from '@inertiajs/vue3';
 import {ref, onMounted} from 'vue';
 import Button from "@/Components/Button.vue";
 import SubmitButton from "@/Components/SubmitButton.vue";
 import AsyncVueSelect from "@/Components/AsyncVueSelect.vue";
+import {showToast} from "@/Utils/Helper.js";
 
 const props = defineProps({
     product: {
@@ -58,14 +58,6 @@ const updateProduct = () => {
             },
             onError: () => nameInput.value.focus(),
         });
-};
-
-const showToast = () => {
-    if (usePage().props.flash.isSuccess) {
-        push.success(usePage().props.flash.message)
-    } else {
-        push.error(usePage().props.flash.message)
-    }
 };
 </script>
 

@@ -1,12 +1,11 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import {Head, usePage} from '@inertiajs/vue3';
+import {Head} from '@inertiajs/vue3';
 import CardTable from "@/Components/Cards/CardTable.vue";
 import TableData from "@/Components/TableData.vue";
 import Button from "@/Components/Button.vue";
 import InputError from "@/Components/InputError.vue";
 import Modal from "@/Components/Modal.vue";
-import { push } from 'notivue'
 
 defineProps({
     filters: {
@@ -19,6 +18,7 @@ defineProps({
 
 import {useForm} from '@inertiajs/vue3';
 import {nextTick, ref} from 'vue';
+import {showToast} from "@/Utils/Helper.js";
 
 const selectedCategory = ref(null);
 const showCreateModal = ref(false);
@@ -87,14 +87,6 @@ const closeModal = () => {
     showEditModal.value = false;
     showDeleteModal.value = false;
     form.reset();
-};
-
-const showToast = () => {
-    if (usePage().props.flash.isSuccess) {
-        push.success(usePage().props.flash.message)
-    } else {
-        push.error(usePage().props.flash.message)
-    }
 };
 </script>
 
