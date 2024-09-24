@@ -4,6 +4,7 @@ import {Head} from '@inertiajs/vue3';
 import CardProfile from "@/Components/Cards/CardProfile.vue";
 import UpdateProfileInformationForm from "@/Pages/Profile/Partials/UpdateProfileInformationForm.vue";
 import UpdatePasswordForm from "@/Pages/Profile/Partials/UpdatePasswordForm.vue";
+import UpdateSettingsForm from "@/Pages/Profile/Partials/UpdateSettingsForm.vue";
 
 defineProps({
     mustVerifyEmail: {
@@ -11,6 +12,9 @@ defineProps({
     },
     status: {
         type: String,
+    },
+    settings: {
+        type: Object,
     },
 });
 </script>
@@ -34,6 +38,12 @@ defineProps({
                         </div>
                     </div>
                     <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
+                        <UpdateSettingsForm
+                            :settings="settings"
+                        />
+
+                        <hr class="mt-6 border-b-1 border-blueGray-300"/>
+
                         <UpdateProfileInformationForm
                             :must-verify-email="mustVerifyEmail"
                             :status="status"

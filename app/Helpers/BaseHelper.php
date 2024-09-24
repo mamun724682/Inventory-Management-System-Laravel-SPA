@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Enums\Core\AmountTypeEnum;
+use App\Enums\Setting\SettingFieldsEnum;
 use Illuminate\Support\Facades\Storage;
 
 class BaseHelper
@@ -70,7 +71,7 @@ class BaseHelper
     {
         return (double) number_format(
             num: $number,
-            decimals: 4,
+            decimals: settings()->get(SettingFieldsEnum::DECIMAL_POINT->value, 4),
             thousands_separator: ''
         );
     }
@@ -81,7 +82,7 @@ class BaseHelper
      */
     public static function calculateDefaultDiscount(float|int $amount): array
     {
-        $discount = 5;
+        $discount = settings()->get(SettingFieldsEnum::DISCOUNT->value, 0);
         $discountType = "percentage";
         if ($discountType == AmountTypeEnum::PERCENTAGE->value) {
             $totalDiscount = self::calculatePercentage(
@@ -129,7 +130,7 @@ class BaseHelper
      */
     public static function calculateTax(float|int $amount): array
     {
-        $tax = 5;
+        $tax = settings()->get(SettingFieldsEnum::TAX->value, 0);
         $totalTax = self::calculatePercentage(
             amount: $amount,
             percentage: $tax

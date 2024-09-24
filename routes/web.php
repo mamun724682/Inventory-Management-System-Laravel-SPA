@@ -9,6 +9,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SalaryController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
@@ -65,6 +66,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('carts/delete/all', [CartController::class, 'deleteForUser'])->name('carts.delete.all');
     Route::put('carts/{cart}/increment', [CartController::class, 'incrementQuantity'])->name('carts.increment');
     Route::put('carts/{cart}/decrement', [CartController::class, 'decrementQuantity'])->name('carts.decrement');
+
+    // Settings
+    Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
 });
 
 require __DIR__ . '/auth.php';
