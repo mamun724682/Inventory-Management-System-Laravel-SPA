@@ -111,6 +111,12 @@
                     />
 
                     <SidebarItem
+                        name="Unit Types"
+                        routeName="unit-types.index"
+                        icon="fa fa-balance-scale"
+                    />
+
+                    <SidebarItem
                         name="Suppliers"
                         routeName="suppliers.index"
                         icon="fas fa-users-cog"
