@@ -36,7 +36,7 @@ const tableHeads = ref(['#', "Transaction Number", "Order Number", "Amount", "Pa
                 >
                     <template #cardHeader>
                         <div class="flex justify-between items-center">
-                            <h4 class="text-2xl">Apply filters</h4>
+                            <h4 class="text-2xl">Apply filters({{transactions.total}})</h4>
                         </div>
                     </template>
 

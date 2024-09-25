@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\Core\FilterFieldTypeEnum;
 use App\Enums\Core\FilterResourceEnum;
 use App\Enums\Core\SortOrderEnum;
+use App\Enums\Order\OrderFieldsEnum;
 use App\Enums\Transaction\TransactionExpandEnum;
 use App\Enums\Transaction\TransactionFiltersEnum;
 use App\Enums\Transaction\TransactionPaidThroughEnum;
@@ -31,8 +32,8 @@ class TransactionController extends Controller
         return Inertia::render(
             component: 'Transaction/Index',
             props: [
-                'transactions'  => $this->service->getAll($params),
-                'filters' => [
+                'transactions' => $this->service->getAll($params),
+                'filters'      => [
                     TransactionFiltersEnum::TRANSACTION_NUMBER->value => [
                         'label'       => TransactionFiltersEnum::TRANSACTION_NUMBER->label(),
                         'placeholder' => 'Enter transaction number.',
@@ -40,11 +41,12 @@ class TransactionController extends Controller
                         'value'       => $request->validated()[TransactionFiltersEnum::TRANSACTION_NUMBER->value] ?? "",
                     ],
                     TransactionFiltersEnum::ORDER_ID->value           => [
-                        'label'       => TransactionFiltersEnum::ORDER_ID->label(),
-                        'placeholder' => 'Select order.',
-                        'type'        => FilterFieldTypeEnum::SELECT->value,
-                        'value'       => $request->validated()[TransactionFiltersEnum::ORDER_ID->value] ?? "",
-                        'resource'    => FilterResourceEnum::CUSTOMERS->value,
+                        'label'         => TransactionFiltersEnum::ORDER_ID->label(),
+                        'placeholder'   => 'Select order.',
+                        'type'          => FilterFieldTypeEnum::SELECT->value,
+                        'value'         => $request->validated()[TransactionFiltersEnum::ORDER_ID->value] ?? "",
+                        'resource'      => FilterResourceEnum::ORDERS->value,
+                        'resourceLabel' => OrderFieldsEnum::ORDER_NUMBER->value,
                     ],
                     TransactionFiltersEnum::AMOUNT->value             => [
                         'label'       => TransactionFiltersEnum::AMOUNT->label(),

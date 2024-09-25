@@ -13,6 +13,7 @@ enum FilterResourceEnum: string implements BaseEnumInterface
     case EMPLOYEES  = 'employees.index';
     case SUPPLIERS  = 'suppliers.index';
     case CUSTOMERS  = 'customers.index';
+    case ORDERS     = 'orders.index';
 
     public static function labels(): array
     {

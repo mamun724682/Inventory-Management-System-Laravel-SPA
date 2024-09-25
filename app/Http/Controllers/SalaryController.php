@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\Core\FilterFieldTypeEnum;
 use App\Enums\Core\FilterResourceEnum;
 use App\Enums\Core\SortOrderEnum;
+use App\Enums\Employee\EmployeeFieldsEnum;
 use App\Enums\Salary\SalaryExpandEnum;
 use App\Enums\Salary\SalaryFiltersEnum;
 use App\Enums\Salary\SalarySortFieldsEnum;
@@ -42,11 +43,12 @@ class SalaryController extends Controller
                 'salaries' => $this->service->getAll($params),
                 'filters'  => [
                     SalaryFiltersEnum::EMPLOYEE_ID->value => [
-                        'label'       => SalaryFiltersEnum::EMPLOYEE_ID->label(),
-                        'placeholder' => 'Select employee.',
-                        'type'        => FilterFieldTypeEnum::SELECT->value,
-                        'value'       => $request->validated()[SalaryFiltersEnum::EMPLOYEE_ID->value] ?? "",
-                        "resource"    => FilterResourceEnum::EMPLOYEES->value,
+                        'label'         => SalaryFiltersEnum::EMPLOYEE_ID->label(),
+                        'placeholder'   => 'Select employee.',
+                        'type'          => FilterFieldTypeEnum::SELECT->value,
+                        'value'         => $request->validated()[SalaryFiltersEnum::EMPLOYEE_ID->value] ?? "",
+                        "resource"      => FilterResourceEnum::EMPLOYEES->value,
+                        'resourceLabel' => EmployeeFieldsEnum::NAME->value,
                     ],
                     SalaryFiltersEnum::AMOUNT->value      => [
                         'label'       => SalaryFiltersEnum::AMOUNT->label(),

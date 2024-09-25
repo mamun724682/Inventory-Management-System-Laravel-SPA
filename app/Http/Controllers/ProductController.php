@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Category\CategoryFieldsEnum;
 use App\Enums\Core\FilterFieldTypeEnum;
 use App\Enums\Core\FilterResourceEnum;
 use App\Enums\Core\SortOrderEnum;
@@ -9,6 +10,7 @@ use App\Enums\Product\ProductExpandEnum;
 use App\Enums\Product\ProductFiltersEnum;
 use App\Enums\Product\ProductSortFieldsEnum;
 use App\Enums\Product\ProductStatusEnum;
+use App\Enums\Supplier\SupplierFieldsEnum;
 use App\Exceptions\ProductNotFoundException;
 use App\Helpers\BaseHelper;
 use App\Http\Requests\Product\ProductCreateRequest;
@@ -41,7 +43,7 @@ class ProductController extends Controller
             props: [
                 'products' => $this->service->getAll($params),
                 'filters'  => [
-                    ProductFiltersEnum::KEYWORD->value           => [
+                    ProductFiltersEnum::KEYWORD->value        => [
                         'label'       => ProductFiltersEnum::KEYWORD->label(),
                         'placeholder' => 'Enter keyword.',
                         'type'        => FilterFieldTypeEnum::STRING->value,
@@ -66,18 +68,20 @@ class ProductController extends Controller
                         'value'       => $request->validated()[ProductFiltersEnum::PRODUCT_CODE->value] ?? "",
                     ],
                     ProductFiltersEnum::CATEGORY_ID->value    => [
-                        'label'       => ProductFiltersEnum::CATEGORY_ID->label(),
-                        'placeholder' => 'Select category.',
-                        'type'        => FilterFieldTypeEnum::SELECT->value,
-                        'value'       => $request->validated()[ProductFiltersEnum::CATEGORY_ID->value] ?? "",
-                        'resource'    => FilterResourceEnum::CATEGORIES->value,
+                        'label'         => ProductFiltersEnum::CATEGORY_ID->label(),
+                        'placeholder'   => 'Select category.',
+                        'type'          => FilterFieldTypeEnum::SELECT->value,
+                        'value'         => $request->validated()[ProductFiltersEnum::CATEGORY_ID->value] ?? "",
+                        'resource'      => FilterResourceEnum::CATEGORIES->value,
+                        'resourceLabel' => CategoryFieldsEnum::NAME->value,
                     ],
                     ProductFiltersEnum::SUPPLIER_ID->value    => [
-                        'label'       => ProductFiltersEnum::SUPPLIER_ID->label(),
-                        'placeholder' => 'Select supplier.',
-                        'type'        => FilterFieldTypeEnum::SELECT->value,
-                        'value'       => $request->validated()[ProductFiltersEnum::SUPPLIER_ID->value] ?? "",
-                        'resource'    => FilterResourceEnum::SUPPLIERS->value,
+                        'label'         => ProductFiltersEnum::SUPPLIER_ID->label(),
+                        'placeholder'   => 'Select supplier.',
+                        'type'          => FilterFieldTypeEnum::SELECT->value,
+                        'value'         => $request->validated()[ProductFiltersEnum::SUPPLIER_ID->value] ?? "",
+                        'resource'      => FilterResourceEnum::SUPPLIERS->value,
+                        'resourceLabel' => SupplierFieldsEnum::NAME->value,
                     ],
                     ProductFiltersEnum::BUYING_PRICE->value   => [
                         'label'       => ProductFiltersEnum::BUYING_PRICE->label(),

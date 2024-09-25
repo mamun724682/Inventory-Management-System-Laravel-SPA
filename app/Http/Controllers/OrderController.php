@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\Core\FilterFieldTypeEnum;
 use App\Enums\Core\FilterResourceEnum;
 use App\Enums\Core\SortOrderEnum;
+use App\Enums\Customer\CustomerFieldsEnum;
 use App\Enums\Order\OrderExpandEnum;
 use App\Enums\Order\OrderFiltersEnum;
 use App\Enums\Order\OrderSortFieldsEnum;
@@ -29,9 +30,13 @@ class OrderController extends Controller
     {
     }
 
-    public function index(OrderIndexRequest $request): Response
+    public function index(OrderIndexRequest $request)
     {
         $params = $request->validated();
+        if ($request->inertia == "disabled"){
+            return $this->service->getAll($params);
+        }
+
         $params['expand'] = array_unique(array_merge($params['expand'] ?? [], [
             OrderExpandEnum::CUSTOMER->value,
             OrderExpandEnum::ORDER_ITEMS->value,
@@ -55,6 +60,7 @@ class OrderController extends Controller
                         'type'        => FilterFieldTypeEnum::SELECT->value,
                         'value'       => $request->validated()[OrderFiltersEnum::CUSTOMER_ID->value] ?? "",
                         'resource'    => FilterResourceEnum::CUSTOMERS->value,
+                        'resourceLabel' => CustomerFieldsEnum::NAME->value,
                     ],
                     OrderFiltersEnum::SUB_TOTAL->value    => [
                         'label'       => OrderFiltersEnum::SUB_TOTAL->label(),

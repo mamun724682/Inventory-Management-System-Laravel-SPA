@@ -10,6 +10,7 @@ export default {
     },
     props: {
         resource: String,
+        resourceLabel: String,
         placeholder: String,
     },
     data: () => ({
@@ -34,10 +35,10 @@ export default {
             let queries = {
                 page: this.page,
                 per_page: this.per_page,
-                name: this.search,
                 inertia: "disabled",
                 sort_order: "asc"
             };
+            queries[this.resourceLabel] = this.search
 
             axios.get(route(this.resource, pickBy(queries))).then(({data}) => {
                 this.paginatedData = data;
@@ -91,7 +92,7 @@ export default {
         @close="onClose"
         @search="(query) => (search = query)"
         :reduce="option => option.id"
-        label="name"
+        :label="resourceLabel"
         :placeholder="this.placeholder"
     >
         <template #list-footer>

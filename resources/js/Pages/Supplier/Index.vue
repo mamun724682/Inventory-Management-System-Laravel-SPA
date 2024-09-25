@@ -123,7 +123,7 @@ const closeModal = () => {
                 >
                     <template #cardHeader>
                         <div class="flex justify-between items-center">
-                            <h4 class="text-2xl">Apply filters</h4>
+                            <h4 class="text-2xl">Apply filters({{suppliers.total}})</h4>
                             <Button @click="createSupplierModal">Create Supplier</Button>
                         </div>
                     </template>

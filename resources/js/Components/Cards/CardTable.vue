@@ -57,6 +57,7 @@
                                 v-model="form[key]"
                                 class="mt-2"
                                 :resource="filter.resource"
+                                :resourceLabel="filter.resourceLabel"
                                 :placeholder="filter.placeholder"
                             />
 
