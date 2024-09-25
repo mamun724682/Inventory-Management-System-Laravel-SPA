@@ -13,7 +13,7 @@
           <img
               alt="..."
               class="w-full rounded-full align-middle border-none shadow-lg"
-              :src="avatar"
+              :src="$page.props.auth.user.photo"
           />
         </span>
             </div>
