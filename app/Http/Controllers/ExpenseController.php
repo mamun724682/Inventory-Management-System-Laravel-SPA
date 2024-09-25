@@ -88,7 +88,7 @@ class ExpenseController extends Controller
                 "message"   => "Expense creation failed!",
             ];
 
-            Log::error("Something went wrong", [
+            Log::error("Expense creation failed!", [
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()
             ]);
@@ -120,7 +120,7 @@ class ExpenseController extends Controller
                 "message"   => "Expense update failed!",
             ];
 
-            Log::error("Something went wrong", [
+            Log::error("Expense update failed!", [
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()
             ]);
@@ -149,7 +149,7 @@ class ExpenseController extends Controller
                 "message"   => "Expense deletion failed!",
             ];
 
-            Log::error("Something went wrong", [
+            Log::error("Expense deletion failed!", [
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()
             ]);

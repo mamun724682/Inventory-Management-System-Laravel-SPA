@@ -104,7 +104,7 @@ class CartController extends Controller
                 "message"   => "Failed to add product to cart!",
             ];
 
-            Log::error("Something went wrong", [
+            Log::error("Failed to add product to cart!", [
                 "product_id" => $productId,
                 "message"    => $e->getMessage(),
                 "traces"     => $e->getTrace()
@@ -143,7 +143,7 @@ class CartController extends Controller
                 "message"   => "Failed to update quantity!",
             ];
 
-            Log::error("Something went wrong", [
+            Log::error("Failed to update quantity!", [
                 "cart_id" => $cartId,
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()

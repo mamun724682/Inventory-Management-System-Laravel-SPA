@@ -94,7 +94,7 @@ class SupplierController extends Controller
                 "message"   => "Supplier creation failed!",
             ];
 
-            Log::error("Something went wrong", [
+            Log::error("Supplier creation failed!", [
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()
             ]);
@@ -126,7 +126,7 @@ class SupplierController extends Controller
                 "message"   => "Supplier update failed!",
             ];
 
-            Log::error("Something went wrong", [
+            Log::error("Supplier update failed!", [
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()
             ]);
@@ -155,7 +155,7 @@ class SupplierController extends Controller
                 "message"   => "Supplier deletion failed!",
             ];
 
-            Log::error("Something went wrong", [
+            Log::error("Supplier deletion failed!", [
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()
             ]);

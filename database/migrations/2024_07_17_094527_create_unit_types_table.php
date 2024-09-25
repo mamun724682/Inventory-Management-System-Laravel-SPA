@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\UnitType\UnitTypeFieldsEnum;
+use App\Models\UnitType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,14 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create((new UnitType())->getTable(), function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('photo')->nullable();
-            $table->rememberToken();
+            $table->string(UnitTypeFieldsEnum::NAME->value);
+            $table->string(UnitTypeFieldsEnum::SYMBOL->value);
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists((new UnitType())->getTable());
     }
 };

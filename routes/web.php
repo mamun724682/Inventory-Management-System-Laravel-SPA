@@ -12,6 +12,7 @@ use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UnitTypeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -44,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/image', [ProfileController::class, 'updateImage'])->name('profile.image');
 
     Route::apiResource('categories', CategoryController::class);
+    Route::apiResource('unit-types', UnitTypeController::class);
     Route::apiResource('suppliers', SupplierController::class);
     Route::resource('products', ProductController::class);
     Route::apiResource('expenses', ExpenseController::class);

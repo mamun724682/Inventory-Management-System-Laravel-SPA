@@ -106,7 +106,7 @@ class SalaryController extends Controller
                 "message"   => "Salary creation failed!",
             ];
 
-            Log::error("Something went wrong", [
+            Log::error("Salary creation failed!", [
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()
             ]);
@@ -138,7 +138,7 @@ class SalaryController extends Controller
                 "message"   => "Salary update failed!",
             ];
 
-            Log::error("Something went wrong", [
+            Log::error("Salary update failed!", [
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()
             ]);
@@ -167,7 +167,7 @@ class SalaryController extends Controller
                 "message"   => "Salary deletion failed!",
             ];
 
-            Log::error("Something went wrong", [
+            Log::error("Salary deletion failed!", [
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()
             ]);

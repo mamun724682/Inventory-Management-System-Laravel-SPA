@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Category;
 
+use App\Enums\Category\CategoryFieldsEnum;
+use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -23,11 +25,11 @@ class CategoryCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => [
+            CategoryFieldsEnum::NAME->value => [
                 "required",
                 "string",
                 "max:255",
-                Rule::unique("categories")
+                Rule::unique((new Category())->getTable())
             ],
         ];
     }

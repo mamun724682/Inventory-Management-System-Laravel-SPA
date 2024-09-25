@@ -3,6 +3,7 @@
 use App\Enums\Product\ProductFieldsEnum;
 use App\Models\Category;
 use App\Models\Supplier;
+use App\Models\UnitType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -32,7 +33,13 @@ return new class extends Migration {
             $table->decimal(ProductFieldsEnum::BUYING_PRICE->value, 20, 8)->default(0);
             $table->decimal(ProductFieldsEnum::SELLING_PRICE->value, 20, 8);
             $table->timestamp(ProductFieldsEnum::BUYING_DATE->value)->nullable();
-            $table->integer(ProductFieldsEnum::QUANTITY->value);
+
+            $table->foreignId(ProductFieldsEnum::UNIT_TYPE_ID->value)
+                ->nullable()
+                ->constrained((new UnitType())->getTable())
+                ->nullOnDelete();
+
+            $table->decimal(ProductFieldsEnum::QUANTITY->value, 20, 8);
             $table->string(ProductFieldsEnum::PHOTO->value);
             $table->string(ProductFieldsEnum::STATUS->value);
             $table->timestamps();

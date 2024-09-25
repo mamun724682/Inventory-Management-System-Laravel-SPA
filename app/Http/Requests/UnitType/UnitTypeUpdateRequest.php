@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Category;
+namespace App\Http\Requests\UnitType;
 
-use App\Enums\Category\CategoryFieldsEnum;
-use App\Models\Category;
+use App\Enums\UnitType\UnitTypeFieldsEnum;
+use App\Models\UnitType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CategoryUpdateRequest extends FormRequest
+class UnitTypeUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,11 +25,17 @@ class CategoryUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            CategoryFieldsEnum::NAME->value => [
+            UnitTypeFieldsEnum::NAME->value => [
                 "required",
                 "string",
-                "max:255",
-                Rule::unique((new Category())->getTable())->ignore($this->category)
+                "max:50",
+                Rule::unique((new UnitType())->getTable())->ignore($this->unit_type)
+            ],
+            UnitTypeFieldsEnum::SYMBOL->value => [
+                "required",
+                "string",
+                "max:3",
+                Rule::unique((new UnitType())->getTable())->ignore($this->unit_type)
             ],
         ];
     }

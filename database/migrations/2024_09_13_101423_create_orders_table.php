@@ -25,9 +25,9 @@ return new class extends Migration {
             $table->decimal(OrderFieldsEnum::DISCOUNT_TOTAL->value, 20, 8)->nullable();
             $table->decimal(OrderFieldsEnum::TOTAL->value, 20, 8);
             $table->decimal(OrderFieldsEnum::PAID->value, 20, 8);
-            $table->decimal(OrderFieldsEnum::DUE->value, 20, 8);
-            $table->decimal(OrderFieldsEnum::PROFIT->value, 20, 8);
-            $table->decimal(OrderFieldsEnum::LOSS->value, 20, 8);
+            $table->decimal(OrderFieldsEnum::DUE->value, 20, 8)->index();
+            $table->decimal(OrderFieldsEnum::PROFIT->value, 20, 8)->index();
+            $table->decimal(OrderFieldsEnum::LOSS->value, 20, 8)->index();
             $table->string(OrderFieldsEnum::STATUS->value, 50);
             $table->timestamps();
         });

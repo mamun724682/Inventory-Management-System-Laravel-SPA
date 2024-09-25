@@ -10,7 +10,10 @@ export default {
     },
     props: {
         resource: String,
-        resourceLabel: String,
+        resourceLabel: {
+            type: String,
+            default: "name"
+        },
         placeholder: String,
     },
     data: () => ({

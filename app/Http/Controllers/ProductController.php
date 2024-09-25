@@ -160,7 +160,7 @@ class ProductController extends Controller
                 "message"   => "Product creation failed!",
             ];
 
-            Log::error("Something went wrong", [
+            Log::error("Product creation failed!", [
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()
             ]);
@@ -202,7 +202,7 @@ class ProductController extends Controller
                 "message"   => "Product update failed!",
             ];
 
-            Log::error("Something went wrong", [
+            Log::error("Product update failed!", [
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()
             ]);
@@ -231,7 +231,7 @@ class ProductController extends Controller
                 "message"   => "Product deletion failed!",
             ];
 
-            Log::error("Something went wrong", [
+            Log::error("Product deletion failed!", [
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()
             ]);

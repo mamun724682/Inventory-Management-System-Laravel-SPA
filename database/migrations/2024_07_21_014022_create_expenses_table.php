@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->id();
             $table->string(ExpenseFieldsEnum::NAME->value);
             $table->text(ExpenseFieldsEnum::DESCRIPTION->value)->nullable();
-            $table->decimal(ExpenseFieldsEnum::AMOUNT->value, 20, 8);
+            $table->decimal(ExpenseFieldsEnum::AMOUNT->value, 20, 8)->index();
             $table->date(ExpenseFieldsEnum::EXPENSE_DATE->value);
             $table->timestamps();
         });

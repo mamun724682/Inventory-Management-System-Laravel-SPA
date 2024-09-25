@@ -112,7 +112,7 @@ class EmployeeController extends Controller
                 "message"   => "Employee creation failed!",
             ];
 
-            Log::error("Something went wrong", [
+            Log::error("Employee creation failed!", [
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()
             ]);
@@ -144,7 +144,7 @@ class EmployeeController extends Controller
                 "message"   => "Employee update failed!",
             ];
 
-            Log::error("Something went wrong", [
+            Log::error("Employee update failed!", [
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()
             ]);
@@ -173,7 +173,7 @@ class EmployeeController extends Controller
                 "message"   => "Employee deletion failed!",
             ];
 
-            Log::error("Something went wrong", [
+            Log::error("Employee deletion failed!", [
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()
             ]);

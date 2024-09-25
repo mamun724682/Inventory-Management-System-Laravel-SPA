@@ -95,7 +95,7 @@ class CustomerController extends Controller
                 "message"   => "Customer creation failed!",
             ];
 
-            Log::error("Something went wrong", [
+            Log::error("Customer creation failed!", [
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()
             ]);
@@ -127,7 +127,7 @@ class CustomerController extends Controller
                 "message"   => "Customer update failed!",
             ];
 
-            Log::error("Something went wrong", [
+            Log::error("Customer update failed!", [
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()
             ]);
@@ -156,7 +156,7 @@ class CustomerController extends Controller
                 "message"   => "Customer deletion failed!",
             ];
 
-            Log::error("Something went wrong", [
+            Log::error("Customer deletion failed!", [
                 "message" => $e->getMessage(),
                 "traces"  => $e->getTrace()
             ]);
