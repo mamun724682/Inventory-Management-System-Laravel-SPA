@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\Setting\SettingFieldsEnum;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
@@ -43,7 +44,8 @@ class HandleInertiaRequests extends Middleware
                 'isSuccess' => fn () => $request->session()->get('flash')['isSuccess'] ?? true,
                 'message' => fn () => $request->session()->get('flash')['message'] ?? null,
             ],
-            'currency' => '$',
+            'currency' => settings()->get(SettingFieldsEnum::CURRENCY_SYMBOL->value, '$'),
+            'decimal_point' => settings()->get(SettingFieldsEnum::DECIMAL_POINT->value, 4),
         ];
     }
 }

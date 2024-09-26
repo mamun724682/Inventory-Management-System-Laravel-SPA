@@ -7,7 +7,7 @@ import Button from "@/Components/Button.vue";
 import Modal from "@/Components/Modal.vue";
 import {useForm} from '@inertiajs/vue3';
 import {ref} from 'vue';
-import {showToast, truncateString} from "@/Utils/Helper.js";
+import {numberFormat, showToast, truncateString} from "@/Utils/Helper.js";
 
 defineProps({
     filters: {
@@ -101,7 +101,7 @@ const closeModal = () => {
                         <TableData :title="product.category.name">{{ truncateString(product.category.name) }}</TableData>
                         <TableData :title="product.supplier?.name">{{ truncateString(product.supplier?.name ?? '-') }}</TableData>
                         <TableData>
-                            {{ product.quantity }}
+                            {{ numberFormat(product.quantity) }} {{ product.unit_type?.symbol }}
                             <span v-if="product.quantity > 0 && product.quantity < 10" class="text-xs font-semibold inline-block py-1 px-2 rounded text-amber-600 bg-amber-200">Low Stock</span>
                             <span v-if="product.quantity < 1" class="text-xs font-semibold inline-block py-1 px-2 rounded text-red-600 bg-red-200">Stock Out</span>
                         </TableData>

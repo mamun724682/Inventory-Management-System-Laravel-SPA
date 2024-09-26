@@ -10,6 +10,7 @@ use App\Enums\Order\OrderExpandEnum;
 use App\Enums\Order\OrderFiltersEnum;
 use App\Enums\Order\OrderSortFieldsEnum;
 use App\Enums\Order\OrderStatusEnum;
+use App\Enums\Product\ProductExpandEnum;
 use App\Enums\Transaction\TransactionPaidThroughEnum;
 use App\Exceptions\OrderCreateException;
 use App\Exceptions\OrderNotFoundException;
@@ -22,7 +23,6 @@ use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
-use Inertia\Response;
 
 class OrderController extends Controller
 {
@@ -39,7 +39,7 @@ class OrderController extends Controller
 
         $params['expand'] = array_unique(array_merge($params['expand'] ?? [], [
             OrderExpandEnum::CUSTOMER->value,
-            OrderExpandEnum::ORDER_ITEMS->value,
+            OrderExpandEnum::ORDER_ITEMS_PRODUCT->value . '.' . ProductExpandEnum::UNIT_TYPE->value,
         ]));
 
         return Inertia::render(

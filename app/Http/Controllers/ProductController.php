@@ -11,6 +11,7 @@ use App\Enums\Product\ProductFiltersEnum;
 use App\Enums\Product\ProductSortFieldsEnum;
 use App\Enums\Product\ProductStatusEnum;
 use App\Enums\Supplier\SupplierFieldsEnum;
+use App\Enums\UnitType\UnitTypeFieldsEnum;
 use App\Exceptions\ProductNotFoundException;
 use App\Helpers\BaseHelper;
 use App\Http\Requests\Product\ProductCreateRequest;
@@ -36,6 +37,7 @@ class ProductController extends Controller
         $params['expand'] = array_unique(array_merge($params['expand'] ?? [], [
             ProductExpandEnum::CATEGORY->value,
             ProductExpandEnum::SUPPLIER->value,
+            ProductExpandEnum::UNIT_TYPE->value,
         ]));
 
         return Inertia::render(
@@ -100,6 +102,14 @@ class ProductController extends Controller
                         'placeholder' => 'Enter buying date.',
                         'type'        => FilterFieldTypeEnum::DATE_RANGE->value,
                         'value'       => $request->validated()[ProductFiltersEnum::BUYING_DATE->value] ?? "",
+                    ],
+                    ProductFiltersEnum::UNIT_TYPE_ID->value     => [
+                        'label'         => ProductFiltersEnum::UNIT_TYPE_ID->label(),
+                        'placeholder'   => 'Select unit type.',
+                        'type'          => FilterFieldTypeEnum::SELECT->value,
+                        'value'         => $request->validated()[ProductFiltersEnum::UNIT_TYPE_ID->value] ?? "",
+                        'resource'      => FilterResourceEnum::UNIT_TYPES->value,
+                        'resourceLabel' => UnitTypeFieldsEnum::NAME->value,
                     ],
                     ProductFiltersEnum::QUANTITIES->value     => [
                         'label'       => ProductFiltersEnum::QUANTITIES->label(),

@@ -27,6 +27,7 @@ const form = useForm({
     buying_date: null,
     buying_price: null,
     selling_price: null,
+    unit_type_id: null,
     quantity: null,
     photo: null,
     status: 'active',
@@ -166,14 +167,23 @@ const createProduct = () => {
                             </div>
                             <div class="flex flex-col">
                                 <label for="quantity" class="text-stone-600 text-sm font-medium">Quantity</label>
-                                <input
-                                    id="quantity"
-                                    v-model="form.quantity"
-                                    @keyup.enter="createProduct"
-                                    type="number"
-                                    placeholder="Enter quantity"
-                                    class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
-                                />
+                                <div class="flex mt-1">
+                                    <AsyncVueSelect
+                                        v-model="form.unit_type_id"
+                                        resource="unit-types.index"
+                                        placeholder="Select unit type"
+                                        class="w-1/2 rounded-l-md bg-gray-300 border-none outline-none focus:outline-none"
+                                    />
+                                    <input
+                                        id="quantity"
+                                        v-model="form.quantity"
+                                        @keyup.enter="createProduct"
+                                        type="number"
+                                        placeholder="Enter quantity"
+                                        class="w-full rounded-r-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:outline-none focus:shadow-outline"
+                                    />
+                                </div>
+                                <InputError :message="form.errors.unit_type_id"/>
                                 <InputError :message="form.errors.quantity"/>
                             </div>
                             <div class="flex flex-col">

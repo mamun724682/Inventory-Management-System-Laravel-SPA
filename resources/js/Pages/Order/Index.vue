@@ -8,7 +8,7 @@ import InputError from "@/Components/InputError.vue";
 import Modal from "@/Components/Modal.vue";
 import {useForm} from '@inertiajs/vue3';
 import {ref} from 'vue';
-import {formatDatetime, getCurrency, showToast, truncateString} from "@/Utils/Helper.js";
+import {formatDatetime, getCurrency, numberFormat, showToast, truncateString} from "@/Utils/Helper.js";
 import TableHead from "@/Components/TableHead.vue";
 
 defineProps({
@@ -202,7 +202,7 @@ const closeModal = () => {
                                 Selling: <strong>{{getCurrency() }}{{ orderItem.product_json.selling_price }}</strong>
                             </TableData>
                             <TableData>
-                                <strong>{{ orderItem.quantity }}</strong>
+                                <strong>{{ numberFormat(orderItem.quantity) }}{{ orderItem.product?.unit_type?.symbol }}</strong>
                             </TableData>
                             <TableData>
                                 <Button

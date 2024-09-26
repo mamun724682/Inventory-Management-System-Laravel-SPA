@@ -6,6 +6,7 @@ use App\Enums\Product\ProductFieldsEnum;
 use App\Enums\Product\ProductStatusEnum;
 use App\Models\Category;
 use App\Models\Supplier;
+use App\Models\UnitType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -43,10 +44,15 @@ class ProductCreateRequest extends FormRequest
             ProductFieldsEnum::DESCRIPTION->value   => ["nullable", "string"],
             ProductFieldsEnum::PRODUCT_CODE->value  => ["required", "string", "max:255"],
             ProductFieldsEnum::ROOT->value          => ["required", "string", "max:255"],
-            ProductFieldsEnum::BUYING_PRICE->value  => ["nullable", "numeric"],
+            ProductFieldsEnum::BUYING_PRICE->value  => ["required", "numeric"],
             ProductFieldsEnum::SELLING_PRICE->value => ["required", "numeric", "gt:0"],
             ProductFieldsEnum::BUYING_DATE->value   => ["nullable", "date"],
-            ProductFieldsEnum::QUANTITY->value      => ["required", "integer", "gte:0"],
+            ProductFieldsEnum::UNIT_TYPE_ID->value  => [
+                "required",
+                "integer",
+                Rule::exists((new UnitType())->getTable(), 'id')
+            ],
+            ProductFieldsEnum::QUANTITY->value      => ["required", "numeric", "gte:0"],
             ProductFieldsEnum::PHOTO->value         => ["required", "file", "mimes:jpg,jpeg,png,gif,svg", "max:1024"],
             ProductFieldsEnum::STATUS->value        => ["required", "string", Rule::in(ProductStatusEnum::values())],
         ];

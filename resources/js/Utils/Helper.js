@@ -12,8 +12,8 @@ export function getCurrency() {
     return usePage().props.currency;
 }
 
-export function numberFormat(number, decimals = 4) {
-    return parseFloat(number.toFixed(decimals));
+export function numberFormat(number) {
+    return parseFloat(number.toFixed(usePage().props.decimal_point));
 }
 
 export function formatDatetime(datetime) {

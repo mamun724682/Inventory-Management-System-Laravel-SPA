@@ -174,7 +174,7 @@ const createOrder = () => {
                                     </div>
                                     <div class="flex pb-3 px-3 text-sm">
                                         <p class="flex-grow truncate mr-1">
-                                            <span v-if="product.quantity > 0" class="text-xs font-semibold inline-block py-1 px-2 rounded text-emerald-600 bg-emerald-200">{{ product.quantity }}</span>
+                                            <span v-if="product.quantity > 0" class="text-xs font-semibold inline-block py-1 px-2 rounded text-emerald-600 bg-emerald-200">{{ product.quantity }}{{ product.unit_type?.symbol }}</span>
                                             <span v-if="product.quantity < 1" class="text-xs font-semibold inline-block py-1 px-2 rounded text-red-600 bg-red-200">0</span>
                                             {{ truncateString(product.name, 11) }}
                                         </p>
@@ -218,7 +218,7 @@ const createOrder = () => {
                                         <span class="ml-1 font-semibold text-sm">
                                             {{ truncateString(cart.product.name) }}
                                             <br>
-                                            Q: {{ cart.product.quantity }}
+                                            Q: {{ numberFormat(cart.product.quantity) }} {{ cart.product.unit_type?.symbol }}
                                         </span>
                                     </div>
                                     <div class="flex justify-between">
@@ -240,7 +240,7 @@ const createOrder = () => {
                                         >+</span>
                                     </div>
                                     <div class="font-semibold text-lg w-16 text-center">
-                                        {{ getCurrency() }}{{ cart.quantity * cart.product.selling_price }}
+                                        {{ getCurrency() }}{{ numberFormat(cart.quantity * cart.product.selling_price) }}
                                     </div>
                                     <i
                                         @click="deleteCart(cart)"

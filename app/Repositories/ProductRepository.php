@@ -151,6 +151,9 @@ class ProductRepository
             ->when(isset($filters[ProductFiltersEnum::PRODUCT_CODE->value]), function ($query) use ($filters) {
                 $query->where(ProductFieldsEnum::PRODUCT_CODE->value, $filters[ProductFiltersEnum::PRODUCT_CODE->value]);
             })
+            ->when(isset($filters[ProductFiltersEnum::UNIT_TYPE_ID->value]), function ($query) use ($filters) {
+                $query->where(ProductFieldsEnum::UNIT_TYPE_ID->value, $filters[ProductFiltersEnum::UNIT_TYPE_ID->value]);
+            })
             ->when(isset($filters[ProductFiltersEnum::QUANTITY->value]), function ($query) use ($filters) {
                 $query->where(ProductFieldsEnum::QUANTITY->value, $filters[ProductFiltersEnum::QUANTITY->value]);
             })

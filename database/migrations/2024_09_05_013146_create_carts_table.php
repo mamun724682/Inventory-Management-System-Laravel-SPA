@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->foreignId(CartFieldsEnum::PRODUCT_ID->value)
                 ->constrained((new Product())->getTable())
                 ->cascadeOnDelete();
-            $table->integer(CartFieldsEnum::QUANTITY->value);
+            $table->decimal(CartFieldsEnum::QUANTITY->value, 20, 8);
             $table->timestamps();
         });
     }

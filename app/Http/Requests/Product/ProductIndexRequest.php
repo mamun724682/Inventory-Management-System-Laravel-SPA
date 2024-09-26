@@ -41,8 +41,9 @@ class ProductIndexRequest extends BaseIndexRequest
             ProductFiltersEnum::SELLING_PRICE->value . ".*" => ["required", "numeric", "min:0"],
             ProductFiltersEnum::BUYING_DATE->value          => ["nullable", "array", "min:2", "max:2"],
             ProductFiltersEnum::BUYING_DATE->value . ".*"   => ["required", "date"],
+            ProductFiltersEnum::UNIT_TYPE_ID->value         => ["nullable", "integer"],
             ProductFiltersEnum::QUANTITIES->value           => ["nullable", "array", "min:2", "max:2"],
-            ProductFiltersEnum::QUANTITIES->value . ".*"    => ["required", "integer"],
+            ProductFiltersEnum::QUANTITIES->value . ".*"    => ["required", "numeric"],
             ProductFiltersEnum::STATUS->value               => ["nullable", "string", Rule::in(ProductStatusEnum::values())],
 
             "created_at"   => ["nullable", "array", "min:2", "max:2"],

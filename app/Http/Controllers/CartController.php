@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\Cart\CartExpandEnum;
 use App\Enums\Cart\CartFiltersEnum;
+use App\Enums\Product\ProductExpandEnum;
 use App\Enums\Product\ProductFiltersEnum;
 use App\Enums\Product\ProductStatusEnum;
 use App\Enums\Transaction\TransactionPaidThroughEnum;
@@ -34,11 +35,16 @@ class CartController extends Controller
         // Get products
         $productParams = $request->validated();
         $productParams[ProductFiltersEnum::STATUS->value] = ProductStatusEnum::ACTIVE;
+        $productParams['expand'] = array_unique(array_merge($params['expand'] ?? [], [
+            ProductExpandEnum::UNIT_TYPE->value,
+        ]));
 
         // Get cart items
         $carts = $this->cartService->getAll([
             CartFiltersEnum::USER_ID->value => auth()->id(),
-            "expand"                        => [CartExpandEnum::PRODUCT->value],
+            "expand"                        => [
+                CartExpandEnum::PRODUCT_UNIT_TYPE->value
+            ],
             "per_page"                      => 500
         ]);
 

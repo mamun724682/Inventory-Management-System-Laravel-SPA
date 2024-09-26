@@ -23,9 +23,10 @@ class SettingUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            SettingFieldsEnum::DECIMAL_POINT->value => ["nullable", "integer", "max:8"],
-            SettingFieldsEnum::DISCOUNT->value      => ["nullable", "numeric", "gte:0"],
-            SettingFieldsEnum::TAX->value           => ["nullable", "numeric", "gte:0"],
+            SettingFieldsEnum::DECIMAL_POINT->value   => ["nullable", "integer", "max:8"],
+            SettingFieldsEnum::DISCOUNT->value        => ["nullable", "numeric", "gte:0"],
+            SettingFieldsEnum::TAX->value             => ["nullable", "numeric", "gte:0"],
+            SettingFieldsEnum::CURRENCY_SYMBOL->value => ["nullable", "string"],
         ];
     }
 }

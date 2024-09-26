@@ -24,7 +24,7 @@ return new class extends Migration {
                 ->constrained((new Product())->getTable())
                 ->nullOnDelete();
             $table->longText(OrderItemFieldsEnum::PRODUCT_JSON->value);
-            $table->integer(OrderItemFieldsEnum::QUANTITY->value);
+            $table->decimal(OrderItemFieldsEnum::QUANTITY->value, 20, 8);
             $table->timestamps();
         });
     }

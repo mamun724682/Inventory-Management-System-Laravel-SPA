@@ -19,7 +19,7 @@ class Product extends Model
     protected $casts = [
         "buying_price"  => "double",
         "selling_price" => "double",
-        "quantity"      => "integer",
+        "quantity"      => "double",
     ];
 
     protected function photo(): Attribute
@@ -40,5 +40,10 @@ class Product extends Model
     public function supplier(): BelongsTo
     {
         return $this->belongsTo(Supplier::class);
+    }
+
+    public function unitType(): BelongsTo
+    {
+        return $this->belongsTo(UnitType::class, 'unit_type_id');
     }
 }
