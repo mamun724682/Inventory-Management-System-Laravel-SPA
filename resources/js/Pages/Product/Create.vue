@@ -8,6 +8,7 @@ import Button from "@/Components/Button.vue";
 import SubmitButton from "@/Components/SubmitButton.vue";
 import AsyncVueSelect from "@/Components/AsyncVueSelect.vue";
 import {showToast} from "@/Utils/Helper.js";
+import default_image from "@/assets/img/default-image.jpg";
 
 defineProps({
     filters: {
@@ -16,6 +17,9 @@ defineProps({
 });
 
 const nameInput = ref(null);
+const isHovered = ref(false);
+const fileInput = ref(null);
+const previewImage = ref(null);
 
 const form = useForm({
     category_id: null,
@@ -32,6 +36,14 @@ const form = useForm({
     photo: null,
     status: 'active',
 });
+
+const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        previewImage.value = URL.createObjectURL(file);
+        form.photo = file;
+    }
+};
 
 const createProduct = () => {
     form.post(route('products.store'), {
@@ -198,25 +210,24 @@ const createProduct = () => {
                                 </select>
                                 <InputError :message="form.errors.status"/>
                             </div>
-                            <div class="flex flex-col overflow-auto">
-                                <label
-                                    class="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-emerald-600">
-                                    <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
-                                         viewBox="0 0 20 20">
-                                        <path
-                                            d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z"/>
-                                    </svg>
-                                    <span v-if="form.photo" class="mt-2 text-base leading-normal">{{
-                                            form.photo.name.replace(/(^.{17}).*(\..+$)/, "$1...$2")
-                                        }}</span>
-                                    <span v-else class="mt-2 text-base leading-normal">Select a photo</span>
-                                    <input
-                                        @input="form.photo = $event.target.files[0]"
-                                        type='file'
-                                        class="hidden"
-                                        accept="image/png, image/jpeg, image/jpg, image/gif, image/svg"
+                            <div class="flex flex-col">
+                                <div class="relative cursor-pointer" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
+                                    <img
+                                        @click="fileInput.click()"
+                                        :alt="$page.props.auth.user.name"
+                                        :src="previewImage || default_image"
+                                        class="shadow-xl h-auto align-middle border-none absolute max-w-150-px"
+                                        style="max-width: 400px !important; height: 150px !important;"
+                                        title="Upload Photo"
                                     />
-                                </label>
+                                    <div
+                                        v-if="isHovered"
+                                        class="absolute flex items-center justify-center rounded-full"
+                                    >
+                                        <i class="fas fa-camera text-black text-2xl"></i>
+                                    </div>
+                                    <input type="file" class="hidden" accept="image/*" ref="fileInput" @change="handleFileChange" />
+                                </div>
                                 <InputError :message="form.errors.photo"/>
                             </div>
                             <div class="flex flex-col">

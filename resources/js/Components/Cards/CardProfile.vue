@@ -8,7 +8,7 @@
                     <div class="relative" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
                         <img
                             :alt="$page.props.auth.user.name"
-                            :src="previewImage || $page.props.auth.user.photo"
+                            :src="previewImage || $page.props.auth.user?.photo || avatar"
                             class="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
                             style="width: 150px !important; height: 150px !important;"
                         />
