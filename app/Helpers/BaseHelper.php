@@ -94,9 +94,9 @@ class BaseHelper
         }
 
         return [
-            "discount"      => $discount,
+            "discount"      => (double) $discount,
             "discountType"  => $discountType,
-            "totalDiscount" => $totalDiscount
+            "totalDiscount" => (double) $totalDiscount
         ];
     }
 
@@ -118,9 +118,9 @@ class BaseHelper
         }
 
         return [
-            "discount"      => $discount,
+            "discount"      => (double) $discount,
             "discountType"  => $discountType,
-            "totalDiscount" => $totalDiscount
+            "totalDiscount" => (double) $totalDiscount
         ];
     }
 
@@ -137,8 +137,8 @@ class BaseHelper
         );
 
         return [
-            "tax"      => $tax,
-            "totalTax" => $totalTax
+            "tax"      => (double) $tax,
+            "totalTax" => (double) $totalTax
         ];
     }
 }

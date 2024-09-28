@@ -21,7 +21,7 @@
                     </span>
                     <input
                         type="text"
-                        placeholder="Search here..."
+                        placeholder="Search product..."
                         v-model="form.keyword"
                         class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:ring w-full pl-10"
                     />
@@ -48,10 +48,6 @@ const form = useForm({
 const searchProduct = () => {
     form.get(route('carts.index'), {
         preserveScroll: true,
-        onSuccess: () => {
-            closeModal();
-            showToast();
-        },
     });
 };
 </script>
