@@ -31,6 +31,14 @@
                                     Vue Notus. It features multiple CSS components based on the
                                     Tailwind CSS design system.
                                 </p>
+                                <Link
+                                    :href="$page.props.auth.user ? route('dashboard') : route('login')"
+                                    class="mt-4 bg-white text-blueGray-700 active:bg-blueGray-50 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
+                                    type="button"
+                                >
+                                    Access Dashboard
+                                    <i class="fas fa-arrow-alt-circle-right"></i>
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -606,7 +614,7 @@ import team1 from "@/assets/img/team-1-800x800.jpg";
 import team2 from "@/assets/img/team-2-800x800.jpg";
 import team3 from "@/assets/img/team-3-800x800.jpg";
 import team4 from "@/assets/img/team-4-470x470.png";
-import {Head} from "@inertiajs/vue3";
+import {Head, Link} from "@inertiajs/vue3";
 
 defineProps({
     pageTitle: {
