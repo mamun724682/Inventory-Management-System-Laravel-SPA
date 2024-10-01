@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Requests\UnitType;
+namespace App\Http\Requests\User;
 
 use App\Enums\Core\SortOrderEnum;
-use App\Enums\UnitType\UnitTypeFieldsEnum;
-use App\Enums\UnitType\UnitTypeFiltersEnum;
-use App\Enums\UnitType\UnitTypeSortFieldsEnum;
+use App\Enums\User\UserFieldsEnum;
+use App\Enums\User\UserFiltersEnum;
+use App\Enums\User\UserSortFieldsEnum;
 use App\Http\Requests\BaseIndexRequest;
 use Illuminate\Validation\Rule;
 
-class UnitTypeIndexRequest extends BaseIndexRequest
+class UserIndexRequest extends BaseIndexRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,14 +27,14 @@ class UnitTypeIndexRequest extends BaseIndexRequest
     public function rules()
     {
         return [
-            UnitTypeFiltersEnum::NAME->value   => ["nullable", "max:255"],
-            UnitTypeFiltersEnum::SYMBOL->value => ["nullable", "max:255"],
+            UserFiltersEnum::NAME->value  => ["nullable", "max:255"],
+            UserFiltersEnum::EMAIL->value => ["nullable", "email", "max:255"],
 
             "created_at"   => ["nullable", "array", "min:2", "max:2"],
             "created_at.*" => ["nullable", "date_format:Y-m-d H:i:s"],
             "fields"       => ["nullable", "array"],
-            "fields.*"     => ["nullable", Rule::in(UnitTypeFieldsEnum::values())],
-            "sort_by"      => ["nullable", Rule::in(UnitTypeSortFieldsEnum::values())],
+            "fields.*"     => ["nullable", Rule::in(UserFieldsEnum::values())],
+            "sort_by"      => ["nullable", Rule::in(UserSortFieldsEnum::values())],
             "sort_order"   => ["nullable", Rule::in(SortOrderEnum::values())],
             "page"         => ["nullable", "integer", "min:1"],
             "per_page"     => ["nullable", "integer", "min:1"],

@@ -14,6 +14,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UnitTypeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -45,6 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/profile/image', [ProfileController::class, 'updateImage'])->name('profile.image');
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('unit-types', UnitTypeController::class);
