@@ -23,11 +23,7 @@ const submit = () => {
 
 <template>
     <AuthLayout>
-        <Head title="Forgot Password" />
-
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-            {{ status }}
-        </div>
+        <Head title="Forgot Password"/>
 
         <div class="container mx-auto px-4 h-full">
             <div class="flex content-center items-center justify-center h-full">
@@ -40,14 +36,16 @@ const submit = () => {
                                 <h6 class="text-blueGray-500 text-sm font-bold">
                                     Forgot your password?
                                 </h6>
-                                <p>No problem. Just let us know your email address and we will email you a password reset
+                                <p>No problem. Just let us know your email address and we will email you a password
+                                    reset
                                     link that will allow you to choose a new one.</p>
                             </div>
                         </div>
                         <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
                             <form @submit.prevent="submit">
                                 <div class="relative w-full mb-3">
-                                    <InputLabel for="email" value="Email" class="block uppercase text-blueGray-600 text-xs font-bold mb-2" />
+                                    <InputLabel for="email" value="Email"
+                                                class="block uppercase text-blueGray-600 text-xs font-bold mb-2"/>
 
                                     <TextInput
                                         id="email"
@@ -60,7 +58,10 @@ const submit = () => {
                                         placeholder="Enter email"
                                     />
 
-                                    <InputError class="mt-1" :message="form.errors.email" />
+                                    <InputError class="mt-1" :message="form.errors.email"/>
+                                    <div v-if="status" class="mt-1 text-sm text-green-600">
+                                        {{ status }}
+                                    </div>
                                 </div>
 
                                 <div class="text-center mt-6">
