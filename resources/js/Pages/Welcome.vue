@@ -27,16 +27,14 @@
                                     Your story starts with us.
                                 </h1>
                                 <p class="mt-4 text-lg text-blueGray-200">
-                                    This is a simple example of a Landing Page you can build using
-                                    Vue Notus. It features multiple CSS components based on the
-                                    Tailwind CSS design system.
+                                    Transform your business operations with custom-built web applications that streamline workflows, enhance productivity, and scale as your company grows. Get personalized solutions that meet your unique challenges and goals.
                                 </p>
                                 <Link
                                     :href="$page.props.auth.user ? route('dashboard') : route('login')"
                                     class="mt-4 bg-white text-blueGray-700 active:bg-blueGray-50 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
                                     type="button"
                                 >
-                                    Access Dashboard
+                                    Explore Inventory
                                     <i class="fas fa-arrow-alt-circle-right"></i>
                                 </Link>
                             </div>
@@ -77,10 +75,9 @@
                                     >
                                         <i class="fas fa-award"></i>
                                     </div>
-                                    <h6 class="text-xl font-semibold">Awarded Agency</h6>
+                                    <h6 class="text-xl font-semibold">Custom Web Apps</h6>
                                     <p class="mt-2 mb-4 text-blueGray-500">
-                                        Divide details about your product or agency work into parts.
-                                        A paragraph describing a feature will be enough.
+                                        Build robust, scalable applications designed specifically for your business goals.
                                     </p>
                                 </div>
                             </div>
@@ -96,10 +93,9 @@
                                     >
                                         <i class="fas fa-retweet"></i>
                                     </div>
-                                    <h6 class="text-xl font-semibold">Free Revisions</h6>
+                                    <h6 class="text-xl font-semibold">Seamless Integration</h6>
                                     <p class="mt-2 mb-4 text-blueGray-500">
-                                        Keep you user engaged by providing meaningful information.
-                                        Remember that by this time, the user is curious.
+                                        Connect your tools and systems effortlessly with smooth integration services.
                                     </p>
                                 </div>
                             </div>
@@ -115,11 +111,8 @@
                                     >
                                         <i class="fas fa-fingerprint"></i>
                                     </div>
-                                    <h6 class="text-xl font-semibold">Verified Company</h6>
-                                    <p class="mt-2 mb-4 text-blueGray-500">
-                                        Write a few lines about each one. A paragraph describing a
-                                        feature will be enough. Keep you user engaged!
-                                    </p>
+                                    <h6 class="text-xl font-semibold">Scalable Solutions</h6>
+                                    <p class="mt-2 mb-4 text-blueGray-500">Future-proof your business with solutions that grow alongside your operations.</p>
                                 </div>
                             </div>
                         </div>
@@ -138,20 +131,16 @@
                             <p
                                 class="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-600"
                             >
-                                Don't let your uses guess by attaching tooltips and popoves to
-                                any element. Just make sure you enable them first via
-                                JavaScript.
+                                We prioritize clear communication, transparency, and collaboration at every step of the project. From concept to launch, I work closely with you to ensure your vision is realized, providing regular updates and making adjustments based on your feedback.
                             </p>
                             <p
                                 class="text-lg font-light leading-relaxed mt-0 mb-4 text-blueGray-600"
                             >
-                                The kit comes with three pre-built pages to help you get started
-                                faster. You can change the text and images and you're good to
-                                go. Just make sure you enable them first via JavaScript.
+                                The goal is to deliver high-quality, functional applications while ensuring a smooth and enjoyable experience for you.
                             </p>
-                            <router-link to="/" class="font-bold text-blueGray-700 mt-8">
-                                Check Vue Notus!
-                            </router-link>
+<!--                            <a href="/" class="font-bold text-blueGray-700 mt-8">-->
+<!--                                Check Vue Notus!-->
+<!--                            </a>-->
                         </div>
 
                         <div class="w-full md:w-4/12 px-4 mr-auto ml-auto">
@@ -179,9 +168,7 @@
                                         Top Notch Services
                                     </h4>
                                     <p class="text-md font-light mt-2 text-white">
-                                        The Arctic Ocean freezes every winter and much of the
-                                        sea-ice then thaws every summer, and that process will
-                                        continue whatever happens.
+                                        I offer reliable, efficient, and highly scalable solutions to help your business thrive and grow.
                                     </p>
                                 </blockquote>
                             </div>
@@ -227,25 +214,21 @@
                                 >
                                     <i class="fas fa-rocket text-xl"></i>
                                 </div>
-                                <h3 class="text-3xl font-semibold">A growing company</h3>
+                                <h3 class="text-3xl font-semibold">Tailored Solutions</h3>
                                 <p class="mt-4 text-lg leading-relaxed text-blueGray-500">
-                                    The extension comes with three pre-built pages to help you get
-                                    started faster. You can change the text and images and you're
-                                    good to go.
+                                    From front-end design to back-end logic, I handle all aspects of web development, ensuring high performance and usability. Let’s bring your ideas to life with clean code and a focus on scalability.
                                 </p>
                                 <ul class="list-none mt-6">
                                     <li class="py-2">
                                         <div class="flex items-center">
                                             <div>
-                        <span
-                            class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-emerald-600 bg-emerald-200 mr-3"
-                        >
-                          <i class="fas fa-fingerprint"></i>
-                        </span>
+                                                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-emerald-600 bg-emerald-200 mr-3">
+                                                    <i class="fas fa-fingerprint"></i>
+                                                </span>
                                             </div>
                                             <div>
                                                 <h4 class="text-blueGray-500">
-                                                    Carefully crafted components
+                                                    Responsive Design
                                                 </h4>
                                             </div>
                                         </div>
@@ -253,15 +236,13 @@
                                     <li class="py-2">
                                         <div class="flex items-center">
                                             <div>
-                        <span
-                            class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-emerald-600 bg-emerald-200 mr-3"
-                        >
-                          <i class="fab fa-html5"></i>
-                        </span>
+                                                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-emerald-600 bg-emerald-200 mr-3">
+                                                    <i class="fab fa-html5"></i>
+                                                </span>
                                             </div>
                                             <div>
                                                 <h4 class="text-blueGray-500">
-                                                    Amazing page examples
+                                                    Secure and Reliable
                                                 </h4>
                                             </div>
                                         </div>
@@ -269,14 +250,12 @@
                                     <li class="py-2">
                                         <div class="flex items-center">
                                             <div>
-                        <span
-                            class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-emerald-600 bg-emerald-200 mr-3"
-                        >
-                          <i class="far fa-paper-plane"></i>
-                        </span>
+                                                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-emerald-600 bg-emerald-200 mr-3">
+                                                    <i class="far fa-paper-plane"></i>
+                                                </span>
                                             </div>
                                             <div>
-                                                <h4 class="text-blueGray-500">Dynamic components</h4>
+                                                <h4 class="text-blueGray-500">Easy Maintenance</h4>
                                             </div>
                                         </div>
                                     </li>
@@ -291,11 +270,9 @@
                 <div class="container mx-auto px-4">
                     <div class="flex flex-wrap justify-center text-center mb-24">
                         <div class="w-full lg:w-6/12 px-4">
-                            <h2 class="text-4xl font-semibold">Here are our heroes</h2>
+                            <h2 class="text-4xl font-semibold">What Clients Say</h2>
                             <p class="text-lg leading-relaxed m-4 text-blueGray-500">
-                                According to the National Oceanic and Atmospheric
-                                Administration, Ted, Scambos, NSIDClead scentist, puts the
-                                potentially record maximum.
+                                Hear from clients who have trusted me to build their business solutions.
                             </p>
                         </div>
                     </div>
@@ -310,30 +287,30 @@
                                 <div class="pt-6 text-center">
                                     <h5 class="text-xl font-bold">Ryan Tompson</h5>
                                     <p
-                                        class="mt-1 text-sm text-blueGray-400 uppercase font-semibold"
+                                        class="mt-1 text-sm text-blueGray-400 font-semibold"
                                     >
-                                        Web Developer
+                                        The application exceeded my expectations. Delivered on time and tailored perfectly to our needs.
                                     </p>
-                                    <div class="mt-6">
-                                        <button
-                                            class="bg-lightBlue-400 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                                            type="button"
-                                        >
-                                            <i class="fab fa-twitter"></i>
-                                        </button>
-                                        <button
-                                            class="bg-lightBlue-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                                            type="button"
-                                        >
-                                            <i class="fab fa-facebook-f"></i>
-                                        </button>
-                                        <button
-                                            class="bg-pink-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                                            type="button"
-                                        >
-                                            <i class="fab fa-dribbble"></i>
-                                        </button>
-                                    </div>
+<!--                                    <div class="mt-6">-->
+<!--                                        <button-->
+<!--                                            class="bg-lightBlue-400 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+<!--                                            type="button"-->
+<!--                                        >-->
+<!--                                            <i class="fab fa-twitter"></i>-->
+<!--                                        </button>-->
+<!--                                        <button-->
+<!--                                            class="bg-lightBlue-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+<!--                                            type="button"-->
+<!--                                        >-->
+<!--                                            <i class="fab fa-facebook-f"></i>-->
+<!--                                        </button>-->
+<!--                                        <button-->
+<!--                                            class="bg-pink-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+<!--                                            type="button"-->
+<!--                                        >-->
+<!--                                            <i class="fab fa-dribbble"></i>-->
+<!--                                        </button>-->
+<!--                                    </div>-->
                                 </div>
                             </div>
                         </div>
@@ -347,24 +324,24 @@
                                 <div class="pt-6 text-center">
                                     <h5 class="text-xl font-bold">Romina Hadid</h5>
                                     <p
-                                        class="mt-1 text-sm text-blueGray-400 uppercase font-semibold"
+                                        class="mt-1 text-sm text-blueGray-400 font-semibold"
                                     >
-                                        Marketing Specialist
+                                        Incredible attention to detail and great communication throughout the entire process. Highly recommended!
                                     </p>
-                                    <div class="mt-6">
-                                        <button
-                                            class="bg-red-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                                            type="button"
-                                        >
-                                            <i class="fab fa-google"></i>
-                                        </button>
-                                        <button
-                                            class="bg-lightBlue-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                                            type="button"
-                                        >
-                                            <i class="fab fa-facebook-f"></i>
-                                        </button>
-                                    </div>
+<!--                                    <div class="mt-6">-->
+<!--                                        <button-->
+<!--                                            class="bg-red-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+<!--                                            type="button"-->
+<!--                                        >-->
+<!--                                            <i class="fab fa-google"></i>-->
+<!--                                        </button>-->
+<!--                                        <button-->
+<!--                                            class="bg-lightBlue-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+<!--                                            type="button"-->
+<!--                                        >-->
+<!--                                            <i class="fab fa-facebook-f"></i>-->
+<!--                                        </button>-->
+<!--                                    </div>-->
                                 </div>
                             </div>
                         </div>
@@ -378,30 +355,30 @@
                                 <div class="pt-6 text-center">
                                     <h5 class="text-xl font-bold">Alexa Smith</h5>
                                     <p
-                                        class="mt-1 text-sm text-blueGray-400 uppercase font-semibold"
+                                        class="mt-1 text-sm text-blueGray-400 font-semibold"
                                     >
-                                        UI/UX Designer
+                                        Professional, efficient, and reliable. My go-to for all future web development projects.
                                     </p>
-                                    <div class="mt-6">
-                                        <button
-                                            class="bg-red-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                                            type="button"
-                                        >
-                                            <i class="fab fa-google"></i>
-                                        </button>
-                                        <button
-                                            class="bg-lightBlue-400 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                                            type="button"
-                                        >
-                                            <i class="fab fa-twitter"></i>
-                                        </button>
-                                        <button
-                                            class="bg-blueGray-700 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                                            type="button"
-                                        >
-                                            <i class="fab fa-instagram"></i>
-                                        </button>
-                                    </div>
+<!--                                    <div class="mt-6">-->
+<!--                                        <button-->
+<!--                                            class="bg-red-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+<!--                                            type="button"-->
+<!--                                        >-->
+<!--                                            <i class="fab fa-google"></i>-->
+<!--                                        </button>-->
+<!--                                        <button-->
+<!--                                            class="bg-lightBlue-400 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+<!--                                            type="button"-->
+<!--                                        >-->
+<!--                                            <i class="fab fa-twitter"></i>-->
+<!--                                        </button>-->
+<!--                                        <button-->
+<!--                                            class="bg-blueGray-700 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+<!--                                            type="button"-->
+<!--                                        >-->
+<!--                                            <i class="fab fa-instagram"></i>-->
+<!--                                        </button>-->
+<!--                                    </div>-->
                                 </div>
                             </div>
                         </div>
@@ -415,36 +392,36 @@
                                 <div class="pt-6 text-center">
                                     <h5 class="text-xl font-bold">Jenna Kardi</h5>
                                     <p
-                                        class="mt-1 text-sm text-blueGray-400 uppercase font-semibold"
+                                        class="mt-1 text-sm text-blueGray-400 font-semibold"
                                     >
-                                        Founder and CEO
+                                        Amazing service! The final product was exactly what I needed to streamline my business operations.
                                     </p>
-                                    <div class="mt-6">
-                                        <button
-                                            class="bg-pink-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                                            type="button"
-                                        >
-                                            <i class="fab fa-dribbble"></i>
-                                        </button>
-                                        <button
-                                            class="bg-red-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                                            type="button"
-                                        >
-                                            <i class="fab fa-google"></i>
-                                        </button>
-                                        <button
-                                            class="bg-lightBlue-400 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                                            type="button"
-                                        >
-                                            <i class="fab fa-twitter"></i>
-                                        </button>
-                                        <button
-                                            class="bg-blueGray-700 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                                            type="button"
-                                        >
-                                            <i class="fab fa-instagram"></i>
-                                        </button>
-                                    </div>
+<!--                                    <div class="mt-6">-->
+<!--                                        <button-->
+<!--                                            class="bg-pink-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+<!--                                            type="button"-->
+<!--                                        >-->
+<!--                                            <i class="fab fa-dribbble"></i>-->
+<!--                                        </button>-->
+<!--                                        <button-->
+<!--                                            class="bg-red-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+<!--                                            type="button"-->
+<!--                                        >-->
+<!--                                            <i class="fab fa-google"></i>-->
+<!--                                        </button>-->
+<!--                                        <button-->
+<!--                                            class="bg-lightBlue-400 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+<!--                                            type="button"-->
+<!--                                        >-->
+<!--                                            <i class="fab fa-twitter"></i>-->
+<!--                                        </button>-->
+<!--                                        <button-->
+<!--                                            class="bg-blueGray-700 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+<!--                                            type="button"-->
+<!--                                        >-->
+<!--                                            <i class="fab fa-instagram"></i>-->
+<!--                                        </button>-->
+<!--                                    </div>-->
                                 </div>
                             </div>
                         </div>
@@ -477,12 +454,10 @@
                     <div class="flex flex-wrap text-center justify-center">
                         <div class="w-full lg:w-6/12 px-4">
                             <h2 class="text-4xl font-semibold text-white">
-                                Build something
+                                Services Offered
                             </h2>
                             <p class="text-lg leading-relaxed mt-4 mb-4 text-blueGray-400">
-                                Put the potentially record low maximum sea ice extent tihs year
-                                down to low ice. According to the National Oceanic and
-                                Atmospheric Administration, Ted, Scambos.
+                                Offering a variety of development services to meet your business needs, from custom solutions to seamless integrations.
                             </p>
                         </div>
                     </div>
@@ -494,11 +469,10 @@
                                 <i class="fas fa-medal text-xl"></i>
                             </div>
                             <h6 class="text-xl mt-5 font-semibold text-white">
-                                Excelent Services
+                                Frontend Development
                             </h6>
                             <p class="mt-2 mb-4 text-blueGray-400">
-                                Some quick example text to build on the card title and make up
-                                the bulk of the card's content.
+                                Create responsive, user-friendly interfaces that provide seamless user experiences.
                             </p>
                         </div>
                         <div class="w-full lg:w-3/12 px-4 text-center">
@@ -508,11 +482,10 @@
                                 <i class="fas fa-poll text-xl"></i>
                             </div>
                             <h5 class="text-xl mt-5 font-semibold text-white">
-                                Grow your market
+                                Backend Development
                             </h5>
                             <p class="mt-2 mb-4 text-blueGray-400">
-                                Some quick example text to build on the card title and make up
-                                the bulk of the card's content.
+                                Build secure, scalable, and efficient server-side applications for your business.
                             </p>
                         </div>
                         <div class="w-full lg:w-3/12 px-4 text-center">
@@ -522,11 +495,10 @@
                                 <i class="fas fa-lightbulb text-xl"></i>
                             </div>
                             <h5 class="text-xl mt-5 font-semibold text-white">
-                                Launch time
+                                Deployment Services
                             </h5>
                             <p class="mt-2 mb-4 text-blueGray-400">
-                                Some quick example text to build on the card title and make up
-                                the bulk of the card's content.
+                                Ensure smooth deployment, from server setup to launching your application live.
                             </p>
                         </div>
                     </div>
@@ -549,7 +521,7 @@
                                     <div class="relative w-full mb-3 mt-8">
                                         <label
                                             class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                                            htmlFor="full-name"
+                                            for="full-name"
                                         >
                                             Full Name
                                         </label>
@@ -618,7 +590,7 @@ import {Head, Link} from "@inertiajs/vue3";
 
 defineProps({
     pageTitle: {
-        type: Boolean,
+        type: String,
         required: true,
     }
 });

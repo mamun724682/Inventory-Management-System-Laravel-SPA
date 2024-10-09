@@ -27,27 +27,29 @@
                         Find me on any of these platforms, I respond 1-2 business days.
                     </h5>
                     <div class="mt-6 lg:mb-0 mb-6">
+<!--                        <button-->
+<!--                            class="bg-white text-lightBlue-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"-->
+<!--                            type="button"-->
+<!--                        >-->
+<!--                            <i class="fab fa-twitter"></i>-->
+<!--                        </button>-->
+<!--                        <button-->
+<!--                            class="bg-white text-lightBlue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"-->
+<!--                            type="button"-->
+<!--                        >-->
+<!--                            <i class="fab fa-facebook-square"></i>-->
+<!--                        </button>-->
                         <button
-                            class="bg-white text-lightBlue-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
+                            class="bg-white text-blue-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
                             type="button"
+                            onclick="window.open('https://www.linkedin.com/in/mamun724682', '_blank')"
                         >
-                            <i class="fab fa-twitter"></i>
-                        </button>
-                        <button
-                            class="bg-white text-lightBlue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-                            type="button"
-                        >
-                            <i class="fab fa-facebook-square"></i>
-                        </button>
-                        <button
-                            class="bg-white text-pink-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-                            type="button"
-                        >
-                            <i class="fab fa-dribbble"></i>
+                            <i class="fab fa-linkedin"></i>
                         </button>
                         <button
                             class="bg-white text-blueGray-800 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
                             type="button"
+                            onclick="window.open('https://github.com/mamun724682', '_blank')"
                         >
                             <i class="fab fa-github"></i>
                         </button>
@@ -65,7 +67,7 @@
                                 <li>
                                     <a
                                         class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm"
-                                        href="https://www.creative-tim.com/presentation?ref=vn-footer"
+                                        href="#"
                                     >
                                         About Us
                                     </a>
@@ -73,7 +75,7 @@
                                 <li>
                                     <a
                                         class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm"
-                                        href="https://blog.creative-tim.com?ref=vn-footer"
+                                        href="#"
                                     >
                                         Blog
                                     </a>
@@ -81,7 +83,7 @@
                                 <li>
                                     <a
                                         class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm"
-                                        href="https://www.github.com/creativetimofficial?ref=vn-footer"
+                                        href="#"
                                     >
                                         Github
                                     </a>
@@ -89,7 +91,7 @@
                                 <li>
                                     <a
                                         class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm"
-                                        href="https://www.creative-tim.com/bootstrap-themes/free?ref=vn-footer"
+                                        href="#"
                                     >
                                         Free Products
                                     </a>
