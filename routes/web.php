@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
@@ -33,7 +34,10 @@ Route::get('/', function () {
     return Inertia::render('Welcome', [
         'pageTitle' => 'Home',
     ]);
-});
+})->name('home');
+
+// Contact
+Route::post('contacts', [ContactController::class, 'store'])->name('contacts.store');
 
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 
