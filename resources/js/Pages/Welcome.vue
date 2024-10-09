@@ -10,14 +10,9 @@
             >
                 <div
                     class="absolute top-0 w-full h-full bg-center bg-cover"
-                    style="
-            background-image: url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80');
-          "
+                    :style="{ backgroundImage: `url(${banner})` }"
                 >
-          <span
-              id="blackOverlay"
-              class="w-full h-full absolute opacity-75 bg-black"
-          ></span>
+                    <span id="blackOverlay" class="w-full h-full absolute opacity-75 bg-black"></span>
                 </div>
                 <div class="container relative mx-auto">
                     <div class="items-center flex flex-wrap">
@@ -27,7 +22,9 @@
                                     Your story starts with us.
                                 </h1>
                                 <p class="mt-4 text-lg text-blueGray-200">
-                                    Transform your business operations with custom-built web applications that streamline workflows, enhance productivity, and scale as your company grows. Get personalized solutions that meet your unique challenges and goals.
+                                    Transform your business operations with custom-built web applications that
+                                    streamline workflows, enhance productivity, and scale as your company grows. Get
+                                    personalized solutions that meet your unique challenges and goals.
                                 </p>
                                 <Link
                                     :href="$page.props.auth.user ? route('dashboard') : route('login')"
@@ -77,7 +74,8 @@
                                     </div>
                                     <h6 class="text-xl font-semibold">Custom Web Apps</h6>
                                     <p class="mt-2 mb-4 text-blueGray-500">
-                                        Build robust, scalable applications designed specifically for your business goals.
+                                        Build robust, scalable applications designed specifically for your business
+                                        goals.
                                     </p>
                                 </div>
                             </div>
@@ -112,7 +110,8 @@
                                         <i class="fas fa-fingerprint"></i>
                                     </div>
                                     <h6 class="text-xl font-semibold">Scalable Solutions</h6>
-                                    <p class="mt-2 mb-4 text-blueGray-500">Future-proof your business with solutions that grow alongside your operations.</p>
+                                    <p class="mt-2 mb-4 text-blueGray-500">Future-proof your business with solutions
+                                        that grow alongside your operations.</p>
                                 </div>
                             </div>
                         </div>
@@ -131,16 +130,19 @@
                             <p
                                 class="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-600"
                             >
-                                We prioritize clear communication, transparency, and collaboration at every step of the project. From concept to launch, I work closely with you to ensure your vision is realized, providing regular updates and making adjustments based on your feedback.
+                                We prioritize clear communication, transparency, and collaboration at every step of the
+                                project. From concept to launch, I work closely with you to ensure your vision is
+                                realized, providing regular updates and making adjustments based on your feedback.
                             </p>
                             <p
                                 class="text-lg font-light leading-relaxed mt-0 mb-4 text-blueGray-600"
                             >
-                                The goal is to deliver high-quality, functional applications while ensuring a smooth and enjoyable experience for you.
+                                The goal is to deliver high-quality, functional applications while ensuring a smooth and
+                                enjoyable experience for you.
                             </p>
-<!--                            <a href="/" class="font-bold text-blueGray-700 mt-8">-->
-<!--                                Check Vue Notus!-->
-<!--                            </a>-->
+                            <!--                            <a href="/" class="font-bold text-blueGray-700 mt-8">-->
+                            <!--                                Check Vue Notus!-->
+                            <!--                            </a>-->
                         </div>
 
                         <div class="w-full md:w-4/12 px-4 mr-auto ml-auto">
@@ -149,7 +151,7 @@
                             >
                                 <img
                                     alt="..."
-                                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80"
+                                    :src="inventoryService"
                                     class="w-full align-middle rounded-t-lg"
                                 />
                                 <blockquote class="relative p-8 mb-4">
@@ -168,7 +170,8 @@
                                         Top Notch Services
                                     </h4>
                                     <p class="text-md font-light mt-2 text-white">
-                                        I offer reliable, efficient, and highly scalable solutions to help your business thrive and grow.
+                                        I offer reliable, efficient, and highly scalable solutions to help your business
+                                        thrive and grow.
                                     </p>
                                 </blockquote>
                             </div>
@@ -204,7 +207,7 @@
                             <img
                                 alt="..."
                                 class="max-w-full rounded-lg shadow-lg"
-                                src="https://images.unsplash.com/photo-1555212697-194d092e3b8f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80"
+                                :src="fourthSection"
                             />
                         </div>
                         <div class="w-full md:w-5/12 ml-auto mr-auto px-4">
@@ -216,13 +219,16 @@
                                 </div>
                                 <h3 class="text-3xl font-semibold">Tailored Solutions</h3>
                                 <p class="mt-4 text-lg leading-relaxed text-blueGray-500">
-                                    From front-end design to back-end logic, I handle all aspects of web development, ensuring high performance and usability. Let’s bring your ideas to life with clean code and a focus on scalability.
+                                    From front-end design to back-end logic, I handle all aspects of web development,
+                                    ensuring high performance and usability. Let’s bring your ideas to life with clean
+                                    code and a focus on scalability.
                                 </p>
                                 <ul class="list-none mt-6">
                                     <li class="py-2">
                                         <div class="flex items-center">
                                             <div>
-                                                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-emerald-600 bg-emerald-200 mr-3">
+                                                <span
+                                                    class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-emerald-600 bg-emerald-200 mr-3">
                                                     <i class="fas fa-fingerprint"></i>
                                                 </span>
                                             </div>
@@ -236,7 +242,8 @@
                                     <li class="py-2">
                                         <div class="flex items-center">
                                             <div>
-                                                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-emerald-600 bg-emerald-200 mr-3">
+                                                <span
+                                                    class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-emerald-600 bg-emerald-200 mr-3">
                                                     <i class="fab fa-html5"></i>
                                                 </span>
                                             </div>
@@ -250,7 +257,8 @@
                                     <li class="py-2">
                                         <div class="flex items-center">
                                             <div>
-                                                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-emerald-600 bg-emerald-200 mr-3">
+                                                <span
+                                                    class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-emerald-600 bg-emerald-200 mr-3">
                                                     <i class="far fa-paper-plane"></i>
                                                 </span>
                                             </div>
@@ -289,28 +297,29 @@
                                     <p
                                         class="mt-1 text-sm text-blueGray-400 font-semibold"
                                     >
-                                        The application exceeded my expectations. Delivered on time and tailored perfectly to our needs.
+                                        The application exceeded my expectations. Delivered on time and tailored
+                                        perfectly to our needs.
                                     </p>
-<!--                                    <div class="mt-6">-->
-<!--                                        <button-->
-<!--                                            class="bg-lightBlue-400 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
-<!--                                            type="button"-->
-<!--                                        >-->
-<!--                                            <i class="fab fa-twitter"></i>-->
-<!--                                        </button>-->
-<!--                                        <button-->
-<!--                                            class="bg-lightBlue-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
-<!--                                            type="button"-->
-<!--                                        >-->
-<!--                                            <i class="fab fa-facebook-f"></i>-->
-<!--                                        </button>-->
-<!--                                        <button-->
-<!--                                            class="bg-pink-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
-<!--                                            type="button"-->
-<!--                                        >-->
-<!--                                            <i class="fab fa-dribbble"></i>-->
-<!--                                        </button>-->
-<!--                                    </div>-->
+                                    <!--                                    <div class="mt-6">-->
+                                    <!--                                        <button-->
+                                    <!--                                            class="bg-lightBlue-400 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+                                    <!--                                            type="button"-->
+                                    <!--                                        >-->
+                                    <!--                                            <i class="fab fa-twitter"></i>-->
+                                    <!--                                        </button>-->
+                                    <!--                                        <button-->
+                                    <!--                                            class="bg-lightBlue-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+                                    <!--                                            type="button"-->
+                                    <!--                                        >-->
+                                    <!--                                            <i class="fab fa-facebook-f"></i>-->
+                                    <!--                                        </button>-->
+                                    <!--                                        <button-->
+                                    <!--                                            class="bg-pink-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+                                    <!--                                            type="button"-->
+                                    <!--                                        >-->
+                                    <!--                                            <i class="fab fa-dribbble"></i>-->
+                                    <!--                                        </button>-->
+                                    <!--                                    </div>-->
                                 </div>
                             </div>
                         </div>
@@ -326,22 +335,23 @@
                                     <p
                                         class="mt-1 text-sm text-blueGray-400 font-semibold"
                                     >
-                                        Incredible attention to detail and great communication throughout the entire process. Highly recommended!
+                                        Incredible attention to detail and great communication throughout the entire
+                                        process. Highly recommended!
                                     </p>
-<!--                                    <div class="mt-6">-->
-<!--                                        <button-->
-<!--                                            class="bg-red-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
-<!--                                            type="button"-->
-<!--                                        >-->
-<!--                                            <i class="fab fa-google"></i>-->
-<!--                                        </button>-->
-<!--                                        <button-->
-<!--                                            class="bg-lightBlue-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
-<!--                                            type="button"-->
-<!--                                        >-->
-<!--                                            <i class="fab fa-facebook-f"></i>-->
-<!--                                        </button>-->
-<!--                                    </div>-->
+                                    <!--                                    <div class="mt-6">-->
+                                    <!--                                        <button-->
+                                    <!--                                            class="bg-red-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+                                    <!--                                            type="button"-->
+                                    <!--                                        >-->
+                                    <!--                                            <i class="fab fa-google"></i>-->
+                                    <!--                                        </button>-->
+                                    <!--                                        <button-->
+                                    <!--                                            class="bg-lightBlue-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+                                    <!--                                            type="button"-->
+                                    <!--                                        >-->
+                                    <!--                                            <i class="fab fa-facebook-f"></i>-->
+                                    <!--                                        </button>-->
+                                    <!--                                    </div>-->
                                 </div>
                             </div>
                         </div>
@@ -357,28 +367,29 @@
                                     <p
                                         class="mt-1 text-sm text-blueGray-400 font-semibold"
                                     >
-                                        Professional, efficient, and reliable. My go-to for all future web development projects.
+                                        Professional, efficient, and reliable. My go-to for all future web development
+                                        projects.
                                     </p>
-<!--                                    <div class="mt-6">-->
-<!--                                        <button-->
-<!--                                            class="bg-red-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
-<!--                                            type="button"-->
-<!--                                        >-->
-<!--                                            <i class="fab fa-google"></i>-->
-<!--                                        </button>-->
-<!--                                        <button-->
-<!--                                            class="bg-lightBlue-400 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
-<!--                                            type="button"-->
-<!--                                        >-->
-<!--                                            <i class="fab fa-twitter"></i>-->
-<!--                                        </button>-->
-<!--                                        <button-->
-<!--                                            class="bg-blueGray-700 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
-<!--                                            type="button"-->
-<!--                                        >-->
-<!--                                            <i class="fab fa-instagram"></i>-->
-<!--                                        </button>-->
-<!--                                    </div>-->
+                                    <!--                                    <div class="mt-6">-->
+                                    <!--                                        <button-->
+                                    <!--                                            class="bg-red-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+                                    <!--                                            type="button"-->
+                                    <!--                                        >-->
+                                    <!--                                            <i class="fab fa-google"></i>-->
+                                    <!--                                        </button>-->
+                                    <!--                                        <button-->
+                                    <!--                                            class="bg-lightBlue-400 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+                                    <!--                                            type="button"-->
+                                    <!--                                        >-->
+                                    <!--                                            <i class="fab fa-twitter"></i>-->
+                                    <!--                                        </button>-->
+                                    <!--                                        <button-->
+                                    <!--                                            class="bg-blueGray-700 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+                                    <!--                                            type="button"-->
+                                    <!--                                        >-->
+                                    <!--                                            <i class="fab fa-instagram"></i>-->
+                                    <!--                                        </button>-->
+                                    <!--                                    </div>-->
                                 </div>
                             </div>
                         </div>
@@ -394,34 +405,35 @@
                                     <p
                                         class="mt-1 text-sm text-blueGray-400 font-semibold"
                                     >
-                                        Amazing service! The final product was exactly what I needed to streamline my business operations.
+                                        Amazing service! The final product was exactly what I needed to streamline my
+                                        business operations.
                                     </p>
-<!--                                    <div class="mt-6">-->
-<!--                                        <button-->
-<!--                                            class="bg-pink-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
-<!--                                            type="button"-->
-<!--                                        >-->
-<!--                                            <i class="fab fa-dribbble"></i>-->
-<!--                                        </button>-->
-<!--                                        <button-->
-<!--                                            class="bg-red-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
-<!--                                            type="button"-->
-<!--                                        >-->
-<!--                                            <i class="fab fa-google"></i>-->
-<!--                                        </button>-->
-<!--                                        <button-->
-<!--                                            class="bg-lightBlue-400 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
-<!--                                            type="button"-->
-<!--                                        >-->
-<!--                                            <i class="fab fa-twitter"></i>-->
-<!--                                        </button>-->
-<!--                                        <button-->
-<!--                                            class="bg-blueGray-700 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
-<!--                                            type="button"-->
-<!--                                        >-->
-<!--                                            <i class="fab fa-instagram"></i>-->
-<!--                                        </button>-->
-<!--                                    </div>-->
+                                    <!--                                    <div class="mt-6">-->
+                                    <!--                                        <button-->
+                                    <!--                                            class="bg-pink-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+                                    <!--                                            type="button"-->
+                                    <!--                                        >-->
+                                    <!--                                            <i class="fab fa-dribbble"></i>-->
+                                    <!--                                        </button>-->
+                                    <!--                                        <button-->
+                                    <!--                                            class="bg-red-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+                                    <!--                                            type="button"-->
+                                    <!--                                        >-->
+                                    <!--                                            <i class="fab fa-google"></i>-->
+                                    <!--                                        </button>-->
+                                    <!--                                        <button-->
+                                    <!--                                            class="bg-lightBlue-400 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+                                    <!--                                            type="button"-->
+                                    <!--                                        >-->
+                                    <!--                                            <i class="fab fa-twitter"></i>-->
+                                    <!--                                        </button>-->
+                                    <!--                                        <button-->
+                                    <!--                                            class="bg-blueGray-700 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"-->
+                                    <!--                                            type="button"-->
+                                    <!--                                        >-->
+                                    <!--                                            <i class="fab fa-instagram"></i>-->
+                                    <!--                                        </button>-->
+                                    <!--                                    </div>-->
                                 </div>
                             </div>
                         </div>
@@ -457,7 +469,8 @@
                                 Services Offered
                             </h2>
                             <p class="text-lg leading-relaxed mt-4 mb-4 text-blueGray-400">
-                                Offering a variety of development services to meet your business needs, from custom solutions to seamless integrations.
+                                Offering a variety of development services to meet your business needs, from custom
+                                solutions to seamless integrations.
                             </p>
                         </div>
                     </div>
@@ -524,13 +537,15 @@
 <script setup>
 import GuestNavbar from "@/Components/Navbars/GuestNavbar.vue";
 import FooterComponent from "@/Components/Footers/Footer.vue";
-
 import team1 from "@/assets/img/team-1-800x800.jpg";
-import team2 from "@/assets/img/team-2-800x800.jpg";
-import team3 from "@/assets/img/team-3-800x800.jpg";
-import team4 from "@/assets/img/team-4-470x470.png";
+import team2 from "@/assets/img/team2.avif";
+import team3 from "@/assets/img/team3.jpg";
+import team4 from "@/assets/img/team4.jpg";
 import {Head, Link} from "@inertiajs/vue3";
 import ContactForm from "@/Components/ContactForm.vue";
+import inventoryService from "@/assets/img/inventory-service.avif";
+import banner from "@/assets/img/banner.avif";
+import fourthSection from "@/assets/img/4th-section.avif";
 
 defineProps({
     pageTitle: {

@@ -40,7 +40,7 @@
 <!--                            <i class="fab fa-facebook-square"></i>-->
 <!--                        </button>-->
                         <button
-                            class="bg-white text-blue-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
+                            class="bg-white text-blue-500 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
                             type="button"
                             onclick="window.open('https://www.linkedin.com/in/mamun724682', '_blank')"
                         >
