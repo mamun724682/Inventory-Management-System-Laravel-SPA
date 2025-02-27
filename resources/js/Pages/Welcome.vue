@@ -105,7 +105,7 @@
                             >
                                 <div class="px-4 py-5 flex-auto">
                                     <div
-                                        class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-emerald-400"
+                                        class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-sky-400"
                                     >
                                         <i class="fas fa-fingerprint"></i>
                                     </div>
@@ -147,7 +147,7 @@
 
                         <div class="w-full md:w-4/12 px-4 mr-auto ml-auto">
                             <div
-                                class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-emerald-500"
+                                class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-sky-500"
                             >
                                 <img
                                     alt="..."
@@ -163,7 +163,7 @@
                                     >
                                         <polygon
                                             points="-30,95 583,95 583,65"
-                                            class="text-emerald-500 fill-current"
+                                            class="text-sky-500 fill-current"
                                         ></polygon>
                                     </svg>
                                     <h4 class="text-xl font-bold text-white">
@@ -213,7 +213,7 @@
                         <div class="w-full md:w-5/12 ml-auto mr-auto px-4">
                             <div class="md:pr-12">
                                 <div
-                                    class="text-emerald-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-emerald-300"
+                                    class="text-sky-400 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-sky-400"
                                 >
                                     <i class="fas fa-rocket text-xl"></i>
                                 </div>
@@ -228,7 +228,7 @@
                                         <div class="flex items-center">
                                             <div>
                                                 <span
-                                                    class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-emerald-600 bg-emerald-200 mr-3">
+                                                    class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-sky-400 bg-sky-400 mr-3">
                                                     <i class="fas fa-fingerprint"></i>
                                                 </span>
                                             </div>
@@ -243,7 +243,7 @@
                                         <div class="flex items-center">
                                             <div>
                                                 <span
-                                                    class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-emerald-600 bg-emerald-200 mr-3">
+                                                    class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-sky-600 bg-sky-400 mr-3">
                                                     <i class="fab fa-html5"></i>
                                                 </span>
                                             </div>
@@ -258,7 +258,7 @@
                                         <div class="flex items-center">
                                             <div>
                                                 <span
-                                                    class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-emerald-600 bg-emerald-200 mr-3">
+                                                    class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-sky-600 bg-sky-200 mr-3">
                                                     <i class="far fa-paper-plane"></i>
                                                 </span>
                                             </div>

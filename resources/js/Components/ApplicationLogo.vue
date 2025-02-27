@@ -3,8 +3,8 @@
 </template>
 
 <script setup>
-import LaraToryWhite from "@/assets/img/laratory-white.png";
-import LaraToryBlack from "@/assets/img/laratory-black.png";
+import LaraToryWhite from "@/assets/img/HeroApps Logo.png";
+import LaraToryBlack from "@/assets/img/HeroApps-logo-black.png";
 import LaraToryFavicon from "@/assets/img/laratory-favicon.png";
 import {computed} from "vue";
 

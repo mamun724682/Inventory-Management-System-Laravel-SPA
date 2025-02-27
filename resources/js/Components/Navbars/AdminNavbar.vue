@@ -9,7 +9,7 @@
             </p>
 
             <!-- Form -->
-            <form
+            <form 
                 @submit.prevent="searchProduct"
                 class="md:flex hidden flex-row flex-wrap items-center lg:ml-auto mr-3"
             >
@@ -44,6 +44,8 @@ import {showToast} from "@/Utils/Helper.js";
 const form = useForm({
     keyword: null,
 });
+
+
 
 const searchProduct = () => {
     form.get(route('carts.index'), {

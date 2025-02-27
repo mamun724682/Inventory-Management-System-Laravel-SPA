@@ -5,7 +5,7 @@
             class="text-xs uppercase py-3 font-bold block"
             :class="[
                   route().current(routeName)
-                    ? 'text-emerald-500 hover:text-emerald-600'
+                    ? 'text-sky-500 hover:text-sky-600'
                     : 'text-blueGray-700 hover:text-blueGray-500',
                 ]"
         >
