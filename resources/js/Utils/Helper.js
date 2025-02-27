@@ -9,7 +9,7 @@ export function truncateString(str, maxLength = 10) {
 }
 
 export function getCurrency() {
-    return usePage().props.currency;
+    return "₱"; //Hardcoded the PH money sign
 }
 
 export function numberFormat(number) {

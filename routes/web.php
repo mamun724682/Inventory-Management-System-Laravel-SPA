@@ -31,8 +31,8 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'pageTitle' => 'Home',
+    return Inertia::render('Auth/Login', [
+        'pageTitle' => 'Login',
     ]);
 })->name('home');
 

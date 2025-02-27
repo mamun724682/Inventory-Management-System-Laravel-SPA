@@ -63,8 +63,8 @@ class FileManagerService
                 $name = time() . rand(1111, 9999) . '.' . $file->getClientOriginalExtension();
             }
 
-            // Store file to public disk
-            $file->storeAs($path, $name);
+            //add public string cause it doesnt upload it to public folder before
+            $file->storeAs($path, $name, 'public'); 
             return $name ?? '';
         } catch (Exception $ex) {
             return '';
