@@ -39,7 +39,7 @@ Route::get('/', function () {
 // Contact
 Route::post('contacts', [ContactController::class, 'store'])->name('contacts.store');
 
-Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
+Route::middleware('auth')->get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 
 Route::middleware('auth')->group(function () {
     // Dashboard
